@@ -6,10 +6,13 @@
 
 #include "./SockAddr.h"
 
+#include <memory>
+
 namespace netlib
 {
 
 class EventLoop;
+class Acceptor;
 
 class TcpServer
 {
@@ -20,6 +23,8 @@ public:
 private:
     EventLoop *_loop;
     SockAddr _listenAddr;
+
+    std::unique_ptr<Acceptor> _acceptor;                    /// 用于监听，等待client的到来，只有一个
 };
 
 }

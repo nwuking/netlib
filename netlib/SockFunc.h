@@ -16,6 +16,8 @@ void hostToNetwork32(struct in_addr *addr);
 void hostToNetwork16(uint16_t *port, uint16_t por);
 void fromIp(struct in_addr *addr, const char *ip);
 
+void close(int fd);
+
 }
 
 #endif

@@ -4,6 +4,7 @@
 #include <netinet/in.h>
 #include <sys/socket.h>
 #include <string.h>
+#include <unistd.h>
 
 using namespace netlib;
 
@@ -32,4 +33,11 @@ void fromIp(struct in_addr *addr, const char *ip) {
     }
 }
 
+
+void netlib::close(int fd) {
+    int n = ::close(fd);
+    if(n < 0) {
+        /// n == 0, 表示成功返回
+    }
+}
 

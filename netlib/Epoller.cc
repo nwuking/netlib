@@ -60,7 +60,7 @@ void Epoller::fillActiveChnnels(ChnnelVec *activeChnnels, int eventsNum) {
     assert(_events.size() >= static_cast<size_t>(eventsNum));
     for(int i = 0; i < eventsNum; ++i) {
         Chnnel *chnnel = static_cast<Chnnel*>(_events[i].data.ptr);
-        chnnel->set_revents(_events[i].events);
+        chnnel->setRevents(_events[i].events);
         activeChnnels->push_back(chnnel);
     }
 }
