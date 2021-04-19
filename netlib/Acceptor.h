@@ -32,6 +32,7 @@ private:
     Socket _acceptSocket;
     Chnnel _acceptChnnel;
     bool _listening;
+    int _idleFd;
 
     NewConnectionCallBack _newConnectionCallBack;
 };

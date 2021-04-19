@@ -2,6 +2,8 @@
 #include "./SockFunc.h"
 #include "./SockAddr.h"
 
+#include <string.h>
+
 using namespace netlib;
 
 
@@ -21,4 +23,10 @@ void Socket::listen() {
 
 int Socket::accept(SockAddr *peerAddr) {
     struct sockaddr_in addr;
+    ::bzero(&addr, sizeof addr);
+    int newFd = netlib::accept(_sockFd, &addr);
+    if(newFd >= 0) {
+        peerAddr->setSockAddrInet(addr);
+    }
+    return newFd;
 }

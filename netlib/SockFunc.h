@@ -7,6 +7,7 @@
 
 #include <string>
 #include <netinet/in.h>
+#include <error.h>
 
 struct in_addr;
 

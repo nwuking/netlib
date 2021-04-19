@@ -42,6 +42,10 @@ public:
     sa_family_t getFamily() const {
         return _addr.sin_family;
     }
+    
+    void setSockAddrInet(struct sockaddr_in &addr) {
+        _addr = addr;
+    }
 private:
     struct sockaddr_in _addr;
 };

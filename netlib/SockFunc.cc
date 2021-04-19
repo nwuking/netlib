@@ -6,13 +6,21 @@
 #include <string.h>
 #include <unistd.h>
 #include <sys/types.h>
+#include <fcntl.h>
+#include <sys/stat.h>
 
 using namespace netlib;
 
 
-static void setNoBlockAndCloseOnExec(int fd) {
+void setNoBlockAndCloseOnExec(int fd) {
     /// 将描述符设置为非阻塞和close on exec
+    int flags = ::fcntl(fd, F_GETFL, 0);
+    flags |= O_NONBLOCK;
+    flags |= O_CLOEXEC;
+    int ret = ::fcntl(fd, F_SETFL, flags);
+    (void)ret;
 }
+
 
 void hostToNetwork32(struct in_addr *addr) {
     struct in_addr res;
@@ -64,7 +72,8 @@ int netlib::accept(int fd, struct sockaddr_in *addr) {
     socklen_t len = static_cast<socklen_t>(sizeof(struct sockaddr_in));
     int newFd = ::accept(fd, (sockaddr*)addr, &len);
 
-    setNoBlockAndCloseOnExec(newFd);
+    /// 得到一个与客户端关联的描述符newFd和客户端的地址结构addr
+    setNoBlockAndCloseOnExec(newFd);                       /// 将newFd设置为NONBLOCK
     if(newFd < 0) {
         /// error
     }
