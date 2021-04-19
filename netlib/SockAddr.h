@@ -25,6 +25,7 @@ namespace netlib
 class SockAddr
 {
 public:
+    SockAddr() = default;
     explicit SockAddr(uint16_t port, bool loopback = false);                 /// 给定一个port
     SockAddr(std::string ip, uint16_t port);                                 /// 给定ip and port
     SockAddr(struct sockaddr_in &addr) 
@@ -34,6 +35,13 @@ public:
     }                        
     /// ~SockAddr();        a trivial destructor
 
+    struct sockaddr_in getSockAddr() const{
+        return _addr;
+    }
+
+    sa_family_t getFamily() const {
+        return _addr.sin_family;
+    }
 private:
     struct sockaddr_in _addr;
 };

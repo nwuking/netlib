@@ -21,6 +21,8 @@ public:
     ~TcpServer();
 
 private:
+    void newConnect(int fd, SockAddr &peerAddr);
+
     EventLoop *_loop;
     SockAddr _listenAddr;
 

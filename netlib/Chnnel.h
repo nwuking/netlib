@@ -29,17 +29,17 @@ public:
         _revevts = revents;
     }
 
-    void setErrorCallBack(EventCallBack &cb) {
+    void setErrorCallBack(EventCallBack cb) {
         /// *************
         _errorCallBack = std::move(cb);
     }
-    void setReadCallBack(EventCallBack &cb) {
+    void setReadCallBack(EventCallBack cb) {
         _readCallBack = std::move(cb);
     }
-    void setWriteCallBack(EventCallBack &cb) {
+    void setWriteCallBack(EventCallBack cb) {
         _writeCallBack = std::move(cb);
     }
-    void setCloseCallBack(EventCallBack &cb) {
+    void setCloseCallBack(EventCallBack cb) {
         _closeCallBack = std::move(cb);
     }
 

@@ -24,6 +24,7 @@ public:
     void bindSockAddr(const SockAddr &localAddr);
     void listen();
     
+    int accept(SockAddr *peerAddr);
 
 private:
     int _sockFd;

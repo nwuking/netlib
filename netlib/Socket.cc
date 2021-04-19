@@ -11,4 +11,14 @@ Socket::~Socket() {
 
 void Socket::bindSockAddr(const SockAddr &localAddr) {
     /// 将地址绑定套接字
+    netlib::bind(_sockFd, (const struct sockaddr*)(&localAddr.getSockAddr()));
+}
+
+void Socket::listen() {
+    /// 
+    netlib::listen(_sockFd);
+}
+
+int Socket::accept(SockAddr *peerAddr) {
+    struct sockaddr_in addr;
 }

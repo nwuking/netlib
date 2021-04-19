@@ -6,6 +6,7 @@
  */
 
 #include <string>
+#include <netinet/in.h>
 
 struct in_addr;
 
@@ -17,7 +18,13 @@ void hostToNetwork16(uint16_t *port, uint16_t por);
 void fromIp(struct in_addr *addr, const char *ip);
 
 void close(int fd);
+void bind(int fd, const struct sockaddr *addr);
+void listen(int fd);
+
+int accept(int fd, struct sockaddr_in *addr);
+
+int createSocketFd(sa_family_t family);
+
 
 }
-
 #endif
