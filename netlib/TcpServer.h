@@ -13,6 +13,7 @@ namespace netlib
 
 class EventLoop;
 class Acceptor;
+class EventLoopThreadPool;
 
 class TcpServer
 {
@@ -21,12 +22,13 @@ public:
     ~TcpServer();
 
 private:
-    void newConnect(int fd, SockAddr &peerAddr);
+    void newConnection(int fd, SockAddr &peerAddr);
 
     EventLoop *_loop;
     SockAddr _listenAddr;
 
     std::unique_ptr<Acceptor> _acceptor;                    /// 用于监听，等待client的到来，只有一个
+    std::shared_ptr<EventLoopThreadPool> _threadPool;           /// 线程池，一个线程一个EventLoop
 };
 
 }
