@@ -13,6 +13,9 @@ class EventLoopThread
 public:
     EventLoopThread();
     ~EventLoopThread();
+
+private:
+    //Thread _thread;
 };
 
 }
