@@ -27,6 +27,10 @@ public:
 
     void setEpollTimeOut(int64_t second, int64_t microSeconds);
 
+    void quit() {
+        _looping = false;
+    }
+
 private:
     typedef std::vector<Chnnel*> ChnnelVec;
 

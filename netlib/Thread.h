@@ -5,6 +5,8 @@
  *  一个线程
 */
 
+#include "./CountDownLatch.h"
+
 #include <functional>
 
 #include <pthread.h>
@@ -21,6 +23,15 @@ public:
     ~Thread();
 
     void start();
+    int join();
+
+    pid_t gettid() const {
+        return _tid;
+    }
+
+    bool started() const {
+        return _start;
+    }
 
 private:
     bool _start;
@@ -28,6 +39,7 @@ private:
     pthread_t _pthreadId;
     pid_t _tid;
     ThreadFunc _threadFunc;
+    CountDownLatch _latch;
 };
 
 }
