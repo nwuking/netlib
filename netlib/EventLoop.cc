@@ -12,7 +12,8 @@ EventLoop::EventLoop()
       _epoller(new Epoller(this)),
       _activeChnnels(cInitActiveChnnels),
       _currentActiveChnnel(nullptr),
-      _epollReturnTime()
+      _epollReturnTime(),
+      _tid(CurrentThread::tid())
 {
 }
 
@@ -33,4 +34,9 @@ void EventLoop::loop() {
     }
     _currentActiveChnnel = nullptr;
   }
+}
+
+void EventLoop::abortNotInLoopThread() {
+  ////
+  ;
 }

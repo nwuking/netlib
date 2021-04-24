@@ -6,6 +6,7 @@
  */
 
 #include "./Time.h"
+#include "./CurrentThread.h"
 
 #include <vector>
 #include <memory>
@@ -27,11 +28,23 @@ public:
 
     void setEpollTimeOut(int64_t second, int64_t microSeconds);
 
+    void assertInLoopThread() {
+        if(!isInLoopThread()) {
+            abortNotInLoopThread();
+        }
+    }
+
     void quit() {
         _looping = false;
     }
 
+    bool isInLoopThread() const {
+        return _tid == CurrentThread::tid();
+    }
+
 private:
+    void abortNotInLoopThread();
+
     typedef std::vector<Chnnel*> ChnnelVec;
 
     static const int cInitActiveChnnels = 8;
@@ -42,6 +55,8 @@ private:
 
     Chnnel *_currentActiveChnnel;
     Time _epollReturnTime;
+
+    const pid_t _tid;
 };
 
 }

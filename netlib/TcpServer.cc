@@ -1,6 +1,7 @@
 #include "./TcpServer.h"
 #include "./EventLoop.h"
 #include "./Acceptor.h"
+#include "./EventLoopThreadPool.h"
 
 
 using namespace netlib;
@@ -21,5 +22,5 @@ void TcpServer::newConnection(int fd, SockAddr &peerAddr) {
   /// 根据(fd, peerAddr)创建一个Connector对象
   /// 从线程池中get一个线程，将Connector对象丢到该线程中
 
-  //EventLoop *threadLoop = 
+  EventLoop *threadLoop = _threadPool->getNextLoop();
 }
