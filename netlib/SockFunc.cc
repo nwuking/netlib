@@ -87,3 +87,17 @@ int createSocketFd(sa_family_t family) {
     }
     return n;
 }
+
+
+struct sockaddr_in getLocalAddr(int sockfd) {
+    /// sockfd:accept()返回的描述符
+    /// 获取与客户建立连接的本地地址
+    struct sockaddr_in localAddr;
+    ::bzero(&localAddr, sizeof localAddr);
+    socklen_t len = static_cast<socklen_t>(sizeof localAddr);
+
+    if(::getsockname(sockfd, (struct sockaddr*)&localAddr, &len) < 0) {
+        /// 调用失败
+    }
+    return localAddr;
+}

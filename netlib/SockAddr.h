@@ -28,7 +28,7 @@ public:
     SockAddr() = default;
     explicit SockAddr(uint16_t port, bool loopback = false);                 /// 给定一个port
     SockAddr(std::string ip, uint16_t port);                                 /// 给定ip and port
-    SockAddr(struct sockaddr_in &addr) 
+    SockAddr(const struct sockaddr_in &addr) 
       : _addr(addr)
     {
         /// 给定一个套接子地址结构

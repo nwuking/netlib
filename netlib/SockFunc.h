@@ -26,6 +26,7 @@ int accept(int fd, struct sockaddr_in *addr);
 
 int createSocketFd(sa_family_t family);
 
+struct sockaddr_in getLocalAddr(int sockfd);
 
 }
 #endif
