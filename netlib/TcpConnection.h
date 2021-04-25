@@ -7,6 +7,7 @@
  */
 
 #include "./SockAddr.h"
+#include "./Time.h"
 
 #include <memory>
 
@@ -14,12 +15,26 @@ namespace netlib
 {
 
 class EventLoop;
+class Chnnel;
 
 class TcpConnection
 {
 public:
-    TcpConnection(EventLoop *loop, int sockfd, SockAddr &peerAddr);
+    TcpConnection(EventLoop *loop, int sockfd, const SockAddr &peerAddr,
+                  const SockAddr &localAddr);
     ~TcpConnection();
+
+private:
+    //void handleRead(Time recviveTime);
+    void handleRead();
+    void handleWrite();
+    void handleError();
+    void handleClose();
+
+    EventLoop *_loop;
+    const SockAddr _peerAddr;
+    const SockAddr _localAddr;
+    std::unique_ptr<Chnnel> _chnnel;
 };
 
 typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;

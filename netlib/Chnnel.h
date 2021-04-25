@@ -12,6 +12,7 @@ class Chnnel
 {
 public:
     typedef std::function<void()> EventCallBack;
+    //typedef std::function<void(Time)> ReadEventCallBack;
 
     Chnnel(EventLoop *loop, int fd);
     ~Chnnel();

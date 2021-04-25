@@ -28,5 +28,7 @@ void TcpServer::newConnection(int fd, SockAddr &peerAddr) {
 
   /// 生成一个TcpConnection对象
   SockAddr localAddr(netlib::getLocalAddr(fd));
-  //TcpConnectionPtr conn = new TcpConnection();
+  TcpConnectionPtr conn(new TcpConnection(threadLoop, fd, peerAddr, localAddr));
+
+  
 }
