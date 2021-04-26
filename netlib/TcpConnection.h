@@ -8,6 +8,7 @@
 
 #include "./SockAddr.h"
 #include "./Time.h"
+#include "./Buffer.h"
 
 #include <memory>
 
@@ -35,6 +36,9 @@ private:
     const SockAddr _peerAddr;
     const SockAddr _localAddr;
     std::unique_ptr<Chnnel> _chnnel;
+
+    Buffer _inputBuffer;                        /// 用于数据的读
+    Buffer _outputBuffer;                       /// 用于数据的写
 };
 
 typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;

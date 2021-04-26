@@ -8,6 +8,8 @@
 #include <string>
 #include <netinet/in.h>
 #include <error.h>
+#include <sys/uio.h>
+#include <sys/types.h>
 
 struct in_addr;
 
@@ -27,6 +29,8 @@ int accept(int fd, struct sockaddr_in *addr);
 int createSocketFd(sa_family_t family);
 
 struct sockaddr_in getLocalAddr(int sockfd);
+
+ssize_t readv(int fd, const struct iovec *iov, int iovcnt);
 
 }
 #endif

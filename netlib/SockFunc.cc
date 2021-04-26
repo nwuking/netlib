@@ -101,3 +101,8 @@ struct sockaddr_in getLocalAddr(int sockfd) {
     }
     return localAddr;
 }
+
+ssize_t netlib::readv(int fd, const struct iovec *iov, int iovcnt) {
+    /// 调用readv(), scatter read
+    return ::readv(fd, iov, iovcnt);
+}

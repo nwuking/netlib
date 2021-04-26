@@ -13,7 +13,9 @@ TcpConnection::TcpConnection(EventLoop *loop,
     : _loop(loop),
       _peerAddr(peerAddr),
       _localAddr(localAddr),
-      _chnnel(new Chnnel(loop, sockfd))
+      _chnnel(new Chnnel(loop, sockfd)),
+      _inputBuffer(),
+      _outputBuffer()
 {
     /// 注册_chnnel
     _chnnel->setReadCallBack(std::bind(&TcpConnection::handleRead, this));
@@ -28,5 +30,5 @@ void TcpConnection::handleRead() {
     /// 调用此函数读取
     _loop->assertInLoopThread();
 
-    // read(_chnnel->fd())
+    //ssize_t n = _inputBuffer.readFd(fd);
 }
