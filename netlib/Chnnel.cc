@@ -4,11 +4,16 @@
 
 using namespace netlib;
 
+const int Chnnel::cNonEvent = 0;
+const int Chnnel::cReadEvent = POLLIN | POLLPRI;
+const int Chnnel::cWriteEvent = POLLOUT;
+
 Chnnel::Chnnel(EventLoop *loop, int fd)
     : _ownLoop(loop),
       _fd(fd),
       _events(0),
-      _revevts(0)
+      _revevts(0),
+      _addedToLoop(false)
 {
 }
 
@@ -50,4 +55,9 @@ void Chnnel::handleEvent() {
       _writeCallBack();
     }   
   }
+}
+
+void Chnnel::update() {
+  _addedToLoop = true;
+  //_ownLoop->updateChnnel();
 }

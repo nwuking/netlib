@@ -106,3 +106,7 @@ ssize_t netlib::readv(int fd, const struct iovec *iov, int iovcnt) {
     /// 调用readv(), scatter read
     return ::readv(fd, iov, iovcnt);
 }
+
+ssize_t netlib::write(int fd, const void *buf, size_t len) {
+    return ::write(fd, buf, len);
+}

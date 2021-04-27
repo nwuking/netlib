@@ -1,6 +1,7 @@
 #include "./TcpConnection.h"
 #include "./EventLoop.h"
 #include "./Chnnel.h"
+#include "./SockFunc.h"
 
 
 using namespace netlib;
@@ -33,7 +34,7 @@ void TcpConnection::handleRead() {
     ssize_t n = _inputBuffer.readFd(_chnnel->getFd());
 
     if(n > 0) {
-        /// 接收到消息，调用回调函数
+        /// 接收到消息，调用业务逻辑函数
         /// TcpConnection 由 TcpServer管理
         /// 在TcpServer中，TcpConnection实例化对象由智能指针管理
         /// 使用shared_from_this()能够对象自身以智能指针形式传给自身的函数
@@ -55,4 +56,28 @@ void TcpConnection::handleWrite() {
     /// 有数据将要发送给client
 
     _loop->assertInLoopThread();
+    if(_chnnel->isWriting()) {
+        /// 写数据，有数据要发送给client端
+        ssize_t n = netlib::write(_chnnel->getFd(), _outputBuffer.peek(), _outputBuffer.readAbleBytes());
+
+        if(n > 0) {
+            _outputBuffer.retrieve(n);
+
+            if(_outputBuffer.readAbleBytes() == 0) {
+                /// 数据已经发送完了，_outputBuffer为空
+                /// 注销可写事件
+                _chnnel->disableWriting();
+
+                if(_writeCompleteCallBack) {
+                    //
+                }
+            }
+        }
+        else {
+            ///
+        }
+    }
+    else {
+        /// 
+    }
 }

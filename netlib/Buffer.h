@@ -62,10 +62,33 @@ public:
         _writerIndex += len;
     }
 
+    const char* peek() const {
+        return begin() + _readerIndex;
+    }
+
+    void retrieve(size_t n) {
+        assert(n <= readAbleBytes());
+        if(n < readAbleBytes()) {
+            _readerIndex += n;
+        }
+        else {
+            retrieveAll();
+        }
+    }
+
+    void retrieveAll() {
+        _readerIndex = cCheapPrepend;
+        _writerIndex = cCheapPrepend;
+    }
+
     ssize_t readFd(int fd);
 
 private:
     char* begin() {
+        return &*_buffer.begin();
+    }
+
+    const char* begin() const{
         return &*_buffer.begin();
     }
 

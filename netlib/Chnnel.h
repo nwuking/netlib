@@ -44,11 +44,28 @@ public:
         _closeCallBack = std::move(cb);
     }
 
+    bool isWriting() {
+        /// 是否注册了写事件
+        return _events & cWriteEvent;
+    }
+
+    void disableWriting() {
+        _events &= ~cWriteEvent;
+        update();
+    }
+
 private:
+    void update();
+
+    static const int cNonEvent;
+    static const int cReadEvent;
+    static const int cWriteEvent;
+
     EventLoop *_ownLoop;
     int _fd;
     int _events;
     int _revevts;
+    bool _addedToLoop;                              /// 标志当前的Chnnel是否注册到EventLoop中
 
     EventCallBack _errorCallBack;
     EventCallBack _writeCallBack;

@@ -22,6 +22,7 @@ class TcpConnection : public std::enable_shared_from_this<TcpConnection>
 {
 public:
     typedef std::function<void(const TcpConnectionPtr&, Buffer*)> MessageCallBack;
+    typedef std::function<void(const TcpConnectionPtr&)> WriteCompleteCallBack;
 
     TcpConnection(EventLoop *loop, int sockfd, const SockAddr &peerAddr,
                   const SockAddr &localAddr);
@@ -47,6 +48,7 @@ private:
     Buffer _outputBuffer;                       /// 用于数据的写
 
     MessageCallBack _messageCallBack;
+    WriteCompleteCallBack _writeCompleteCallBack;
 };
 
 typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
