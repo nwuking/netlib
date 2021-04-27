@@ -21,7 +21,7 @@ public:
     static const size_t cCheapPrepend = 8;
 
     explicit Buffer(size_t initialSize = cInitialSize);
-    ~Buffer();
+    //~Buffer() = default;
 
     size_t readAbleBytes() const {
         return _writerIndex - _readerIndex;

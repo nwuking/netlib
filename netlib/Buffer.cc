@@ -61,5 +61,23 @@ ssize_t Buffer::readFd(int fd) {
 
 void Buffer::makeSpace(size_t len) {
     /// 扩充缓冲区的大小，使其能够写下至少len个字节的数据
-    
+    /// 当前缓冲区能写的区域为->prependAbleBytes()+writeAbleBytes
+
+    if(writeAbleBytes() + prependAbleBytes() < len + cCheapPrepend) {
+        /// 缓冲区头部的cCheapPrepend字节空间需要预留出来
+        /// 需要扩充缓冲区的大小
+        _buffer.resize(_writerIndex+len);
+    }
+    else {
+        /// 缓冲区能写的区域能够写下len个字节
+
+        assert(cCheapPrepend < _readerIndex);
+        size_t readAble = readAbleBytes();
+
+        /// 将可读数据移动到头部，cCheapPrepend个字节需要保留出来
+        std::copy(begin()+_readerIndex, begin()+_writerIndex, begin()+cCheapPrepend);
+        _readerIndex = cCheapPrepend;
+        _writerIndex = _readerIndex + readAble;
+        assert(readAble == readAbleBytes());
+    }
 }

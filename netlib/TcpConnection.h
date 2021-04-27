@@ -18,12 +18,18 @@ namespace netlib
 class EventLoop;
 class Chnnel;
 
-class TcpConnection
+class TcpConnection : public std::enable_shared_from_this<TcpConnection>
 {
 public:
+    typedef std::function<void(const TcpConnectionPtr&, Buffer*)> MessageCallBack;
+
     TcpConnection(EventLoop *loop, int sockfd, const SockAddr &peerAddr,
                   const SockAddr &localAddr);
     ~TcpConnection();
+
+    void setMessageCallBack(const MessageCallBack &cb) {
+        _messageCallBack = cb;
+    }
 
 private:
     //void handleRead(Time recviveTime);
@@ -39,6 +45,8 @@ private:
 
     Buffer _inputBuffer;                        /// 用于数据的读
     Buffer _outputBuffer;                       /// 用于数据的写
+
+    MessageCallBack _messageCallBack;
 };
 
 typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
