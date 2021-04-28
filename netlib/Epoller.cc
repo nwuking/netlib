@@ -3,8 +3,18 @@
 
 #include <unistd.h>
 #include <assert.h>
+#include <string.h>
 
 using namespace netlib;
+
+namespace 
+{
+    /// Chnnel在Epoller中的状态标志
+    const int cNew = -1;
+    const int cAdded = 1;
+    const int cDeleted = 2;
+}
+
 
 typedef Epoller::ChnnelVec ChnnelVec;
 
@@ -62,5 +72,59 @@ void Epoller::fillActiveChnnels(ChnnelVec *activeChnnels, int eventsNum) {
         Chnnel *chnnel = static_cast<Chnnel*>(_events[i].data.ptr);
         chnnel->setRevents(_events[i].events);
         activeChnnels->push_back(chnnel);
+    }
+}
+
+void Epoller::updateChnnel(Chnnel *chnnel) {
+    _ownLoop->assertInLoopThread();
+    const int flag = chnnel->flag();
+    int fd = chnnel->getFd();
+
+    if(flag == cNew || flag == cDeleted) {
+        /// cNew表示chnnel is a new one
+        /// cDeleted表示chnnel已经在当前的epoller中，但没被使用
+        if(flag == cNew) {
+            assert(_chnnels.find(fd) == _chnnels.end());
+            _chnnels[fd] = chnnel;
+        }
+        else {
+            assert(_chnnels.find(fd) != _chnnels.end());
+            assert(_chnnels[fd] == chnnel);
+        }
+
+        /// add with EPOLL_CTL_ADD
+        chnnel->setFlag(cAdded);
+        update(EPOLL_CTL_ADD, chnnel);
+    }
+    else {
+        /// chnnel已经存在在Epoller中，且被使用
+        assert(_chnnels.find(fd) != _chnnels.end());
+        assert(_chnnels[fd] == chnnel);
+        assert(flag == cAdded);
+
+        if(chnnel->isNonEvent()) {
+            /// chnnel没有要注册的事件
+            /// move chnnel之前注册的事件
+            update(EPOLL_CTL_DEL, chnnel);
+            chnnel->setFlag(cDeleted);
+        }
+        else {
+            /// 注册监听事件
+            update(EPOLL_CTL_MOD, chnnel);
+        }
+    }
+}
+
+void Epoller::update(int op, Chnnel *chnnel) {
+    struct epoll_event event;
+    ::bzero(&event, sizeof event);
+
+    event.events = chnnel->getEvents();
+    event.data.ptr = chnnel;
+
+    int fd = chnnel->getFd();
+    if(::epoll_ctl(_epollFd, op, fd, &event) < 0) {
+        /// error
+        ;
     }
 }

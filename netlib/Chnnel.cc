@@ -13,6 +13,7 @@ Chnnel::Chnnel(EventLoop *loop, int fd)
       _fd(fd),
       _events(0),
       _revevts(0),
+      _flag(-1),
       _addedToLoop(false)
 {
 }
@@ -59,5 +60,5 @@ void Chnnel::handleEvent() {
 
 void Chnnel::update() {
   _addedToLoop = true;
-  //_ownLoop->updateChnnel();
+  _ownLoop->updateChnnel(this);
 }

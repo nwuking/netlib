@@ -5,6 +5,7 @@
 #include "./Time.h"
 
 #include <sys/epoll.h>
+#include <map>
 
 namespace netlib
 {
@@ -21,8 +22,13 @@ public:
 
     Time poll(ChnnelVec *activeChnnels, int timeoutMs);
 
+    void updateChnnel(Chnnel *chnel);
+
+    void update(int op, Chnnel *chnnel);
+
 private:
     typedef std::vector<struct epoll_event> EpollEventVec;
+    typedef std::map<int, Chnnel*> ChnnelMap;
 
     static const int cEventsInitSize = 8;
     
@@ -31,6 +37,8 @@ private:
     int _epollFd;
     EventLoop *_ownLoop;
     EpollEventVec _events;                                        /// 用于保存epoll_wait()返回的事件
+
+    ChnnelMap _chnnels;
 };
 
 }

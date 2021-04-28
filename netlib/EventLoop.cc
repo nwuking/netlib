@@ -2,6 +2,7 @@
 #include "./Epoller.h"
 #include "./Chnnel.h"
 
+#include <assert.h>
 
 using namespace netlib;
 
@@ -39,4 +40,10 @@ void EventLoop::loop() {
 void EventLoop::abortNotInLoopThread() {
   ////
   ;
+}
+
+void EventLoop::updateChnnel(Chnnel *chnnel) {
+  assert(chnnel->owerLoop() == this);
+  assertInLoopThread();
+  _epoller->updateChnnel(chnnel);
 }

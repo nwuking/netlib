@@ -49,9 +49,25 @@ public:
         return _events & cWriteEvent;
     }
 
+    bool isNonEvent() {
+        return _events == cNonEvent;
+    }
+
     void disableWriting() {
         _events &= ~cWriteEvent;
         update();
+    }
+
+    EventLoop* owerLoop() {
+        return _ownLoop;
+    }
+
+    int flag() const {
+        return _flag;
+    }
+
+    void setFlag(int flag) {
+        _flag = flag;
     }
 
 private:
@@ -65,6 +81,7 @@ private:
     int _fd;
     int _events;
     int _revevts;
+    int _flag;                                      /// use by Epoller
     bool _addedToLoop;                              /// 标志当前的Chnnel是否注册到EventLoop中
 
     EventCallBack _errorCallBack;

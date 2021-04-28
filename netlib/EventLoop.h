@@ -28,6 +28,8 @@ public:
 
     void setEpollTimeOut(int64_t second, int64_t microSeconds);
 
+    void updateChnnel(Chnnel *chnnel);
+
     void assertInLoopThread() {
         if(!isInLoopThread()) {
             abortNotInLoopThread();
