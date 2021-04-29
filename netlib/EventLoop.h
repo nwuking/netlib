@@ -7,6 +7,7 @@
 
 #include "./Time.h"
 #include "./CurrentThread.h"
+#include "./Mutex.h"
 
 #include <vector>
 #include <memory>
@@ -21,6 +22,8 @@ class Epoller;
 class EventLoop
 {
 public:
+    typedef std::function<void()> Functor;
+
     EventLoop();
     ~EventLoop();
 
@@ -29,6 +32,10 @@ public:
     void setEpollTimeOut(int64_t second, int64_t microSeconds);
 
     void updateChnnel(Chnnel *chnnel);
+
+    void queueInLoop(Functor cb);
+
+    void wakeUp();
 
     void assertInLoopThread() {
         if(!isInLoopThread()) {
@@ -46,6 +53,7 @@ public:
 
 private:
     void abortNotInLoopThread();
+    void handleRead();
 
     typedef std::vector<Chnnel*> ChnnelVec;
 
@@ -59,6 +67,13 @@ private:
     Time _epollReturnTime;
 
     const pid_t _tid;
+
+    int _wakeFd;
+    std::unique_ptr<Chnnel> _wakeChnnel;
+
+    Mutex _mutex;
+    std::vector<Functor> _pendingFunctors;                  /// 保存未执行得到回调函数
+    bool _callPendingFunctors;
 };
 
 }

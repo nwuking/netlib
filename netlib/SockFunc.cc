@@ -110,3 +110,7 @@ ssize_t netlib::readv(int fd, const struct iovec *iov, int iovcnt) {
 ssize_t netlib::write(int fd, const void *buf, size_t len) {
     return ::write(fd, buf, len);
 }
+
+ssize_t netlib::read(int fd, void *buf, size_t len) {
+    return ::read(fd, buf, len);
+}

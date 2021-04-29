@@ -70,6 +70,11 @@ public:
         _flag = flag;
     }
 
+    void enableReading() {
+        _events |= cReadEvent;
+        update();
+    }
+
 private:
     void update();
 

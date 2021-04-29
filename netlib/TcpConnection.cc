@@ -69,7 +69,11 @@ void TcpConnection::handleWrite() {
                 _chnnel->disableWriting();
 
                 if(_writeCompleteCallBack) {
-                    //
+                    /// 将_writeCompleteCallBack放进_loop的回调函数队列(_pendingFunctors)
+                    /// 当_loop被唤醒的时候才执行_pendingFunctors中的回调函数
+
+                    /// std::function对象可以使用bind成为另一个std::function对象
+                    _loop->queueInLoop(std::bind(_writeCompleteCallBack, shared_from_this()));
                 }
             }
         }
