@@ -17,6 +17,7 @@ namespace netlib
 
 class EventLoop;
 class Chnnel;
+class Socket;
 
 class TcpConnection : public std::enable_shared_from_this<TcpConnection>
 {
@@ -33,15 +34,21 @@ public:
     }
 
 private:
+    /// client与server连接的状态标志
+    enum StateE { cDisconnected, cConnecting,  cConnected, cDisconnecting};
+
     //void handleRead(Time recviveTime);
     void handleRead();
     void handleWrite();
     void handleError();
     void handleClose();
 
+    void shutdownInLoop();
+
     EventLoop *_loop;
     const SockAddr _peerAddr;
     const SockAddr _localAddr;
+    std::unique_ptr<Socket> _socket;
     std::unique_ptr<Chnnel> _chnnel;
 
     Buffer _inputBuffer;                        /// 用于数据的读
@@ -49,6 +56,8 @@ private:
 
     MessageCallBack _messageCallBack;
     WriteCompleteCallBack _writeCompleteCallBack;
+
+    StateE _state;
 };
 
 typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;

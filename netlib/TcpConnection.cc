@@ -2,6 +2,7 @@
 #include "./EventLoop.h"
 #include "./Chnnel.h"
 #include "./SockFunc.h"
+#include "./Socket.h"
 
 
 using namespace netlib;
@@ -14,9 +15,11 @@ TcpConnection::TcpConnection(EventLoop *loop,
     : _loop(loop),
       _peerAddr(peerAddr),
       _localAddr(localAddr),
+      _socket(new Socket(sockfd)),
       _chnnel(new Chnnel(loop, sockfd)),
       _inputBuffer(),
-      _outputBuffer()
+      _outputBuffer(),
+      _state(cConnecting)
 {
     /// 注册_chnnel
     _chnnel->setReadCallBack(std::bind(&TcpConnection::handleRead, this));
@@ -75,6 +78,12 @@ void TcpConnection::handleWrite() {
                     /// std::function对象可以使用bind成为另一个std::function对象
                     _loop->queueInLoop(std::bind(_writeCompleteCallBack, shared_from_this()));
                 }
+
+                if(_state == cDisconnecting) {
+                    /// server要断开连接
+                    /// Tcp的断开是单方面的
+                    shutdownInLoop();
+                }
             }
         }
         else {
@@ -83,5 +92,17 @@ void TcpConnection::handleWrite() {
     }
     else {
         /// 
+    }
+}
+
+void TcpConnection::shutdownInLoop() {
+    /// 服务器端关闭连接
+    /// 此时，服务端没有数据发送且关闭后不能发送数据
+    /// 可以接收数据
+
+    _loop->assertInLoopThread();
+    if(!_chnnel->isWriting()) {
+        /// 没有数据要写
+        //_socket->accept();
     }
 }
