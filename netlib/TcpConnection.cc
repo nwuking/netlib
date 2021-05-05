@@ -28,6 +28,37 @@ TcpConnection::TcpConnection(EventLoop *loop,
     _chnnel->setCloseCallBack(std::bind(&TcpConnection::handleClose, this));
 }
 
+void TcpConnection::conncetDestoryed() {
+    _loop->assertInLoopThread();
+
+    if(_state == cConnected) {
+        setState(cDisconnected);
+        _chnnel->diableAll();
+    }
+
+    _chnnel->remove();
+}
+
+void TcpConnection::connectEstablished() {
+    _loop->assertInLoopThread();
+    assert(_state == cConnecting);
+    setState(cConnected);
+
+    _chnnel->tie(shared_from_this());
+    _chnnel->enableReading();
+}
+
+void TcpConnection::shutdownInLoop() {
+    /// 服务器端关闭连接
+    /// 此时，服务端没有数据发送且关闭后不能发送数据
+    /// 可以接收数据
+
+    _loop->assertInLoopThread();
+    if(!_chnnel->isWriting()) {
+        /// 没有数据要写
+        _socket->shutdownWrite();
+    }
+}
 
 void TcpConnection::handleRead() {
     /// 有client数据到来的时候
@@ -87,22 +118,23 @@ void TcpConnection::handleWrite() {
             }
         }
         else {
-            ///
+            /// 写数据失败
+            ;
         }
     }
     else {
-        /// 
+        /// 没有数据写
+        ;
     }
 }
 
-void TcpConnection::shutdownInLoop() {
-    /// 服务器端关闭连接
-    /// 此时，服务端没有数据发送且关闭后不能发送数据
-    /// 可以接收数据
+void TcpConnection::handleError() {
+    /// epoll监听失败的时候调用
+    int err = netlib::getSocketError(_chnnel->getFd());
 
-    _loop->assertInLoopThread();
-    if(!_chnnel->isWriting()) {
-        /// 没有数据要写
-        //_socket->accept();
-    }
+    ///////
+}
+
+void TcpConnection::handleClose() {
+    /// 
 }

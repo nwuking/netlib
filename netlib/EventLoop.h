@@ -37,6 +37,10 @@ public:
 
     void wakeUp();
 
+    void runInLoop(Functor cb);
+
+    void removeChnnel(Chnnel *chnnel);
+
     void assertInLoopThread() {
         if(!isInLoopThread()) {
             abortNotInLoopThread();
@@ -74,6 +78,7 @@ private:
     Mutex _mutex;
     std::vector<Functor> _pendingFunctors;                  /// 保存未执行得到回调函数
     bool _callPendingFunctors;
+    bool _eventHandle;
 };
 
 }

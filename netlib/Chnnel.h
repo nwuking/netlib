@@ -19,6 +19,10 @@ public:
 
     void handleEvent();
 
+    void remove();
+
+    void tie(const std::shared_ptr<void> &obj);
+
     int getFd() const {
         return _fd;
     }
@@ -58,6 +62,11 @@ public:
         update();
     }
 
+    void diableAll() {
+        _events = cNonEvent;
+        update();
+    }
+
     EventLoop* owerLoop() {
         return _ownLoop;
     }
@@ -77,6 +86,7 @@ public:
 
 private:
     void update();
+    void handleEventWithGuard();
 
     static const int cNonEvent;
     static const int cReadEvent;
@@ -88,6 +98,10 @@ private:
     int _revevts;
     int _flag;                                      /// use by Epoller
     bool _addedToLoop;                              /// 标志当前的Chnnel是否注册到EventLoop中
+    bool _eventHanding;
+    bool _tied;
+
+    std::weak_ptr<void> _tie;
 
     EventCallBack _errorCallBack;
     EventCallBack _writeCallBack;

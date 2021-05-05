@@ -26,6 +26,8 @@ public:
 
     void update(int op, Chnnel *chnnel);
 
+    void removeChnnel(Chnnel *chnnel);
+
 private:
     typedef std::vector<struct epoll_event> EpollEventVec;
     typedef std::map<int, Chnnel*> ChnnelMap;

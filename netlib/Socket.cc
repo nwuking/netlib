@@ -30,3 +30,8 @@ int Socket::accept(SockAddr *peerAddr) {
     }
     return newFd;
 }
+
+void Socket::shutdownWrite() {
+    /// 关闭写端，只能接收数据，不能发送数据
+    netlib::shutdownWrite(_sockFd);
+}

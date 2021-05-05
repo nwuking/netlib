@@ -5,6 +5,7 @@
 
 #include <assert.h>
 #include <sys/eventfd.h>
+#include <algorithm>
 
 using namespace netlib;
 
@@ -36,7 +37,8 @@ EventLoop::EventLoop()
       _wakeFd(createEventFd()),
       _wakeChnnel(new Chnnel(this, _wakeFd)),
       _mutex(),
-      _callPendingFunctors(false)
+      _callPendingFunctors(false),
+      _eventHandle(false)
 {
   /// _wakeFd->用于唤醒当前的loop
   if(t_loopInThisThread) {
@@ -61,12 +63,14 @@ void EventLoop::loop() {
     _activeChnnels.clear();
     _epollReturnTime = _epoller->poll(&_activeChnnels, cEpollTimeOutMs);
 
+    _eventHandle = true;
     for(Chnnel *chnnel : _activeChnnels) {
       _currentActiveChnnel = chnnel;
 
       /// 分发事件
       _currentActiveChnnel->handleEvent();
     }
+    _eventHandle = false;
     _currentActiveChnnel = nullptr;
   }
 }
@@ -104,6 +108,29 @@ void EventLoop::wakeUp() {
     /// 
     ;
   }
+}
+
+void EventLoop::runInLoop(Functor cb) {
+  if(isInLoopThread()) {
+    cb();
+  }
+  else {
+    queueInLoop(std::move(cb));
+  }
+}
+
+void EventLoop::removeChnnel(Chnnel *chnnel) {
+  /// 从EventLoop中移除Chnnel
+  assert(chnnel->owerLoop() == this);
+  assertInLoopThread();
+
+  if(_eventHandle) {
+    /// 有事件正在派发
+    assert(_currentActiveChnnel == chnnel || 
+        std::find(_activeChnnels.begin(), _activeChnnels.end(), chnnel) == _activeChnnels.end());
+  }
+
+  _epoller->removeChnnel(chnnel);
 }
 
 void EventLoop::handleRead() {

@@ -30,5 +30,23 @@ void TcpServer::newConnection(int fd, SockAddr &peerAddr) {
   SockAddr localAddr(netlib::getLocalAddr(fd));
   TcpConnectionPtr conn(new TcpConnection(threadLoop, fd, peerAddr, localAddr));
 
-  
+  conn->setMessageCallBack(_messageCallBack);
+  conn->setWriteCompleteCallBack(_writeCompleteCallBack);
+  conn->setConnectionCallBack(_connectionCallBack);
+  conn->setCloseCallBack(std::bind(&TcpServer::removeConnection, this, _1));
+
+  threadLoop->runInLoop(std::bind(&TcpConnection::connectEstablished, conn));
+
+  ////
+}
+
+void TcpServer::removeConnection(const TcpConnectionPtr &conn) {
+  _loop->runInLoop(std::bind(&TcpServer::removeConnectionInLoop, this, conn));
+}
+
+void TcpServer::removeConnectionInLoop(const TcpConnectionPtr &conn) {
+  _loop->assertInLoopThread();
+
+  EventLoop *ioLoop = conn->getLoop();
+  ioLoop->queueInLoop(std::bind(&TcpConnection::conncetDestoryed, conn));
 }

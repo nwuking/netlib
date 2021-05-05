@@ -24,13 +24,34 @@ class TcpConnection : public std::enable_shared_from_this<TcpConnection>
 public:
     typedef std::function<void(const TcpConnectionPtr&, Buffer*)> MessageCallBack;
     typedef std::function<void(const TcpConnectionPtr&)> WriteCompleteCallBack;
+    typedef std::function<void(const TcpConnectionPtr&)> CloseCallBack;
+    typedef std::function<void(const TcpConnectionPtr&)> ConnectionCallBack;
 
     TcpConnection(EventLoop *loop, int sockfd, const SockAddr &peerAddr,
                   const SockAddr &localAddr);
     ~TcpConnection();
 
+    void conncetDestoryed();
+    void connectEstablished();
+
     void setMessageCallBack(const MessageCallBack &cb) {
         _messageCallBack = cb;
+    }
+
+    void setWriteCompleteCallBack(const WriteCompleteCallBack &cb) {
+        _writeCompleteCallBack = cb;
+    }
+
+    void setCloseCallBack(const CloseCallBack &cb) {
+        _closeCallBack = cb;
+    }
+
+    void setConnectionCallBack(const ConnectionCallBack &cb) {
+        _connectionCallBack = cb;
+    }
+
+    EventLoop* getLoop() const {
+        return _loop;
     }
 
 private:
@@ -45,6 +66,10 @@ private:
 
     void shutdownInLoop();
 
+    void setState(StateE s) {
+        _state = s;
+    }
+
     EventLoop *_loop;
     const SockAddr _peerAddr;
     const SockAddr _localAddr;
@@ -56,6 +81,8 @@ private:
 
     MessageCallBack _messageCallBack;
     WriteCompleteCallBack _writeCompleteCallBack;
+    CloseCallBack _closeCallBack;
+    ConnectionCallBack _connectionCallBack;
 
     StateE _state;
 };

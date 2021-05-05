@@ -1,6 +1,7 @@
 #include "./Chnnel.h"
 
 #include <poll.h>
+#include <assert.h>
 
 using namespace netlib;
 
@@ -14,16 +15,37 @@ Chnnel::Chnnel(EventLoop *loop, int fd)
       _events(0),
       _revevts(0),
       _flag(-1),
-      _addedToLoop(false)
+      _addedToLoop(false),
+      _eventHanding(false),
+      _tied(false)
 {
 }
 
 Chnnel::~Chnnel() {
 }
 
+void Chnnel::tie(const std::shared_ptr<void> &obj) {
+  _tie = obj;
+  _tied = true;
+}
 
 void Chnnel::handleEvent() {
+  std::shared_ptr<void> guard;
+  if(_tied) {
+    guard = _tie.lock();
+    if(guard) {
+      handleEventWithGuard();
+    }
+  }
+  else {
+    handleEventWithGuard();
+  }
+}
+
+void Chnnel::handleEventWithGuard() {
   /// 事件分发
+  _eventHanding = true;
+
   if(_revevts & (POLLNVAL | POLLERR)) {
     /// POLLNVAL-> 描述符没有引用一个打开的文件
     /// POLLERR -> 出错
@@ -56,9 +78,20 @@ void Chnnel::handleEvent() {
       _writeCallBack();
     }   
   }
+
+  _eventHanding = false;
 }
 
 void Chnnel::update() {
   _addedToLoop = true;
   _ownLoop->updateChnnel(this);
+}
+
+void Chnnel::remove() {
+  /// Chnnel所管理的描述符没有要监听的事件
+  /// 从它所在EventLoop中删除
+
+  assert(_events == cNonEvent);
+  _addedToLoop = false;
+  _ownLoop->removeChnnel(this);
 }

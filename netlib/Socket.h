@@ -26,6 +26,8 @@ public:
     
     int accept(SockAddr *peerAddr);
 
+    void shutdownWrite();
+
 private:
     int _sockFd;
 };

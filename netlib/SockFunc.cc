@@ -114,3 +114,26 @@ ssize_t netlib::write(int fd, const void *buf, size_t len) {
 ssize_t netlib::read(int fd, void *buf, size_t len) {
     return ::read(fd, buf, len);
 }
+
+void netlib::shutdownWrite(int fd) {
+    /// call  shutdown(...)
+    if(::shutdown(fd, SHUT_WR) < 0) {
+        /// error
+        ;
+    }
+}
+
+int netlib::getSocketError(int fd) {
+    /// 获取描述符出现的错误
+    int optval;
+    socklen_t optlen = static_cast<socklen_t>(sizeof optval);
+
+    if(::getsockopt(fd, SOL_SOCKET, SO_ERROR, &optval, &optlen) < 0) {
+        /// 调用出错
+        return errno;
+    }
+    else {
+        /// 
+        return optval;
+    }
+}

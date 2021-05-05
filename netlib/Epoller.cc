@@ -128,3 +128,26 @@ void Epoller::update(int op, Chnnel *chnnel) {
         ;
     }
 }
+
+void Epoller::removeChnnel(Chnnel *chnnel) {
+    _ownLoop->assertInLoopThread();
+
+    int fd = chnnel->getFd();
+    assert(_chnnels.find(fd) != _chnnels.end());
+    assert(_chnnels[fd] == chnnel);
+    assert(chnnel->isNonEvent());
+
+    int flag = chnnel->flag();
+    assert(flag == cAdded || flag == cDeleted);
+
+    size_t n = _chnnels.erase(fd);
+    (void)n;
+
+    assert(n == 1);
+    if(flag == cAdded) {
+        /// 从epoll_fd中删除fd
+        update(EPOLL_CTL_DEL, chnnel);
+    }
+
+    chnnel->setFlag(cNew);
+}
