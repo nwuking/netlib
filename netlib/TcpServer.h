@@ -8,6 +8,7 @@
 #include "./TcpConnection.h"
 
 #include <memory>
+#include <map>
 
 namespace netlib
 {
@@ -23,9 +24,18 @@ public:
     typedef std::function<void(const TcpConnectionPtr&)> WriteCompleteCallBack;
     typedef std::function<void(const TcpConnectionPtr&)> CloseCallBack;
     typedef std::function<void(const TcpConnectionPtr&)> ConnectionCallBack;
+    typedef std::function<void(EventLoop*)> ThreadInitCallBack;
 
-    TcpServer(EventLoop *loop, SockAddr &listenAddr);
+    TcpServer(EventLoop *loop, SockAddr &listenAddr, const std::string &name);
     ~TcpServer();
+
+    void start();
+
+    void setThreadNums(int nums);
+
+    EventLoop* getLoop() const {
+        return _loop;
+    }
 
     void setMessageCallBack(const MessageCallBack &cb) {
         _messageCallBack = cb;
@@ -35,10 +45,20 @@ public:
         _writeCompleteCallBack = cb;
     }
 
+    void setConnectionCallBack(const ConnectionCallBack &cb) {
+        _connectionCallBack = cb;
+    }
+
+    void setThreadInitCallBack(const ThreadInitCallBack &cb) {
+        _threadInitCallBack = cb;
+    }
+
 private:
     void newConnection(int fd, SockAddr &peerAddr);
     void removeConnection(const TcpConnectionPtr &conn);
     void removeConnectionInLoop(const TcpConnectionPtr &conn);
+
+    typedef std::map<std::string, TcpConnectionPtr> ConnectionMap;
 
     EventLoop *_loop;
     SockAddr _listenAddr;
@@ -50,6 +70,13 @@ private:
     MessageCallBack _messageCallBack;
     WriteCompleteCallBack _writeCompleteCallBack;
     ConnectionCallBack _connectionCallBack;
+    ThreadInitCallBack _threadInitCallBack;
+
+    const std::string _name;
+    int _nextConnId;
+    ConnectionMap _connections;                             /// 记录管理所生成的连接对象
+
+    bool _started;
 };
 
 }

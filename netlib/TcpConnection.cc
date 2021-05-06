@@ -11,10 +11,12 @@ using namespace std::placeholders;
 TcpConnection::TcpConnection(EventLoop *loop,
                              int sockfd,
                              const SockAddr &peerAddr,
-                             const SockAddr &localAddr)
+                             const SockAddr &localAddr,
+                             const std::string &name)
     : _loop(loop),
       _peerAddr(peerAddr),
       _localAddr(localAddr),
+      _name(name),
       _socket(new Socket(sockfd)),
       _chnnel(new Chnnel(loop, sockfd)),
       _inputBuffer(),

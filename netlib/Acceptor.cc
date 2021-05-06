@@ -20,6 +20,14 @@ Acceptor::Acceptor(EventLoop *loop, SockAddr &listenAddr)
     _acceptChnnel.setReadCallBack(std::bind(&Acceptor::handleRead, this));
 }
 
+void Acceptor::listen() {
+    _ownLoop->assertInLoopThread();
+
+    _listening = true;
+    _acceptSocket.listen();
+    _acceptChnnel.enableReading();
+}
+
 void Acceptor::handleRead() {
     /// 该函数与监听套接字挂钩
     /// 当有client到来，该函数被调用

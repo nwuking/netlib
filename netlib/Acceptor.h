@@ -21,8 +21,14 @@ public:
     Acceptor(EventLoop *loop, SockAddr &listenAddr);
     ~Acceptor();
 
+    void listen();
+
     void setNewConnectionCallBack(NewConnectionCallBack cb) {
         _newConnectionCallBack = cb;
+    }
+
+    bool listening() {
+        return _listening;
     }
 
 private:

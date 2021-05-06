@@ -28,7 +28,7 @@ public:
     typedef std::function<void(const TcpConnectionPtr&)> ConnectionCallBack;
 
     TcpConnection(EventLoop *loop, int sockfd, const SockAddr &peerAddr,
-                  const SockAddr &localAddr);
+                  const SockAddr &localAddr, const std::string &name);
     ~TcpConnection();
 
     void conncetDestoryed();
@@ -54,6 +54,10 @@ public:
         return _loop;
     }
 
+    const std::string& name() const {
+        return _name;
+    }
+
 private:
     /// client与server连接的状态标志
     enum StateE { cDisconnected, cConnecting,  cConnected, cDisconnecting};
@@ -73,6 +77,7 @@ private:
     EventLoop *_loop;
     const SockAddr _peerAddr;
     const SockAddr _localAddr;
+    const std::string _name;
     std::unique_ptr<Socket> _socket;
     std::unique_ptr<Chnnel> _chnnel;
 

@@ -46,6 +46,8 @@ public:
     void setSockAddrInet(struct sockaddr_in &addr) {
         _addr = addr;
     }
+
+
 private:
     struct sockaddr_in _addr;
 };
