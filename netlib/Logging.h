@@ -1,6 +1,9 @@
 #ifndef LOGGING_H_
 #define LOGGING_H_
 
+#include "./LogStream.h"
+#include "./Time.h"
+
 #include <string.h>
 
 namespace netlib
@@ -61,10 +64,13 @@ private:
     public:
         typedef Logger::LogLevel LogLevel;
         Impl(const SourceFile &filenmae, int line, LogLevel level);
+        void formatTime();
 
         SourceFile _basename;
         int _line;
         LogLevel _level;
+        LogStream _stream;
+        Time _time;
     };
 
     Impl _impl;

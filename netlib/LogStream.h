@@ -54,6 +54,10 @@ public:
         ::bzero(_data, sizeof _data);
     }
 
+    std::string toString() const {
+        return std::string(_data, length());
+    }
+
 private:
     const char* end() const {
         return _data + sizeof _data;
@@ -88,7 +92,7 @@ public:
     self& operator<<(double v);
     self& operator<<(char v);
 
-    self& operator<<(void *data);
+    //self& operator<<(void *data);
     self& operator<<(const char *data);
     self& operator<<(const unsigned char *data);
     self& operator<<(const std::string &data);
@@ -101,7 +105,7 @@ private:
     Buffer _buffer;
 
     static const int cMaxNumericSize = 32;
-}
+};
 
 }
 

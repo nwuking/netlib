@@ -99,8 +99,27 @@ LogStream& LogStream::operator<<(char v) {
     return *this;
 }
 
-LogStream& LogStream::operator<<(void *data) {
-    //
+LogStream& LogStream::operator<<(const char *data) {
+    if(data) {
+        _buffer.append(data, ::strlen(data));
+    }
+    else {
+        _buffer.append("(null)", 6);
+    }
+    return *this;
+}
+
+LogStream& LogStream::operator<<(const unsigned char *data) {
+    return operator<<(reinterpret_cast<const char*>(data));
+}
+
+LogStream& LogStream::operator<<(const std::string &data) {
+    _buffer.append(data.c_str(), data.size());
+    return *this;
+}
+
+LogStream& LogStream::operator<<(const Buffer &data) {
+    *this << data.toString();
     return *this;
 }
 
