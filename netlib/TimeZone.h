@@ -24,9 +24,9 @@ public:
     struct tm toLocalTime(time_t secondsSinceEpoch) const;
     time_t fromLocalTime(const struct tm&) const;
 
-    struct tm toUtcTime(time_t secondsSinceEpoch);
-    time_t fromUtcTime(const struct tm&);
-    time_t froUtcTime(int year, int month, int day, int hour, int minute, int seconds);
+    static struct tm toUtcTime(time_t secondsSinceEpoch, bool yday);
+    static time_t fromUtcTime(const struct tm&);
+    static time_t froUtcTime(int year, int month, int day, int hour, int minute, int seconds);
 
     struct Data;
 private:
