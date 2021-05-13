@@ -2,6 +2,8 @@
 
 #include <algorithm>
 
+#include <assert.h>
+
 namespace netlib 
 {
 
@@ -121,6 +123,14 @@ LogStream& LogStream::operator<<(const std::string &data) {
 LogStream& LogStream::operator<<(const Buffer &data) {
     *this << data.toString();
     return *this;
+}
+
+template<typename T>
+Fmt::Fmt(const char *fmt, T val) {
+    static_assert(std::is_arithmetic<T>::value == true, "Must be a arithmetic");
+
+    _length = snprintf(_data, sizeof(_data), fmt, val);
+    assert(static_cast<size_t>(_length) < sizeof _data);
 }
 
 }

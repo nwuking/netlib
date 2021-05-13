@@ -98,6 +98,18 @@ public:
     self& operator<<(const std::string &data);
     self& operator<<(const Buffer &data);
 
+    void append(const char *data, int len) {
+        _buffer.append(data, len);
+    }
+
+    const Buffer& buffer() const {
+        return _buffer;
+    }
+
+    void resetBuffer() {
+        _buffer.reset();
+    }
+
 private:
     template<typename T>
     void formatInteger(T v);
@@ -106,6 +118,30 @@ private:
 
     static const int cMaxNumericSize = 32;
 };
+
+class Fmt
+{
+public:
+    template<typename T>
+    Fmt(const char *fmt, T val);
+
+    const char* data() const {
+        return _data;
+    }
+
+    int length() const {
+        return _length;
+    }
+
+private:
+    char _data[32];
+    int _length;
+};
+
+inline LogStream& operator<<(LogStream &s, Fmt &fmt) {
+    s.append(fmt.data(), fmt.length());
+    return s;
+}
 
 }
 
