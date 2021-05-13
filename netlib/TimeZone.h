@@ -26,7 +26,7 @@ public:
 
     static struct tm toUtcTime(time_t secondsSinceEpoch, bool yday);
     static time_t fromUtcTime(const struct tm&);
-    static time_t froUtcTime(int year, int month, int day, int hour, int minute, int seconds);
+    static time_t fromUtcTime(int year, int month, int day, int hour, int minute, int seconds);
 
     struct Data;
 private:
