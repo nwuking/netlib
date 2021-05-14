@@ -18,6 +18,7 @@ void CurrentThread::cacheTid() {
     /// 在文件CurrentThread.h中声明
     if(t_cachedTid == 0) {
         t_cachedTid = netlib::gettid();
+        t_tidStringLength = snprintf(t_tidString, sizeof t_tidString, "%5d", t_cachedTid);
     }
 }
 

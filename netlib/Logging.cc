@@ -3,12 +3,35 @@
 #include "./CurrentThread.h"
 
 #include <assert.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 namespace netlib
 {
 
 __thread time_t t_lastSecond;
 __thread char t_time[64];
+
+Logger::LogLevel initLogLevel() {
+    if(::getenv("NETLIB_LOG_TRACE"))
+        return Logger::TRACE;
+    else if(::getenv("NETLIB_LOG_DEBUG"))
+        return Logger::DEBUG;
+    else 
+        return Logger::INFO;
+}
+
+Logger::LogLevel g_logLevel = initLogLevel();
+
+const char* LogLevelName[Logger::NUM_LOG_LEVELS] =
+{
+    "TRACE",
+    "DEBUG",
+    "INFO",
+    "WARN",
+    "ERROR",
+    "FATAL",
+};
 
 class T
 {
@@ -28,6 +51,24 @@ inline LogStream& operator<<(LogStream &s, T v) {
     return s;
 }
 
+inline LogStream& operator<<(LogStream &s, const Logger::SourceFile &file) {
+    s.append(file._data, file._size);
+    return s;
+}
+
+void defaultOutput(const char *msg, int len) {
+    /// 默认的日志输出函数
+    size_t n = ::fwrite(msg, 1, len, stdout);
+    (void)n;
+}
+
+void defaultFlush() {
+    ::fflush(stdout);
+}
+
+Logger::OutputFunc g_outPut = defaultOutput;
+Logger::FlushFunc g_Flush = defaultFlush;
+
 TimeZone g_logTimeZone;
 
 }
@@ -42,9 +83,11 @@ Logger::Impl::Impl(const SourceFile &filename, int line, LogLevel level)
         _stream(),
         _time(Time::now())
 {
+    /// 固定的日志开头部分
     formatTime();
     CurrentThread::tid();
-    //
+    _stream << T(CurrentThread::tidString(), CurrentThread::tidStringLength());
+    _stream << T(netlib::LogLevelName[_level], 6);
 }
 
 void Logger::Impl::formatTime() {
@@ -81,5 +124,60 @@ void Logger::Impl::formatTime() {
         assert(us.length() == 9);
         _stream << T(t_time, 17) << T(us.data(), 9);
     }
+}
+
+void Logger::Impl::finish() {
+    /// 给日志尾部添加固定格式数据
+    _stream << " - " << _basename << ":" << _line << "\n";
+}
+
+Logger::Logger(SourceFile filename, int line)
+    : _impl(filename, line, INFO)
+{
+}
+
+Logger::Logger(SourceFile filename, int line, LogLevel level)
+    : _impl(filename, line, level)
+{
+}
+
+Logger::Logger(SourceFile filename, int line, LogLevel level, const char *func)
+    : _impl(filename, line, level)
+{
+    _impl._stream << func << ' ';
+}
+
+Logger::Logger(SourceFile filename, int line, bool toAbort)
+    : _impl(filename, line, toAbort?FATAL:ERROR)
+{
+}
+
+Logger::~Logger() {
+    _impl.finish();
+
+    /// 通过一个全局的变量将日志传到缓冲区
+    const LogStream::Buffer &buf(stream().buffer());
+    g_outPut(buf.data(), buf.length());
+
+    if(_impl._level == Logger::FATAL) {
+        g_Flush();
+        ::abort();
+    }
+}
+
+void Logger::setOutput(OutputFunc fun) {
+    g_outPut = fun;
+}
+
+void Logger::setFlush(FlushFunc fun) {
+    g_Flush = fun;
+}
+
+void Logger::setTimeZone(const TimeZone &tz) {
+    g_logTimeZone = tz;
+}
+
+void Logger::setLogLevel(Logger::LogLevel level) {
+    g_logLevel = level;
 }
 
