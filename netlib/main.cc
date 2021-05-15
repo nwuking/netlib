@@ -67,19 +67,17 @@ int atoi(char *pData) {
     return res;
 }
 
-int main() {
-/*
-    std::string str = "";
-    char ch = ' ';
-    std::vector<std::string> vec;
-    Split(str, ch, vec);
-    for(auto k : vec) {
-        std::cout << k << std::endl;
-    }
-    */
+#include <time.h>
 
-   char data[] = "-2147483649";
-   
-   std::cout << atoi(data) << std::endl;
+int main() {
+    time_t now = time(NULL);
+    struct tm tm1, tm2;
+    gmtime_r(&now, &tm1);
+    localtime_r(&now, &tm2);
+    std::cout << tm1.tm_year << ":"<<tm1.tm_mon<<":"<<tm1.tm_mday<<":"
+                <<tm1.tm_hour<<":"<<tm1.tm_min<<":"<<tm1.tm_sec<<"\n";
+
+    std::cout << tm2.tm_year << ":"<<tm2.tm_mon<<":"<<tm2.tm_mday<<":"
+                <<tm2.tm_hour<<":"<<tm2.tm_min<<":"<<tm2.tm_sec<<"\n";
     return 0;
 }
