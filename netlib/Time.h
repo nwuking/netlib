@@ -7,6 +7,8 @@
 
 #include <stdint.h>
 
+#include <string>
+
 namespace netlib
 {
 
@@ -29,6 +31,8 @@ public:
     int64_t getSecondSinceEpoch() {
         return _microSecondsSinceEpoch / cMicroSecondsPerSecond;
     }
+
+    std::string toFormattedString(bool showMicroSeconds = true) const;
 
     static Time now();
 private:

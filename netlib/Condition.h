@@ -29,6 +29,14 @@ public:
         ::pthread_cond_wait(&_cond, _mutex.getMutex());
     }
 
+    void waitForSeconds(int seconds) {
+        Mutex::ungetHolderMutex ug(_mutex);
+        struct timespec t;
+        ::clock_gettime(CLOCK_REALTIME, &t);
+        t.tv_sec += static_cast<time_t>(seconds);
+        ::pthread_cond_timedwait(&_cond, _mutex.getMutex(), &t);
+    }
+
     void notify() {
         ::pthread_cond_signal(&_cond);
     }
