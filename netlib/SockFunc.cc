@@ -8,6 +8,7 @@
 #include <sys/types.h>
 #include <fcntl.h>
 #include <sys/stat.h>
+#include <assert.h>
 
 using namespace netlib;
 
@@ -21,6 +22,9 @@ void setNoBlockAndCloseOnExec(int fd) {
     (void)ret;
 }
 
+uint16_t netlib::networkToHost16(uint16_t port) {
+    return ::ntohs(port);
+}
 
 void hostToNetwork32(struct in_addr *addr) {
     struct in_addr res;
@@ -135,5 +139,20 @@ int netlib::getSocketError(int fd) {
     else {
         /// 
         return optval;
+    }
+}
+
+void netlib::toIpPort(char *buf, size_t size, const struct sockaddr_in *addr) {
+    netlib::toIp(buf, sizeof buf, addr);
+    size_t end = ::strlen(buf);
+    uint16_t port = netlib::networkToHost16(addr->sin_port);
+    assert(size > end);
+    ::snprintf(buf+end, size-end, ":%u", port);
+}
+
+void netlib::toIp(char *buf, size_t size, const struct sockaddr_in *addr) {
+    if(addr->sin_family == AF_INET) {
+        assert(size > INET_ADDRSTRLEN);
+        ::inet_ntop(AF_INET, &addr->sin_addr, buf, static_cast<socklen_t>(size));
     }
 }

@@ -16,6 +16,8 @@ struct in_addr;
 namespace netlib
 {
 
+uint16_t networkToHost16(uint16_t port);
+
 void hostToNetwork32(struct in_addr *addr);
 void hostToNetwork16(uint16_t *port, uint16_t por);
 void fromIp(struct in_addr *addr, const char *ip);
@@ -40,6 +42,9 @@ void shutdownWrite(int fd);
 
 int getSocketError(int fd);
 
+void toIpPort(char *buf, size_t size, const struct sockaddr_in *addr);
+
+void toIp(char *buf, size_t size, const struct sockaddr_in *addr);
 
 }
 #endif

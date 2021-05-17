@@ -3,6 +3,7 @@
 #include "./Acceptor.h"
 #include "./EventLoopThreadPool.h"
 #include "./SockFunc.h"
+#include "./Logging.h"
 
 
 using namespace netlib;
@@ -17,6 +18,20 @@ TcpServer::TcpServer(EventLoop *loop, SockAddr &listenAddr, const std::string &n
       _started(false)
 {
   _acceptor->setNewConnectionCallBack(std::bind(&TcpServer::newConnection, this, _1, _2));
+}
+
+TcpServer::~TcpServer() {
+  _loop->assertInLoopThread();
+
+  LOG_TRACE << "TcpServer::~TcpServer [" << _name << "] ";
+
+  for(auto &item : _connections) {
+    TcpConnectionPtr conn(item.second);     /// 引用计数+1
+    item.second.reset();                    /// 引用计数-1
+
+    conn->getLoop()->runInLoop(
+        std::bind(&TcpConnection::conncetDestoryed, conn));
+  }
 }
 
 void TcpServer::start() {
@@ -48,6 +63,10 @@ void TcpServer::newConnection(int fd, SockAddr &peerAddr) {
   std::string conName = _name + std::to_string(_nextConnId);
   ++_nextConnId;
 
+  LOG_INFO << "TcpServer::newConnection [" << _name
+           << "] - new connection [" << conName
+           << "] from " << peerAddr.toIpPort();
+
   /// 生成一个TcpConnection对象
   SockAddr localAddr(netlib::getLocalAddr(fd));
   TcpConnectionPtr conn(new TcpConnection(threadLoop, fd, peerAddr, localAddr, conName));
@@ -67,6 +86,9 @@ void TcpServer::removeConnection(const TcpConnectionPtr &conn) {
 
 void TcpServer::removeConnectionInLoop(const TcpConnectionPtr &conn) {
   _loop->assertInLoopThread();
+
+  LOG_INFO << "TcpServer::removeConnectionInLoop [" << _name
+           << "] - connection " << conn->name();
 
   size_t n = _connections.erase(conn->name());
   (void)n;

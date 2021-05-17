@@ -23,3 +23,9 @@ SockAddr::SockAddr(std::string ip, uint16_t port) {
     netlib::hostToNetwork16(&_addr.sin_port, port);
     netlib::fromIp(&_addr.sin_addr, ip.c_str());
 }
+
+std::string SockAddr::toIpPort() const {
+    char buf[64] = "";
+    netlib::toIpPort(buf, sizeof buf, getSockAddr());
+    return buf;
+}

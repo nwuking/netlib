@@ -36,6 +36,8 @@ void TcpConnection::conncetDestoryed() {
     if(_state == cConnected) {
         setState(cDisconnected);
         _chnnel->diableAll();
+
+        //_connectionCallBack(shared_from_this());
     }
 
     _chnnel->remove();

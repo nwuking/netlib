@@ -35,8 +35,8 @@ public:
     }                        
     /// ~SockAddr();        a trivial destructor
 
-    struct sockaddr_in getSockAddr() const{
-        return _addr;
+    const  struct sockaddr_in* getSockAddr() const{
+        return &_addr;
     }
 
     sa_family_t getFamily() const {
@@ -47,6 +47,7 @@ public:
         _addr = addr;
     }
 
+    std::string toIpPort() const;
 
 private:
     struct sockaddr_in _addr;
