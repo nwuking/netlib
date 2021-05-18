@@ -29,6 +29,8 @@ public:
 
     void loop();
 
+    void quit();
+
     void setEpollTimeOut(int64_t second, int64_t microSeconds);
 
     void updateChnnel(Chnnel *chnnel);
@@ -40,6 +42,8 @@ public:
     void runInLoop(Functor cb);
 
     void removeChnnel(Chnnel *chnnel);
+
+    bool hasChnnel(Chnnel *chnnel);
 
     void assertInLoopThread() {
         if(!isInLoopThread()) {
@@ -58,12 +62,15 @@ public:
 private:
     void abortNotInLoopThread();
     void handleRead();
+    void printActiveChnnels() const;
+    void dpPendingFunctors();
 
     typedef std::vector<Chnnel*> ChnnelVec;
 
     static const int cInitActiveChnnels = 8;
 
-    std::atomic<bool> _looping;
+    bool _looping;
+    std::atomic<bool> _quit;
     std::unique_ptr<Epoller> _epoller;                  /// 整个程序只有一个Epoller Object
     ChnnelVec _activeChnnels;                           /// 用于保存发生响应的事件(Chnnel)
 

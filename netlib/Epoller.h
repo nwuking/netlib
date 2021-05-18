@@ -28,13 +28,19 @@ public:
 
     void removeChnnel(Chnnel *chnnel);
 
+    bool hasChnnel(Chnnel *chnnel) const;
+
+    void assertInLoopThread() const {
+        _ownLoop->assertInLoopThread();
+    }
+
 private:
     typedef std::vector<struct epoll_event> EpollEventVec;
     typedef std::map<int, Chnnel*> ChnnelMap;
 
     static const int cEventsInitSize = 8;
     
-    void fillActiveChnnels(ChnnelVec *activeChnnels, int eventsNum);
+    void fillActiveChnnels(ChnnelVec *activeChnnels, int eventsNum) const;
 
     int _epollFd;
     EventLoop *_ownLoop;

@@ -23,6 +23,9 @@ public:
 
     void tie(const std::shared_ptr<void> &obj);
 
+    std::string reventsToString() const;
+    std::string eventsToString() const;
+
     int getFd() const {
         return _fd;
     }
@@ -53,7 +56,7 @@ public:
         return _events & cWriteEvent;
     }
 
-    bool isNonEvent() {
+    bool isNoneEvent() {
         return _events == cNonEvent;
     }
 
@@ -84,9 +87,11 @@ public:
         update();
     }
 
+
 private:
     void update();
     void handleEventWithGuard();
+    static std::string eventsToString(int fd, int events);
 
     static const int cNonEvent;
     static const int cReadEvent;
@@ -100,6 +105,7 @@ private:
     bool _addedToLoop;                              /// 标志当前的Chnnel是否注册到EventLoop中
     bool _eventHanding;
     bool _tied;
+    bool _logHup;
 
     std::weak_ptr<void> _tie;
 

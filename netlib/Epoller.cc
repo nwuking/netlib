@@ -1,9 +1,11 @@
 #include "./Epoller.h"
 #include "./Chnnel.h"
+#include "./Logging.h"
 
 #include <unistd.h>
 #include <assert.h>
 #include <string.h>
+
 
 using namespace netlib;
 
@@ -23,6 +25,9 @@ Epoller::Epoller(EventLoop *loop)
       _ownLoop(loop),
       _events(cEventsInitSize)
 {
+    if(_epollFd < 0) {
+        LOG_SYSERR << "Epoller::Epoller()";
+    }
 }
 
 Epoller::~Epoller() {
@@ -42,11 +47,16 @@ Epoller::~Epoller() {
 /// };
 
 Time Epoller::poll(ChnnelVec *activeChnnels, int timeoutMs) {
-    int eventsNum = ::epoll_wait(_epollFd, &*_events.begin(), static_cast<int>(_events.size()), timeoutMs);
+    LOG_TRACE << "fd total count " << _chnnels.size();
+
+    int eventsNum = ::epoll_wait(_epollFd, &*_events.begin(), 
+                                static_cast<int>(_events.size()), timeoutMs);
     int saveErrno = errno;
     Time now(Time::now());
     if(eventsNum > 0) {
         /// 有响应事件，将响应事件push activeChnnels
+        LOG_TRACE << eventsNum << " events happened ";
+
         fillActiveChnnels(activeChnnels, eventsNum);
         if(eventsNum == static_cast<int>(_events.size())) {
             /// 预先处理
@@ -55,18 +65,20 @@ Time Epoller::poll(ChnnelVec *activeChnnels, int timeoutMs) {
     }
     else if(eventsNum == 0) {
         /// nothing
+        LOG_TRACE << "nothing happended ";
     }
     else {
         /// epoll_wait error
         if(errno != EINTR) {
             /// 不是发生了中断，恢复原来erron的值
             errno = saveErrno;
+            LOG_SYSERR << "Epoller::poll() error ";
         }
     }
     return now;
 }
 
-void Epoller::fillActiveChnnels(ChnnelVec *activeChnnels, int eventsNum) {
+void Epoller::fillActiveChnnels(ChnnelVec *activeChnnels, int eventsNum) const {
     assert(_events.size() >= static_cast<size_t>(eventsNum));
     for(int i = 0; i < eventsNum; ++i) {
         Chnnel *chnnel = static_cast<Chnnel*>(_events[i].data.ptr);
@@ -76,8 +88,12 @@ void Epoller::fillActiveChnnels(ChnnelVec *activeChnnels, int eventsNum) {
 }
 
 void Epoller::updateChnnel(Chnnel *chnnel) {
-    _ownLoop->assertInLoopThread();
+    assertInLoopThread();
     const int flag = chnnel->flag();
+
+    LOG_TRACE << "fd = " << chnnel->getFd() 
+              << " update events = " << chnnel->getEvents()
+              << " flag = " << flag;
     int fd = chnnel->getFd();
 
     if(flag == cNew || flag == cDeleted) {
@@ -102,7 +118,7 @@ void Epoller::updateChnnel(Chnnel *chnnel) {
         assert(_chnnels[fd] == chnnel);
         assert(flag == cAdded);
 
-        if(chnnel->isNonEvent()) {
+        if(chnnel->isNoneEvent()) {
             /// chnnel没有要注册的事件
             /// move chnnel之前注册的事件
             update(EPOLL_CTL_DEL, chnnel);
@@ -135,7 +151,7 @@ void Epoller::removeChnnel(Chnnel *chnnel) {
     int fd = chnnel->getFd();
     assert(_chnnels.find(fd) != _chnnels.end());
     assert(_chnnels[fd] == chnnel);
-    assert(chnnel->isNonEvent());
+    assert(chnnel->isNoneEvent());
 
     int flag = chnnel->flag();
     assert(flag == cAdded || flag == cDeleted);
@@ -150,4 +166,10 @@ void Epoller::removeChnnel(Chnnel *chnnel) {
     }
 
     chnnel->setFlag(cNew);
+}
+
+bool Epoller::hasChnnel(Chnnel *chnnel) const {
+    assertInLoopThread();
+    ChnnelMap::const_iterator it = _chnnels.find(chnnel->getFd());
+    return it != _chnnels.end() && it->second == chnnel;
 }

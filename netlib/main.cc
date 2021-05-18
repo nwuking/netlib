@@ -72,15 +72,22 @@ int atoi(char *pData) {
 
 #include <cstdlib>
 
-void func(int i) {
+int func() {
     std::cout << "func(int) " <<std::endl;
+    return 9;
 }
 
-void func(void *t) {
-    std::cout << "func(void*)" <<std::endl;
-}
+
+
+class oopp;
+#include <vector>
 int main() {
     
-    func(nullptr);
+    int i = 0;
+    const  int m = i;
+    decltype((func())) p ;  p = 9;
+    //p.push_back(3);
+    std::cout << sizeof(p) << "\n"  << p << "\n";
+    //std::cout << p.size() << "\n";
     return 0;
 }
