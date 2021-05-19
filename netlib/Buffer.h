@@ -81,7 +81,7 @@ public:
         _writerIndex = cCheapPrepend;
     }
 
-    ssize_t readFd(int fd);
+    ssize_t readFd(int fd, int *savedErrno);
 
 private:
     char* begin() {

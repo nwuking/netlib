@@ -33,6 +33,7 @@ public:
 
     void conncetDestoryed();
     void connectEstablished();
+    void shutdown();
 
     void setMessageCallBack(const MessageCallBack &cb) {
         _messageCallBack = cb;
@@ -73,6 +74,8 @@ private:
     void setState(StateE s) {
         _state = s;
     }
+
+    const char* stateToString() const;
 
     EventLoop *_loop;
     const SockAddr _peerAddr;

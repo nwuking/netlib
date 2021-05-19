@@ -83,11 +83,10 @@ class oopp;
 #include <vector>
 int main() {
     
-    int i = 0;
-    const  int m = i;
-    decltype((func())) p ;  p = 9;
-    //p.push_back(3);
-    std::cout << sizeof(p) << "\n"  << p << "\n";
-    //std::cout << p.size() << "\n";
+    std::cout << sizeof(long) << "\n" << sizeof(long long) << std::endl;
+    int t = 2;
+    const int t1 = 2;
+    static_cast<long>(t);
+    static_cast<long>(t1);
     return 0;
 }

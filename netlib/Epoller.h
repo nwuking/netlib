@@ -41,6 +41,7 @@ private:
     static const int cEventsInitSize = 8;
     
     void fillActiveChnnels(ChnnelVec *activeChnnels, int eventsNum) const;
+    static const char* operationToString(int op);
 
     int _epollFd;
     EventLoop *_ownLoop;

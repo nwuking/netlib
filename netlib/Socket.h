@@ -28,6 +28,10 @@ public:
 
     void shutdownWrite();
 
+    void setKeepAlive(bool on);
+
+    //void setTcpNoDelay(bool on);
+
 private:
     int _sockFd;
 };

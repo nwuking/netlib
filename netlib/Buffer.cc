@@ -17,7 +17,7 @@ Buffer::Buffer(size_t initialSize)
     assert(prependAbleBytes() == cCheapPrepend);
 }
 
-ssize_t Buffer::readFd(int fd) {
+ssize_t Buffer::readFd(int fd, int *savedErrno) {
     /// fd-> 为epoll中监听的描述符
     /// 从fd读取数据
 
@@ -44,6 +44,7 @@ ssize_t Buffer::readFd(int fd) {
 
     if(n < 0) {
         /// error
+        *savedErrno = errno;
     }
     else if(n <= writeAble) {
         /// 当前的缓冲区的可写区域能够当前的消息

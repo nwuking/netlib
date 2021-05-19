@@ -3,6 +3,7 @@
 #include "./Chnnel.h"
 #include "./SockFunc.h"
 #include "./Socket.h"
+#include "./Logging.h"
 
 
 using namespace netlib;
@@ -28,6 +29,26 @@ TcpConnection::TcpConnection(EventLoop *loop,
     _chnnel->setWriteCallBack(std::bind(&TcpConnection::handleWrite, this));
     _chnnel->setErrorCallBack(std::bind(&TcpConnection::handleError, this));
     _chnnel->setCloseCallBack(std::bind(&TcpConnection::handleClose, this));
+
+    LOG_DEBUG << "TcpConnection::TcpConnection() -[" << _name << "] at "
+              << this << " fd = " << _socket->getSocketFd();
+
+    _socket->setKeepAlive(true);
+}
+
+TcpConnection::~TcpConnection() {
+    LOG_DEBUG << "TcpConnection::~TcpConnection() -[ " << _name << " ] at "
+              << this  << " fd = " << _chnnel->getFd() 
+              << " state = " << stateToString();
+    
+    assert(_state == cDisconnected);
+}
+
+void TcpConnection::shutdown() {
+    if(_state == cConnected) {
+        setState(cDisconnecting);
+        _loop->runInLoop(std::bind(&TcpConnection::shutdownInLoop, this));
+    }
 }
 
 void TcpConnection::conncetDestoryed() {
@@ -37,7 +58,7 @@ void TcpConnection::conncetDestoryed() {
         setState(cDisconnected);
         _chnnel->diableAll();
 
-        //_connectionCallBack(shared_from_this());
+        _connectionCallBack(shared_from_this());
     }
 
     _chnnel->remove();
@@ -50,6 +71,8 @@ void TcpConnection::connectEstablished() {
 
     _chnnel->tie(shared_from_this());
     _chnnel->enableReading();
+
+    _connectionCallBack(shared_from_this());
 }
 
 void TcpConnection::shutdownInLoop() {
@@ -68,8 +91,8 @@ void TcpConnection::handleRead() {
     /// 有client数据到来的时候
     /// 调用此函数读取
     _loop->assertInLoopThread();
-
-    ssize_t n = _inputBuffer.readFd(_chnnel->getFd());
+    int savedErrno = 0;
+    ssize_t n = _inputBuffer.readFd(_chnnel->getFd(), &savedErrno);
 
     if(n > 0) {
         /// 接收到消息，调用业务逻辑函数
@@ -86,6 +109,8 @@ void TcpConnection::handleRead() {
     }
     else {
         /// error
+        errno = savedErrno;
+        LOG_SYSERR << "TcpConnection::handleRead()";
         handleError();
     }
 }
@@ -123,12 +148,13 @@ void TcpConnection::handleWrite() {
         }
         else {
             /// 写数据失败
-            ;
+            LOG_SYSERR << "TcpConnection::handleWrite()";
         }
     }
     else {
         /// 没有数据写
-        ;
+        LOG_TRACE << "TcpConnection fd = " << _chnnel->getFd()
+                  << " is down, no more writing";
     }
 }
 
@@ -136,9 +162,35 @@ void TcpConnection::handleError() {
     /// epoll监听失败的时候调用
     int err = netlib::getSocketError(_chnnel->getFd());
 
-    ///////
+    LOG_ERROR << "TcpConnection::handleError [" << _name 
+              << " ] -SO_ERROR " << err << " " << ::strerror(err);
 }
 
 void TcpConnection::handleClose() {
-    /// 
+    _loop->assertInLoopThread();
+
+    LOG_TRACE << "fd = " << _chnnel->getFd() << " state : " << stateToString();
+
+    assert(_state == cDisconnecting || _state == cDisconnected);
+    setState(cDisconnected);
+    _chnnel->diableAll();
+
+    TcpConnectionPtr guardThis(shared_from_this());
+    _connectionCallBack(guardThis);
+    _closeCallBack(guardThis);
+}
+
+const char* TcpConnection::stateToString() const {
+    switch(_state) {
+        case cDisconnected :
+            return "Disconnected";
+        case cDisconnecting :
+            return "Disconnecting";
+        case cConnected :
+            return "Connected";
+        case cConnecting :
+            return "Connecting";
+        default :
+            return "unknown state";
+    }
 }

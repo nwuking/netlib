@@ -139,9 +139,19 @@ void Epoller::update(int op, Chnnel *chnnel) {
     event.data.ptr = chnnel;
 
     int fd = chnnel->getFd();
+
+    LOG_TRACE << "epoll_ctl op = " << operationToString(op)
+              << " fd = " << fd << " events = {" << chnnel->eventsToString() 
+              << " }";
+
     if(::epoll_ctl(_epollFd, op, fd, &event) < 0) {
         /// error
-        ;
+        if(op == EPOLL_CTL_DEL) {
+            LOG_SYSERR << "epoll_ctl op = " << operationToString(op) << " fd  = " << fd;
+        }
+        else {
+            LOG_SYSFATAL << "epoll_ctl op = " << operationToString(op) << " fd = " << fd;
+        }
     }
 }
 
@@ -172,4 +182,17 @@ bool Epoller::hasChnnel(Chnnel *chnnel) const {
     assertInLoopThread();
     ChnnelMap::const_iterator it = _chnnels.find(chnnel->getFd());
     return it != _chnnels.end() && it->second == chnnel;
+}
+
+const char* Epoller::operationToString(int op) {
+    switch(op) {
+        case EPOLL_CTL_DEL :
+            return "EPOLL_CTL_DEL";
+        case EPOLL_CTL_ADD :
+            return "EPOLL_CTL_ADD";
+        case EPOLL_CTL_MOD :
+            return "EPOLL_CTL_MOD";
+        default :
+            return "unknown op";
+    }
 }
