@@ -46,5 +46,9 @@ void toIpPort(char *buf, size_t size, const struct sockaddr_in *addr);
 
 void toIp(char *buf, size_t size, const struct sockaddr_in *addr);
 
+int createNoblockingOrDie(sa_family_t family);
+
+int connect(int sockFd, const struct sockaddr_in *addr);
+
 }
 #endif

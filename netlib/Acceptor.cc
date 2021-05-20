@@ -1,6 +1,7 @@
 #include "./Acceptor.h"
 #include "./SockFunc.h"
 #include "./SockAddr.h"
+#include "./Logging.h"
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -46,6 +47,7 @@ void Acceptor::handleRead() {
     }
     else {
         /// error
+        LOG_SYSERR << "in Acceptor::handleRead()";
         if(errno == EMFILE) {
             /// 已经到达了每个进程所能打开的文件描述符的限制
             ::close(_idleFd);

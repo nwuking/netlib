@@ -1,4 +1,5 @@
 #include "./SockFunc.h"
+#include "./Logging.h"
 
 #include <arpa/inet.h>
 #include <netinet/in.h>
@@ -155,4 +156,18 @@ void netlib::toIp(char *buf, size_t size, const struct sockaddr_in *addr) {
         assert(size > INET_ADDRSTRLEN);
         ::inet_ntop(AF_INET, &addr->sin_addr, buf, static_cast<socklen_t>(size));
     }
+}
+
+int netlib::createNoblockingOrDie(sa_family_t family) {
+    int sockFd = ::socket(family, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC , IPPROTO_TCP);
+    if(sockFd < 0) {
+        LOG_SYSFATAL << "SockFunc::createNoblockingOrDie";
+    }
+
+    return sockFd;
+}
+
+int netlib::connect(int sockFd, const struct sockaddr_in *addr) {
+    return ::connect(sockFd,(struct sockaddr*)(addr),
+                     static_cast<socklen_t>(sizeof(struct sockaddr_in)));
 }

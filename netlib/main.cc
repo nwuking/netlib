@@ -81,12 +81,22 @@ int func() {
 
 class oopp;
 #include <vector>
+
+class A {
+public:
+    void test() {
+        std::cout << "test" << std::endl;
+    }
+
+    static void test1() {
+        std::cout << "test1" << std::endl;
+    }
+};
+
 int main() {
     
-    std::cout << sizeof(long) << "\n" << sizeof(long long) << std::endl;
-    int t = 2;
-    const int t1 = 2;
-    static_cast<long>(t);
-    static_cast<long>(t1);
+    A *p = nullptr;
+    p->test1();
+    p->test();
     return 0;
 }
