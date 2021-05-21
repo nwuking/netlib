@@ -87,6 +87,10 @@ public:
         update();
     }
 
+    void enableWriting() {
+        _events |= cWriteEvent;
+        update();
+    }
 
 private:
     void update();

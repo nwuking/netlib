@@ -50,5 +50,11 @@ int createNoblockingOrDie(sa_family_t family);
 
 int connect(int sockFd, const struct sockaddr_in *addr);
 
+struct sockaddr_in getLocalAddr(int sockFd);
+
+struct sockaddr_in getpeerAddr(int sockFd);
+
+bool isSelfConnect(int sockFd);
+
 }
 #endif

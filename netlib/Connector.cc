@@ -44,9 +44,108 @@ void Connector::connect() {
     int savedError = (ret == 0) ? 0 : errno;
     switch(savedError) {
         case 0:
+        case EINPROGRESS:
+        case EINTR:
+        case EISCONN:
+            connecting(sockFd);
+            break;
+
+        case EAGAIN:
+        case EADDRINUSE:
+        case EADDRNOTAVAIL:
+        case ECONNREFUSED:
+        case ENETUNREACH:
+            retry(sockFd);
+            break;
+        
+        case EACCES:
+        case EPERM:
+        case EAFNOSUPPORT:
+        case EALREADY:
+        case EBADF:
+        case EFAULT:
+        case ENOTSOCK:
+            LOG_SYSERR << "error in Connector::statInLoop() " << savedError;
+            netlib::close(sockFd);
+            break;
         default:
             LOG_SYSERR << "Unexpect error in Connector::startInLoop " << savedError;
             netlib::close(sockFd);
             break;
     }
+}
+
+void Connector::connecting(int sockFd) {
+    /// TCP连接已经连上，将事件(Chnnel)注册到EventLoop
+
+    setState(cConnecting);
+    assert(!_chnnel);
+    _chnnel.reset(new Chnnel(_loop, sockFd));
+    _chnnel->setWriteCallBack(std::bind(&Connector::handleWrite, this));
+    _chnnel->setErrorCallBack(std::bind(&Connector::handleError, this));
+    _chnnel->enableWriting();
+}
+
+int Connector::removeAndResetChnnel() {
+    _chnnel->diableAll();
+    _chnnel->remove();
+    int fd = _chnnel->getFd();
+    _loop->queueInLoop(std::bind(&Connector::resetChnnel, this));
+    return fd;
+}
+
+void Connector::resetChnnel() {
+    _chnnel.reset();
+}
+
+void Connector::handleWrite() {
+    /// 因为是非阻塞的connect()
+    /// 所以只有当sockFd可读的时候，才真正表示连接成功
+    /// 即只有该函数被调用的时候
+
+    LOG_TRACE << "Connector::handleWrite() " << _state;
+
+    if(_state == cConnecting) {
+        int sockFd = removeAndResetChnnel();
+        int err = netlib::getSocketError(sockFd);
+
+        if(err) {
+            LOG_WARN << "Connector::handleWrite() - SO_ERROR = " << err
+                     << " " << ::strerror(err);
+            
+            retry(sockFd);
+        }
+        else if(netlib::isSelfConnect(sockFd)) {
+            LOG_WARN << "Connector::handleWrite() - self connect";
+            retry(sockFd);
+        }
+        else {
+            /// 连接成功
+            setState(cConnected);
+            if(_connect) {
+                _newConnectionCallBack(sockFd);
+            }
+            else {
+                netlib::close(sockFd);
+            }
+        }
+    }
+    else {
+        setState(cDisconnected);
+    }
+}
+
+void Connector::handleError() {
+    LOG_ERROR << "Connector::handleError() " << _state;
+
+    if(_state == cConnecting) {
+        int sockFd = removeAndResetChnnel();
+        int err = netlib::getSocketError(sockFd);
+        LOG_TRACE << "SO_ERROR " << err << ::strerror(err);
+        retry(sockFd);
+    }
+}
+
+void Connector::retry(int fd) {
+    /// 重新发起连接
 }

@@ -171,3 +171,37 @@ int netlib::connect(int sockFd, const struct sockaddr_in *addr) {
     return ::connect(sockFd,(struct sockaddr*)(addr),
                      static_cast<socklen_t>(sizeof(struct sockaddr_in)));
 }
+
+struct sockaddr_in netlib::getLocalAddr(int sockFd) {
+    struct sockaddr_in localAddr;
+    ::bzero(&localAddr, sizeof localAddr);
+    socklen_t addrlen = static_cast<socklen_t>(sizeof localAddr);
+    if(::getsockname(sockFd, (struct sockaddr*)(&localAddr), &addrlen) < 0) {
+        LOG_SYSERR << "SockFunc::getLocalAddr()";
+    }
+    return localAddr;
+}
+
+
+struct sockaddr_in netlib::getpeerAddr(int sockFd) {
+    struct sockaddr_in peerAddr;
+    ::bzero(&peerAddr, sizeof peerAddr);
+    socklen_t addrlen = static_cast<socklen_t>(sizeof peerAddr);
+    if(::getpeername(sockFd, (struct sockaddr*)(&peerAddr), &addrlen) < 0) {
+        LOG_SYSERR << "SockFunc::getLocalAddr()";
+    }
+    return peerAddr;
+}
+
+bool netlib::isSelfConnect(int sockFd) {
+    struct sockaddr_in localAddr = getLocalAddr(sockFd);
+    struct sockaddr_in peerAddr = getpeerAddr(sockFd);
+
+    if(localAddr.sin_family == AF_INET) {
+        return localAddr.sin_addr.s_addr == peerAddr.sin_addr.s_addr
+                && localAddr.sin_port == peerAddr.sin_port;
+    }
+    else {
+        return false;
+    }
+}
