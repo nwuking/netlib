@@ -51,6 +51,20 @@ void TcpConnection::shutdown() {
     }
 }
 
+void TcpConnection::forceClose() {
+    if(_state == cConnected || _state == cDisconnecting) {
+        setState(cDisconnecting);
+        _loop->queueInLoop(std::bind(&TcpConnection::forceCloseInLoop, shared_from_this()));
+    }
+}
+
+void TcpConnection::forceCloseInLoop() {
+    _loop->assertInLoopThread();
+    if(_state == cConnected || _state == cDisconnecting) {
+        handleClose();
+    }
+}
+
 void TcpConnection::conncetDestoryed() {
     _loop->assertInLoopThread();
 

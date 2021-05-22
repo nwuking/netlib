@@ -35,6 +35,8 @@ public:
     void connectEstablished();
     void shutdown();
 
+    void forceClose();
+
     void setMessageCallBack(const MessageCallBack &cb) {
         _messageCallBack = cb;
     }
@@ -70,6 +72,7 @@ private:
     void handleClose();
 
     void shutdownInLoop();
+    void forceCloseInLoop();
 
     void setState(StateE s) {
         _state = s;

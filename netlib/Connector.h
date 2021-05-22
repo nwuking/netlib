@@ -22,6 +22,10 @@ public:
 
     void start();
 
+    void restart();
+
+    void stop();
+
     const SockAddr& serverAddress() const {
         return _addr;
     }
@@ -32,9 +36,12 @@ public:
 
 private:
     enum States {cDisconnected, cConnecting, cConnected};
+    static const int cInitRetryDelayMs = 500;
+    static const int cMaxRetryDelayMs = 30*1000;
 
     void setState(States s) {_state = s;}
     void startInLoop();
+    void stopInLoop();
     void connect();
     void connecting(int sockFd);
     void retry(int fd);
@@ -50,6 +57,8 @@ private:
     std::unique_ptr<Chnnel> _chnnel;
 
     NewConnectionCallBack _newConnectionCallBack;
+
+    int _retryDelayMs;
 };
 
 }

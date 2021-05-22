@@ -23,6 +23,7 @@ class EventLoop
 {
 public:
     typedef std::function<void()> Functor;
+    typedef std::function<void()> TimerCallBack;
 
     EventLoop();
     ~EventLoop();

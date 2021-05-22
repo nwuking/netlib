@@ -12,17 +12,42 @@ Connector::Connector(EventLoop *loop, const SockAddr &addr)
     : _loop(loop),
       _addr(addr),
       _connect(false),
-      _state(cDisconnected)
+      _state(cDisconnected),
+      _retryDelayMs(cInitRetryDelayMs)
 {
+    LOG_DEBUG << "Connector::Connector() [" << this << "]";
 }
 
 Connector::~Connector() {
-    //
+    LOG_DEBUG << "Connector::~Connector() [" << this << "]";
+    assert(!_chnnel);
 }
 
 void Connector::start() {
     _connect = true;
     _loop->runInLoop(std::bind(&Connector::startInLoop, this));
+}
+
+void Connector::restart() {
+    _loop->assertInLoopThread();
+    setState(cDisconnected);
+    _retryDelayMs = cInitRetryDelayMs;
+    _connect = true;
+    startInLoop();
+}
+
+void Connector::stop() {
+    _connect = false;
+    _loop->queueInLoop(std::bind(&Connector::stopInLoop, this));
+}
+
+void Connector::stopInLoop() {
+    _loop->assertInLoopThread();
+    if(_state == cConnecting) {
+        setState(cDisconnected);
+        int fd = removeAndResetChnnel();
+        retry(fd);
+    }
 }
 
 void Connector::startInLoop() {
@@ -148,4 +173,15 @@ void Connector::handleError() {
 
 void Connector::retry(int fd) {
     /// 重新发起连接
+    netlib::close(fd);
+    setState(cDisconnected);
+    if(_connect) {
+        LOG_INFO << "Connector::retry - Retry to connecte " << _addr.toIpPort()
+                 << " in " << _retryDelayMs << "microSeconds";
+
+        //////////////////////////////////// 
+    }
+    else {
+        LOG_DEBUG << "do not connect!";
+    }
 }
