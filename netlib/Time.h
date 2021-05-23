@@ -35,9 +35,18 @@ public:
     std::string toFormattedString(bool showMicroSeconds = true) const;
 
     static Time now();
+
+    static Time invaild() {
+        return Time();
+    }
 private:
     int64_t _microSecondsSinceEpoch;
 };
+
+inline Time addTime(Time now, double seconds) {
+    int64_t delta = static_cast<int64_t>(seconds*Time::cMicroSecondsPerSecond);
+    return Time(delta+now.getMicroSecondsSinceEpoch());
+}
 
 }
 
