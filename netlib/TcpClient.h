@@ -22,6 +22,8 @@ public:
     ~TcpClient();
 
     void connect();
+    void disconnect();
+    void stop();
 
     void setMessageCallBack(MessageCallBack cb) {
         _messageCallBack = std::move(cb);

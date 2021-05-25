@@ -179,7 +179,10 @@ void Connector::retry(int fd) {
         LOG_INFO << "Connector::retry - Retry to connecte " << _addr.toIpPort()
                  << " in " << _retryDelayMs << "microSeconds";
 
-        //////////////////////////////////// 
+        _loop->runAfter(_retryDelayMs/1000.0,
+                        std::bind(&Connector::startInLoop, shared_from_this()));
+
+        _retryDelayMs = std::min(_retryDelayMs * 2, cMaxRetryDelayMs);
     }
     else {
         LOG_DEBUG << "do not connect!";

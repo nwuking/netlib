@@ -8,6 +8,8 @@
 #include "./Time.h"
 #include "./CurrentThread.h"
 #include "./Mutex.h"
+#include "./TimerId.h"
+#include "./Timer.h"
 
 #include <vector>
 #include <memory>
@@ -18,12 +20,14 @@ namespace netlib
 
 class Chnnel;
 class Epoller;
+class TimerQueue;
 
 class EventLoop
 {
 public:
     typedef std::function<void()> Functor;
-    typedef std::function<void()> TimerCallBack;
+    //typedef std::function<void()> TimerCallBack;
+    typedef Timer::TimerCallBack TimerCallBack;
 
     EventLoop();
     ~EventLoop();
@@ -45,6 +49,12 @@ public:
     void removeChnnel(Chnnel *chnnel);
 
     bool hasChnnel(Chnnel *chnnel);
+
+    TimerId runAt(Time when, TimerCallBack cb);
+
+    TimerId runAfter(double delay, TimerCallBack cb);
+
+    TimerId runEvery(double interval, TimerCallBack cb);
 
     void assertInLoopThread() {
         if(!isInLoopThread()) {
@@ -87,6 +97,8 @@ private:
     std::vector<Functor> _pendingFunctors;                  /// 保存未执行得到回调函数
     bool _callPendingFunctors;
     bool _eventHandle;
+
+    std::unique_ptr<TimerQueue> _timerQueue;
 };
 
 }

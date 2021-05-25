@@ -3,6 +3,7 @@
 #include "./Chnnel.h"
 #include "./SockFunc.h"
 #include "./Logging.h"
+#include "./TimerQueue.h"
 
 #include <assert.h>
 #include <sys/eventfd.h>
@@ -41,7 +42,8 @@ EventLoop::EventLoop()
       _wakeChnnel(new Chnnel(this, _wakeFd)),
       _mutex(),
       _callPendingFunctors(false),
-      _eventHandle(false)
+      _eventHandle(false),
+      _timerQueue(new TimerQueue(this))
 {
   LOG_DEBUG << "EventLoop created " << this << "in thread" << _tid;
 
@@ -170,6 +172,20 @@ bool EventLoop::hasChnnel(Chnnel *chnnel) {
   assert(chnnel->owerLoop() == this);
   abortNotInLoopThread();
   return _epoller->hasChnnel(chnnel);
+}
+
+TimerId EventLoop::runAt(Time when, TimerCallBack cb) {
+  return _timerQueue->addTimer(std::move(cb), when, 0.0);
+}
+
+TimerId EventLoop::runAfter(double delay, TimerCallBack cb) {
+  Time time(addTime(Time::now(), delay));
+  return runAt(time, cb);
+}
+
+TimerId EventLoop::runEvery(double interval, TimerCallBack cb) {
+  Time time(addTime(Time::now(), interval));
+  return _timerQueue->addTimer(std::move(cb), time, interval);
 }
 
 void EventLoop::handleRead() {

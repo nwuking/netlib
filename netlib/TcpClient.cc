@@ -72,6 +72,21 @@ void TcpClient::connect() {
     _connector->start();
 }
 
+void TcpClient::disconnect() {
+    _connect = false;
+    {
+        MutexLock lock(_mutex);
+        if(_connection) {
+            _connection->shutdown();
+        }
+    }
+}
+
+void TcpClient::stop() {
+    _connect = false;
+    _connector->stop();
+}
+
 void TcpClient::NewConnection(int fd) {
     _loop->assertInLoopThread();
     SockAddr peerAddr(netlib::getpeerAddr(fd));

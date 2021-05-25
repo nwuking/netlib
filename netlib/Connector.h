@@ -12,7 +12,7 @@ namespace netlib
 class EventLoop;
 class Chnnel;
 
-class Connector
+class Connector : public std::enable_shared_from_this<Connector>
 {
 public:
     typedef std::function<void(int fd)> NewConnectionCallBack;
@@ -32,6 +32,10 @@ public:
 
     void setNewConnectionCallBack(const NewConnectionCallBack &cb) {
         _newConnectionCallBack = cb;
+    }
+
+    const SockAddr& serverAddress() const {
+        return _addr;
     }
 
 private:
