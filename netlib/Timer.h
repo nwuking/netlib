@@ -17,6 +17,10 @@ public:
     Timer(TimerCallBack cb, Time when, double interval);
     ~Timer();
 
+    int64_t sequence() const {
+        return _sequence;
+    }
+
     void run() {
         _callback();
     }

@@ -32,6 +32,10 @@ public:
         return _microSecondsSinceEpoch / cMicroSecondsPerSecond;
     }
 
+    bool vaild() const {
+        return _microSecondsSinceEpoch > 0;
+    }
+
     std::string toFormattedString(bool showMicroSeconds = true) const;
 
     static Time now();
@@ -42,6 +46,10 @@ public:
 private:
     int64_t _microSecondsSinceEpoch;
 };
+
+inline bool operator<(Time l, Time r) {
+    return l.getMicroSecondsSinceEpoch() < r.getMicroSecondsSinceEpoch();
+}
 
 inline Time addTime(Time now, double seconds) {
     int64_t delta = static_cast<int64_t>(seconds*Time::cMicroSecondsPerSecond);
