@@ -1,6 +1,8 @@
 #ifndef LOGSTREAM_H_
 #define LOGSTREAM_H_
 
+#include "./noncopyable.h"
+
 #include <stddef.h>
 #include <string.h>
 
@@ -13,11 +15,15 @@ const int cLargeBuffer = 4000 * 1000;
 
 /// 用于接收保存日志消息
 template<int SIZE>
-class FixedBuffer
+class FixedBuffer : public NonCopyAble
 {
 public:
-    FixedBuffer() : _cur(_data) {}
-    ~FixedBuffer();
+    FixedBuffer() : _cur(_data) {
+        setCookie(cookieStart);
+    }
+    ~FixedBuffer() {
+        setCookie(cookieEnd);
+    }
 
     void append(const char *buf, size_t len) {
         if(static_cast<size_t>(vaild()) > len) {
@@ -58,17 +64,26 @@ public:
         return std::string(_data, length());
     }
 
+    void setCookie(void (*cookie)()) {
+        _cookie = cookie;
+    }
+
 private:
     const char* end() const {
         return _data + sizeof _data;
     }
+
+    static void cookieStart();
+    static void cookieEnd();
+
+    void (*_cookie)();
 
     char _data[SIZE];
     char *_cur;
 };
 
 
-class LogStream
+class LogStream : public NonCopyAble
 {
     typedef LogStream self;
 
@@ -92,7 +107,7 @@ public:
     self& operator<<(double v);
     self& operator<<(char v);
 
-    //self& operator<<(void *data);
+    self& operator<<(const void *data);
     self& operator<<(const char *data);
     self& operator<<(const unsigned char *data);
     self& operator<<(const std::string &data);

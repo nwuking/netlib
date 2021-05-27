@@ -3,12 +3,16 @@
 #include <algorithm>
 
 #include <assert.h>
+#include <stdint.h>
 
 namespace netlib 
 {
 
 const char digits[] = "9876543210123456789";
 const char *zero = digits + 9;
+
+template class FixedBuffer<cSmallBuffer>;
+template class FixedBuffer<cLargeBuffer>;
 
 template<typename T>
 size_t convert(char *buf, T v) {
@@ -28,6 +32,31 @@ size_t convert(char *buf, T v) {
     *p = '\0';
     std::reverse(buf, p);
     return p - buf;
+}
+
+const char digitsHex[] = "0123456789ABCDEF";
+
+size_t convertHex(char *buf, uintptr_t value) {
+    uintptr_t i = value;
+    char *p = buf;
+
+    do {
+        int lsd = static_cast<int>(i%16);
+        i = i / 16;
+        *p++ = digitsHex[lsd];
+    } while(i != 0);
+
+    *p = '\0';
+    std::reverse(buf, p);
+    return p - buf;
+}
+
+template<int SIZE>
+void FixedBuffer<SIZE>::cookieStart() {
+}
+
+template<int SIZE>
+void FixedBuffer<SIZE>::cookieEnd() {
 }
 
 template<typename T>
@@ -125,6 +154,18 @@ LogStream& LogStream::operator<<(const Buffer &data) {
     return *this;
 }
 
+LogStream& LogStream::operator<<(const void *data) {
+    uintptr_t v = reinterpret_cast<uintptr_t>(data);
+    if(_buffer.vaild() >= cMaxNumericSize) {
+        char *buf = _buffer.current();
+        buf[0] = '0';
+        buf[1] = 'x';
+        size_t n = convertHex(buf+2, v);
+        _buffer.add(2+n);
+    }
+    return *this;
+}
+
 template<typename T>
 Fmt::Fmt(const char *fmt, T val) {
     static_assert(std::is_arithmetic<T>::value == true, "Must be a arithmetic");
@@ -132,5 +173,16 @@ Fmt::Fmt(const char *fmt, T val) {
     _length = snprintf(_data, sizeof(_data), fmt, val);
     assert(static_cast<size_t>(_length) < sizeof _data);
 }
+
+template Fmt::Fmt(const char *fmt, char);
+template Fmt::Fmt(const char *fmt, int);
+template Fmt::Fmt(const char *fmt, short);
+template Fmt::Fmt(const char *fmt, unsigned int);
+template Fmt::Fmt(const char *fmt, long);
+template Fmt::Fmt(const char *fmt, unsigned long);
+template Fmt::Fmt(const char *fmt, long long);
+template Fmt::Fmt(const char *fmt, unsigned long long);
+template Fmt::Fmt(const char *fmt, double);
+template Fmt::Fmt(const char *fmt, float);
 
 }

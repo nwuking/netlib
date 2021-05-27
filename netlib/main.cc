@@ -78,28 +78,16 @@ int func() {
 }
 
 
-
-class oopp;
-#include <vector>
-
-class A {
-public:
-    void test() {
-        std::cout << "test" << std::endl;
+template<int N>
+void print(const char (&arr)[N]) {
+    for(const auto k : arr) {
+        std::cout << k << ' ';
     }
-
-    static void test1() {
-        std::cout << "test1" << std::endl;
-    }
-};
+}
 
 int main() {
-    int ch = 3;
-    switch(ch) {
-        case 1 : std::cout << "a\n";
-        case 3 : std::cout << "c\n";
-        case 4 : std::cout << "d\n"; 
-    }
+    char arr[] = "abcdefghij";
+    print(arr);
     //std::cout << (json) << std::endl;
     return 0;
 }

@@ -23,7 +23,7 @@ public:
         WARN,
         ERROR,
         FATAL,
-        NUM_LOG_LEVELS,
+        NUM_LOG_LEVELS,                                 //  
     };
 
     /// 运行中计算一个文件的basename
@@ -35,6 +35,7 @@ public:
          : _data(arr),
            _size(N-1)
         {
+            /// __FILE__ : 一个保存文件名的数组
             const char *pos = ::strrchr(_data, '/');
             if(pos) {
                 _data = pos + 1;

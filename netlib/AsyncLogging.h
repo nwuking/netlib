@@ -14,7 +14,7 @@
 namespace netlib
 {
 
-class AsyncLogging
+class AsyncLogging : public NonCopyAble
 {
 public:
     AsyncLogging(const std::string &basename, off_t rollSize, int flushInterval = 3);
