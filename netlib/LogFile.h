@@ -1,6 +1,8 @@
 #ifndef LOGFILE_H_
 #define LOGFILE_H_
 
+#include "./noncopyable.h"
+
 #include <string>
 #include <memory>
 
@@ -9,7 +11,7 @@ namespace netlib
 
 class AppendFile;
 
-class LogFile
+class LogFile : public NonCopyAble
 {
 public:
     LogFile(const std::string &basename, off_t rollSize, 

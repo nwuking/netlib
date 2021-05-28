@@ -6,20 +6,21 @@
 */
 
 #include "./CountDownLatch.h"
+#include "./noncopyable.h"
 
 #include <functional>
-
+#include <string>
 #include <pthread.h>
 
 namespace netlib
 {
 
-class Thread
+class Thread : public NonCopyAble
 {
 public:
     typedef std::function<void()> ThreadFunc;
 
-    explicit Thread(ThreadFunc tFunc);
+    explicit Thread(ThreadFunc tFunc, const std::string &name = std::string());
     ~Thread();
 
     void start();
@@ -33,6 +34,10 @@ public:
         return _start;
     }
 
+    const std::string& name() const {
+        return _name;
+    }
+
 private:
     bool _start;
     bool _join;
@@ -40,6 +45,7 @@ private:
     pid_t _tid;
     ThreadFunc _threadFunc;
     CountDownLatch _latch;
+    std::string _name;
 };
 
 }

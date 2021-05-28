@@ -3,6 +3,7 @@
 #include "./Time.h"
 
 #include <assert.h>
+#include <stdio.h>
 
 using namespace netlib;
 

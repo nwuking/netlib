@@ -1,6 +1,8 @@
 #ifndef FILEUTIL_H_
 #define FILEUTIL_H_
 
+#include "./noncopyable.h"
+
 #include <string>
 
 #include <stdio.h>
@@ -8,7 +10,7 @@
 namespace netlib
 {
 
-class AppendFile
+class AppendFile : public NonCopyAble
 {
 public:
     explicit AppendFile(std::string filename);
