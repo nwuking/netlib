@@ -6,6 +6,7 @@
 
 #include "./SockAddr.h"
 #include "./TcpConnection.h"
+#include "./noncopyable.h"
 
 #include <memory>
 #include <map>
@@ -17,7 +18,7 @@ class EventLoop;
 class Acceptor;
 class EventLoopThreadPool;
 
-class TcpServer
+class TcpServer : NonCopyAble
 {
 public:
     typedef std::function<void(const TcpConnectionPtr&, Buffer*)> MessageCallBack;
@@ -26,12 +27,23 @@ public:
     typedef std::function<void(const TcpConnectionPtr&)> ConnectionCallBack;
     typedef std::function<void(EventLoop*)> ThreadInitCallBack;
 
-    TcpServer(EventLoop *loop, SockAddr &listenAddr, const std::string &name);
+    enum Option {
+        /// 是否开启端口复用选项
+        cNoReusePort,
+        cReusePort,
+    };
+
+    TcpServer(EventLoop *loop, SockAddr &listenAddr, const std::string &name,
+                Option option = cNoReusePort);
     ~TcpServer();
 
     void start();
 
     void setThreadNums(int nums);
+
+    const std::string& ipPort() const {
+        return _ipPort;
+    }
 
     EventLoop* getLoop() const {
         return _loop;
@@ -54,13 +66,14 @@ public:
     }
 
 private:
-    void newConnection(int fd, SockAddr &peerAddr);
+    void newConnection(int fd, const SockAddr &peerAddr);
     void removeConnection(const TcpConnectionPtr &conn);
     void removeConnectionInLoop(const TcpConnectionPtr &conn);
 
     typedef std::map<std::string, TcpConnectionPtr> ConnectionMap;
 
     EventLoop *_loop;
+    const std::string _ipPort;
     SockAddr _listenAddr;
 
     std::unique_ptr<Acceptor> _acceptor;                    /// 用于监听，等待client的到来，只有一个

@@ -6,19 +6,29 @@
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
+#include <assert.h>
 
 using namespace netlib;
 
 
-Acceptor::Acceptor(EventLoop *loop, SockAddr &listenAddr) 
+Acceptor::Acceptor(EventLoop *loop, SockAddr &listenAddr, bool reuseport) 
     : _ownLoop(loop),
       _acceptSocket(netlib::createSocketFd(listenAddr.getFamily())),
       _acceptChnnel(loop, _acceptSocket.getSocketFd()),
       _listening(false),
       _idleFd(::open("/dev/null", O_RDONLY | O_CLOEXEC))
 {
+    assert(_idleFd > 0);
+    _acceptSocket.setReuseAddr(true);
+    _acceptSocket.setReusePort(reuseport);
     _acceptSocket.bindSockAddr(listenAddr);
     _acceptChnnel.setReadCallBack(std::bind(&Acceptor::handleRead, this));
+}
+
+Acceptor::~Acceptor() {
+    _acceptChnnel.diableAll();
+    _acceptChnnel.remove();
+    ::close(_idleFd);
 }
 
 void Acceptor::listen() {

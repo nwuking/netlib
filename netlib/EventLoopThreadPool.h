@@ -5,9 +5,12 @@
  * 线程池，一个线程一个EventLoop
  */
 
+#include "./noncopyable.h"
+
 #include <vector>
 #include <memory>
 #include <functional>
+#include <string>
 
 namespace netlib
 {
@@ -15,13 +18,13 @@ namespace netlib
 class EventLoop;
 class EventLoopThread;
 
-class EventLoopThreadPool
+class EventLoopThreadPool : NonCopyAble
 {
 public:
     typedef std::function<void(EventLoop*)> ThreadInitCallBack;
 
-    EventLoopThreadPool(EventLoop *baseLoop);
-    ~EventLoopThreadPool();
+    EventLoopThreadPool(EventLoop *baseLoop, const std::string &name);
+    ~EventLoopThreadPool() = default;
 
     void setNumThreads(int nums = 1) {
         /// 设置线程池的线程数
@@ -32,8 +35,19 @@ public:
 
     EventLoop* getNextLoop();
 
+    std::vector<EventLoop*> getAllLoops();
+
+    bool started() const {
+        return _started;
+    }
+
+    const std::string& name() const {
+        return _name;
+    }
+
 private:
-    EventLoop *_baseLoop;                   
+    EventLoop *_baseLoop;       
+    std::string _name;            
     int _numThreads;
     int _next;
     bool _started;

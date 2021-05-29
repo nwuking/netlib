@@ -14,7 +14,7 @@ namespace netlib
 class EventLoop;
 class TimerId;
 
-class TimerQueue
+class TimerQueue : NonCopyAble
 {
 public:
     typedef Timer::TimerCallBack TimerCallBack;

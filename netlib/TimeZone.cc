@@ -1,5 +1,6 @@
 #include "./TimeZone.h"
 #include "./Date.h"
+#include "./noncopyable.h"
 
 #include <vector>
 #include <string>
@@ -139,10 +140,12 @@ struct TimeZone::Data {
     std::string abbrviation;
 };
 
+/*
 TimeZone::TimeZone(const char *zonefile)
     : _data(new TimeZone::Data)
 {
 }
+*/
 
 TimeZone::TimeZone(int eastOfUtc, const char *tzname) 
     : _data(new TimeZone::Data)

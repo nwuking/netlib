@@ -13,9 +13,9 @@ class TimeZone
 {
 public:
     TimeZone() = default;
-    explicit TimeZone(const char *zonefile);
+    //explicit TimeZone(const char *zonefile);
     TimeZone(int eastOfUtc, const char *tzname);
-    ~TimeZone();
+    ~TimeZone() = default;
 
     bool vaild() const {
         return static_cast<bool>(_data);

@@ -1,8 +1,17 @@
 #include "./Time.h"
 
 #include <sys/time.h>
+#include <inttypes.h>
 
 using namespace netlib;
+
+std::string Time::toString() const {
+    char buf[32] = {0};
+    int64_t seconds = _microSecondsSinceEpoch / cMicroSecondsPerSecond;
+    int64_t microseconds = _microSecondsSinceEpoch % cMicroSecondsPerSecond;
+    snprintf(buf, sizeof(buf), "%" PRId64 ".%06" PRId64 "", seconds, microseconds);
+    return buf;
+}
 
 std::string Time::toFormattedString(bool showMicroSeconds) const {
     char buf[64] = {0};

@@ -7,8 +7,9 @@
 using namespace netlib;
 
 
-EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop)
+EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop, const std::string &name)
     : _baseLoop(baseLoop),
+      _name(name),
       _numThreads(0),
       _next(0),
       _started(false)
@@ -27,8 +28,11 @@ void EventLoopThreadPool::start(const ThreadInitCallBack &cb) {
     for(int i = 0; i < _numThreads; ++i) {
         /// 初始化线程池
 
-        std::unique_ptr<EventLoopThread> t(new EventLoopThread(cb));
-        _threadPool.push_back(t);
+        char buf[_name.size() + 32];
+        snprintf(buf, sizeof(buf), "%s%d", _name.c_str(), i);
+        //std::unique_ptr<EventLoopThread> t(new EventLoopThread(cb));
+        EventLoopThread *t = new EventLoopThread(cb, buf);
+        _threadPool.push_back(std::unique_ptr<EventLoopThread>(t));
         _loops.push_back(t->startLoop());
     }
     if(_numThreads == 0 && cb) {
@@ -52,4 +56,16 @@ EventLoop* EventLoopThreadPool::getNextLoop() {
         }
     }
     return loop;
+}
+
+std::vector<EventLoop*> EventLoopThreadPool::getAllLoops() {
+    _baseLoop->assertInLoopThread();
+    assert(_started);
+
+    if(_loops.empty()) {
+        return std::vector<EventLoop*>(1, _baseLoop);
+    }
+    else {
+        return _loops;
+    }
 }

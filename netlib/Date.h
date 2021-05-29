@@ -2,6 +2,7 @@
 #define DATE_H_
 
 #include <algorithm>
+#include <string>
 
 struct tm;
 
@@ -23,9 +24,13 @@ public:
     static const int cJulianDayOf1970_01_01;
 
     Date() : _julianDayNumber(0) {}
+
     Date(int year, int month, int day);
+
     explicit Date(int julianNumber) : _julianDayNumber(julianNumber) {}
+
     explicit Date(const struct tm&);
+
     ~Date();
 
     void swap(Date &that) {
@@ -36,7 +41,10 @@ public:
         return _julianDayNumber > 0;
     }
 
+    std::string toIsoString() const;
+
     struct YearMonthDay yearMonthDay() const;
+
 
     int year() const {
         return yearMonthDay().year;
@@ -51,6 +59,7 @@ public:
     }
 
     int weekDay() const {
+        /// [0,1,2,3,4,5,6] -> (日，一，... ，五，六)
         return (_julianDayNumber +1) % cDaysPerWeek;
     }
 

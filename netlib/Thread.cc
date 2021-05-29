@@ -64,6 +64,7 @@ struct ThreadData
             CurrentThread::t_threadName = "crashed";
             fprintf(stderr, "exception catch in thread %s\n", _name.c_str());
             fprintf(stderr, "reason: %s\n", ex.what());
+            fprintf(stderr, "stack trace: %s\n", ex.stackTrace());
             ::abort();
         }
         catch(const std::exception &ex) {

@@ -30,6 +30,10 @@ public:
 
     void setKeepAlive(bool on);
 
+    void setReuseAddr(bool on);
+    
+    void setReusePort(bool on);
+
     //void setTcpNoDelay(bool on);
 
 private:

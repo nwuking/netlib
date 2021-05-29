@@ -5,8 +5,9 @@
 
 using namespace netlib;
 
-EventLoopThread::EventLoopThread(const ThreadInitCallBack &cb)
-    : _thread(std::bind(&EventLoopThread::threadFunc, this)),
+EventLoopThread::EventLoopThread(const ThreadInitCallBack &cb,
+                                 const std::string &name)
+    : _thread(std::bind(&EventLoopThread::threadFunc, this), name),
       _callback(cb),
       _exiting(false),
       _mutex(),

@@ -2,7 +2,7 @@
 
 using namespace netlib;
 
-int64_t Timer::INDEX = 0;
+std::atomic<int64_t> Timer::INDEX(0);
 
 Timer::Timer(TimerCallBack cb, Time when, double interval)
     : _callback(std::move(cb)),

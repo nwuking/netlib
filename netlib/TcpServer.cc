@@ -9,10 +9,13 @@
 using namespace netlib;
 using namespace std::placeholders;
 
-TcpServer::TcpServer(EventLoop *loop, SockAddr &listenAddr, const std::string &name)
+TcpServer::TcpServer(EventLoop *loop, SockAddr &listenAddr, 
+                    const std::string &name, Option option)
     : _loop(loop),
+      _ipPort(listenAddr.toIpPort()),
       _listenAddr(listenAddr),
-      _acceptor(new Acceptor(loop, listenAddr)),
+      _acceptor(new Acceptor(loop, listenAddr, option == cReusePort)),
+      _threadPool(new EventLoopThreadPool(loop, name)),
       _name(name),
       _nextConnId(0),
       _started(false)
@@ -37,11 +40,11 @@ TcpServer::~TcpServer() {
 void TcpServer::start() {
   if(!_started) {
     /// 运行线程池
+    _started = true;
     _threadPool->start(_threadInitCallBack);
 
     assert(!_acceptor->listening());
     _loop->runInLoop(std::bind(&Acceptor::listen, _acceptor.get()));
-    _started = true;
   }
 }
 
@@ -51,7 +54,7 @@ void TcpServer::setThreadNums(int num) {
 }
 
 
-void TcpServer::newConnection(int fd, SockAddr &peerAddr) {
+void TcpServer::newConnection(int fd, const SockAddr &peerAddr) {
   /// fd->  accept()产生的描述符
   /// peerAddr->  客户端的地址结构
   /// 根据(fd, peerAddr)创建一个TcpConnection对象

@@ -13,12 +13,12 @@
 namespace netlib
 {
 
-class Acceptor
+class Acceptor : NonCopyAble
 {
 public:
     typedef std::function<void(int fd, SockAddr&)> NewConnectionCallBack;
 
-    Acceptor(EventLoop *loop, SockAddr &listenAddr);
+    Acceptor(EventLoop *loop, SockAddr &listenAddr, bool reuseport);
     ~Acceptor();
 
     void listen();
@@ -27,7 +27,7 @@ public:
         _newConnectionCallBack = cb;
     }
 
-    bool listening() {
+    bool listening() const {
         return _listening;
     }
 

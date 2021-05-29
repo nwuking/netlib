@@ -14,12 +14,13 @@ namespace netlib
 
 class EventLoop;
 
-class EventLoopThread
+class EventLoopThread : NonCopyAble
 {
 public:
     typedef std::function<void(EventLoop*)> ThreadInitCallBack;
 
-    EventLoopThread(const ThreadInitCallBack &cb = ThreadInitCallBack());
+    EventLoopThread(const ThreadInitCallBack &cb = ThreadInitCallBack(),
+                    const std::string &name = std::string());
     ~EventLoopThread();
 
     EventLoop* startLoop();

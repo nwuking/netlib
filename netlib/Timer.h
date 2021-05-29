@@ -2,14 +2,16 @@
 #define TIMER_H_
 
 #include "./Time.h"
+#include "./noncopyable.h"
 
 #include <functional>
+#include <atomic>
 
 namespace netlib
 {
 
 
-class Timer
+class Timer : NonCopyAble
 {
 public:
     typedef std::function<void()> TimerCallBack;
@@ -42,7 +44,7 @@ private:
     const bool _repeat;
     const int64_t _sequence;
 
-    static int64_t INDEX;
+    static std::atomic<int64_t> INDEX;
 };
 
 

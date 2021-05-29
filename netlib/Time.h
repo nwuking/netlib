@@ -18,7 +18,9 @@ public:
     static const int cMicroSecondsPerSecond = 1000 * 1000;
 
     Time() : _microSecondsSinceEpoch(0) {}
+
     explicit Time(int64_t microSeconds) : _microSecondsSinceEpoch(microSeconds) {}
+
     Time(int64_t second, int64_t microSeconds) {
         _microSecondsSinceEpoch = microSeconds + second * cMicroSecondsPerSecond;
     }
@@ -36,12 +38,22 @@ public:
         return _microSecondsSinceEpoch > 0;
     }
 
+    std::string toString() const;
+
     std::string toFormattedString(bool showMicroSeconds = true) const;
 
     static Time now();
 
     static Time invaild() {
         return Time();
+    }
+
+    static Time fromUnixTime(time_t t) {
+        return fromUnixTime(t, 0);
+    }
+
+    static Time fromUnixTime(time_t t, int microseconds) {
+        return Time(static_cast<int64_t>(t)*cMicroSecondsPerSecond + microseconds);
     }
 private:
     int64_t _microSecondsSinceEpoch;
