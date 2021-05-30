@@ -23,6 +23,12 @@ public:
     explicit Buffer(size_t initialSize = cInitialSize);
     //~Buffer() = default;
 
+    void swap(Buffer &that) {
+        _buffer.swap(that._buffer);
+        std::swap(_readerIndex, that._readerIndex);
+        std::swap(_writerIndex, that._writerIndex);
+    }
+
     size_t readAbleBytes() const {
         return _writerIndex - _readerIndex;
     }

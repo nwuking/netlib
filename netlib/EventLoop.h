@@ -22,7 +22,7 @@ class Chnnel;
 class Epoller;
 class TimerQueue;
 
-class EventLoop
+class EventLoop : NonCopyAble
 {
 public:
     typedef std::function<void()> Functor;
@@ -56,6 +56,8 @@ public:
 
     TimerId runEvery(double interval, TimerCallBack cb);
 
+    void cancle(TimerId timerId);
+
     void assertInLoopThread() {
         if(!isInLoopThread()) {
             abortNotInLoopThread();
@@ -69,6 +71,16 @@ public:
     bool isInLoopThread() const {
         return _tid == CurrentThread::tid();
     }
+
+    Time epollReturnTime() const {
+        return _epollReturnTime;
+    }
+
+    bool eventHandle() const {
+        return _eventHandle;
+    }
+
+    static EventLoop* getEventLoopOfCurrentThead();
 
 private:
     void abortNotInLoopThread();

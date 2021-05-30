@@ -5,6 +5,7 @@
 #include "./SockFunc.h"
 
 #include <assert.h>
+#include <errno.h>
 
 using namespace netlib;
 

@@ -2,6 +2,7 @@
 #define CONNECTOR_H_
 
 #include "./SockAddr.h"
+#include "./noncopyable.h"
 
 #include <memory>
 #include <functional>
@@ -12,7 +13,8 @@ namespace netlib
 class EventLoop;
 class Chnnel;
 
-class Connector : public std::enable_shared_from_this<Connector>
+class Connector : NonCopyAble,
+                  public std::enable_shared_from_this<Connector>
 {
 public:
     typedef std::function<void(int fd)> NewConnectionCallBack;

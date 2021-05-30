@@ -17,7 +17,7 @@ TcpServer::TcpServer(EventLoop *loop, SockAddr &listenAddr,
       _acceptor(new Acceptor(loop, listenAddr, option == cReusePort)),
       _threadPool(new EventLoopThreadPool(loop, name)),
       _name(name),
-      _nextConnId(0),
+      _nextConnId(1),
       _started(false)
 {
   _acceptor->setNewConnectionCallBack(std::bind(&TcpServer::newConnection, this, _1, _2));

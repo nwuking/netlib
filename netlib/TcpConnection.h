@@ -9,6 +9,7 @@
 #include "./SockAddr.h"
 #include "./Time.h"
 #include "./Buffer.h"
+#include "./noncopyable.h"
 
 #include <memory>
 
@@ -19,7 +20,8 @@ class EventLoop;
 class Chnnel;
 class Socket;
 
-class TcpConnection : public std::enable_shared_from_this<TcpConnection>
+class TcpConnection : NonCopyAble, 
+                      public std::enable_shared_from_this<TcpConnection>
 {
 public:
     typedef std::function<void(const TcpConnectionPtr&, Buffer*)> MessageCallBack;
@@ -60,6 +62,24 @@ public:
     const std::string& name() const {
         return _name;
     }
+
+    const SockAddr& localAddress() const {
+        return _localAddr;
+    }
+
+    const SockAddr& peerAddress() const {
+        return _peerAddr;
+    }
+
+    bool connected() const {
+        return _state == cConnected;
+    }
+
+    bool disconnected() const {
+        return _state == cDisconnected;
+    }
+
+    
 
 private:
     /// client与server连接的状态标志

@@ -38,16 +38,16 @@ void Chnnel::tie(const std::shared_ptr<void> &obj) {
   _tied = true;
 }
 
-void Chnnel::handleEvent() {
+void Chnnel::handleEvent(Time receiveTime) {
   std::shared_ptr<void> guard;
   if(_tied) {
     guard = _tie.lock();
     if(guard) {
-      handleEventWithGuard();
+      handleEventWithGuard(receiveTime);
     }
   }
   else {
-    handleEventWithGuard();
+    handleEventWithGuard(receiveTime);
   }
 }
 
@@ -81,10 +81,14 @@ std::string Chnnel::eventsToString(int fd, int events) {
   return os.str();
 }
  
-void Chnnel::handleEventWithGuard() {
+void Chnnel::handleEventWithGuard(Time receiveTime) {
   /// 事件分发
   _eventHanding = true;
   LOG_TRACE << eventsToString();
+
+  if(_revevts & POLLNVAL) {
+    LOG_WARN << "fd = " << _fd << " Chnnel::handle_event() POLLNVAl ";
+  }
 
   if(_revevts & (POLLNVAL | POLLERR)) {
     /// POLLNVAL-> 描述符没有引用一个打开的文件
@@ -106,17 +110,12 @@ void Chnnel::handleEventWithGuard() {
     }
   }
 
-  if(_revevts & POLLNVAL) {
-    LOG_WARN << "fd = " << _fd << " Chnnel::handle_event() POLLNVAl ";
-  }
-
-
   if(_revevts & (POLLIN | POLLPRI | POLLRDHUP)) {
     /// POLLIN -> 可以不阻塞地读取高优先级以外的数据，等效于(POLLRDNORM | POLLRDBAND)
     /// POLLPRI-> 可以不阻塞地读取高优先级数据
     /// POLLRDHUP -> 描述符已挂断，但可读
     if(_readCallBack) {
-      _readCallBack();
+      _readCallBack(receiveTime);
     }
   }
 

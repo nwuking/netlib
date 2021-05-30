@@ -30,7 +30,7 @@ TcpClient::TcpClient(EventLoop *loop,
       _connector(new Connector(loop, addr)),
       _connect(true),
       _retry(false),
-      _nextConnId(0)
+      _nextConnId(1)
 {
     _connector->setNewConnectionCallBack(std::bind(
                 &TcpClient::NewConnection, this, std::placeholders::_1));
@@ -60,6 +60,7 @@ TcpClient::~TcpClient() {
     }
     else {
         _connector->stop();
+        
     }
 }
 

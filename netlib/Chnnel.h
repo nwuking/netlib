@@ -2,22 +2,25 @@
 #define CHNNEL_H_
 
 #include "./EventLoop.h"
+#include "./noncopyable.h"
+#include "./Time.h"
 
 #include <functional>
+#include <memory>
 
 namespace netlib
 {
 
-class Chnnel
+class Chnnel : NonCopyAble
 {
 public:
     typedef std::function<void()> EventCallBack;
-    //typedef std::function<void(Time)> ReadEventCallBack;
+    typedef std::function<void(Time)> ReadEventCallBack;
 
     Chnnel(EventLoop *loop, int fd);
     ~Chnnel();
 
-    void handleEvent();
+    void handleEvent(Time recevieTime);
 
     void remove();
 
@@ -41,7 +44,7 @@ public:
         /// *************
         _errorCallBack = std::move(cb);
     }
-    void setReadCallBack(EventCallBack cb) {
+    void setReadCallBack(ReadEventCallBack cb) {
         _readCallBack = std::move(cb);
     }
     void setWriteCallBack(EventCallBack cb) {
@@ -51,9 +54,13 @@ public:
         _closeCallBack = std::move(cb);
     }
 
-    bool isWriting() {
+    bool isWriting() const {
         /// 是否注册了写事件
         return _events & cWriteEvent;
+    }
+
+    bool isReading() const {
+        return _events & cReadEvent;
     }
 
     bool isNoneEvent() {
@@ -62,6 +69,11 @@ public:
 
     void disableWriting() {
         _events &= ~cWriteEvent;
+        update();
+    }
+
+    void disableReading() {
+        _events &= ~cReadEvent;
         update();
     }
 
@@ -92,9 +104,13 @@ public:
         update();
     }
 
+    EventLoop* ownLoop() {
+        return _ownLoop;
+    }
+
 private:
     void update();
-    void handleEventWithGuard();
+    void handleEventWithGuard(Time reveiveTime);
     static std::string eventsToString(int fd, int events);
 
     static const int cNonEvent;
@@ -115,7 +131,7 @@ private:
 
     EventCallBack _errorCallBack;
     EventCallBack _writeCallBack;
-    EventCallBack _readCallBack;
+    ReadEventCallBack _readCallBack;
     EventCallBack _closeCallBack;
 };
 

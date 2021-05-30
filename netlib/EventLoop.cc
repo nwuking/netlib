@@ -30,6 +30,10 @@ int createEventFd() {
 
 }
 
+EventLoop* EventLoop::getEventLoopOfCurrentThead() {
+  return t_loopInThisThread;
+}
+
 EventLoop::EventLoop() 
     : _looping(false),
       _quit(false),
@@ -74,7 +78,10 @@ EventLoop::~EventLoop() {
 }
 
 void EventLoop::loop() {
+  assert(!_looping);
+  assertInLoopThread();
   _looping = true;
+  _quit = false;
   while(!_quit) {
     _activeChnnels.clear();
     _epollReturnTime = _epoller->poll(&_activeChnnels, cEpollTimeOutMs);
@@ -88,11 +95,11 @@ void EventLoop::loop() {
       _currentActiveChnnel = chnnel;
 
       /// 分发事件
-      _currentActiveChnnel->handleEvent();
+      _currentActiveChnnel->handleEvent(_epollReturnTime);
     }
-    _eventHandle = false;
+    
     _currentActiveChnnel = nullptr;
-
+    _eventHandle = false;
     dpPendingFunctors();
   }
 
@@ -186,6 +193,10 @@ TimerId EventLoop::runAfter(double delay, TimerCallBack cb) {
 TimerId EventLoop::runEvery(double interval, TimerCallBack cb) {
   Time time(addTime(Time::now(), interval));
   return _timerQueue->addTimer(std::move(cb), time, interval);
+}
+
+void EventLoop::cancle(TimerId timerId) {
+  _timerQueue->cancleTimer(timerId);
 }
 
 void EventLoop::handleRead() {

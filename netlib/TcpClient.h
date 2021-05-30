@@ -10,7 +10,7 @@ namespace netlib
 class Connector;
 typedef std::shared_ptr<Connector> ConnectorPtr;
 
-class TcpClient
+class TcpClient : NonCopyAble
 {
 public:
     typedef TcpConnection::MessageCallBack MessageCallBack;
@@ -35,6 +35,27 @@ public:
 
     void setConnectionCallBack(ConnectionCallBack cb) {
         _connectionCallBack = std::move(cb);
+    }
+
+    EventLoop* getLoop() const {
+        return _loop;
+    }
+
+    bool retry() const {
+        return _retry;
+    }
+
+    void enableRetry() {
+        _retry = true;
+    }
+
+    const std::string& name() const {
+        return _name;
+    }
+
+    TcpConnectionPtr connection() {
+        MutexLock lock(_mutex);
+        return _connection;
     }
 
 private:

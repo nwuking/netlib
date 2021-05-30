@@ -12,7 +12,7 @@ namespace netlib
 
 class Chnnel;
 
-class Epoller
+class Epoller : NonCopyAble
 {
 public:
     typedef std::vector<Chnnel*> ChnnelVec;
