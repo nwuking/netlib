@@ -11,6 +11,7 @@
 #include <functional>
 #include <string>
 #include <pthread.h>
+#include <atomic>
 
 namespace netlib
 {
@@ -38,7 +39,13 @@ public:
         return _name;
     }
 
+    static int numCreated() {
+        return _numCreated;
+    }
+
 private:
+    void setDefaultName();
+
     bool _start;
     bool _join;
     pthread_t _pthreadId;
@@ -46,6 +53,8 @@ private:
     ThreadFunc _threadFunc;
     CountDownLatch _latch;
     std::string _name;
+
+    static std::atomic<int> _numCreated;
 };
 
 }

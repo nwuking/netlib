@@ -99,6 +99,22 @@ Thread::Thread(ThreadFunc tFunc, const std::string &name)
       _latch(1),
       _name(name)
 {
+    setDefaultName();
+}
+
+Thread::~Thread() {
+    if(_start && !_join) {
+        ::pthread_detach(_pthreadId);
+    }
+}
+
+void Thread::setDefaultName() {
+    int num = ++_numCreated;
+    if(_name.empty()) {
+        char buf[32];
+        snprintf(buf, sizeof buf, "Thread%d", num);
+        _name = buf;
+    }
 }
 
 void Thread::start() {
