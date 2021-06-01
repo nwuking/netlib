@@ -1,5 +1,5 @@
-#include "netlib/Thread.h"
-#include "netlib/CurrentThread.h"
+#include "netlib/base/Thread.h"
+#include "netlib/base/CurrentThread.h"
 
 #include <stdio.h>
 #include <unistd.h>
