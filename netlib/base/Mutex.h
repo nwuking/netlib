@@ -8,11 +8,12 @@
 #include <pthread.h>
 
 #include "netlib/base/CurrentThread.h"
+#include "netlib/base/noncopyable.h"
 
 namespace netlib
 {
 
-class Mutex
+class Mutex :NonCopyAble
 {
 public:
     Mutex() : _holder(0) {
@@ -37,6 +38,10 @@ public:
 
     pthread_mutex_t* getMutex() {
         return &_mutex;
+    }
+
+    bool isLockedByThisThread() const {
+        return _holder == CurrentThread::tid();
     }
 
 private:

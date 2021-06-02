@@ -68,6 +68,11 @@ inline Time addTime(Time now, double seconds) {
     return Time(delta+now.getMicroSecondsSinceEpoch());
 }
 
+inline double timeDifference(Time hight, Time low) {
+    int64_t diff = hight.getMicroSecondsSinceEpoch() - low.getMicroSecondsSinceEpoch();
+    return static_cast<double>(diff) / Time::cMicroSecondsPerSecond;
+}
+
 }
 
 
