@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+..//netlib/base/Time.h
+stdint.h
+-
+string
+-
+
+/home/nwuking/netlib/netlib/base/tests/time_test.cc
+netlib/base/Time.h
+/home/nwuking/netlib/netlib/base/tests/netlib/base/Time.h
+iostream
+-
+stdio.h
+-
+

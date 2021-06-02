@@ -68,17 +68,6 @@ install/strip/fast: preinstall/fast
 	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
 .PHONY : install/strip/fast
 
-# Special rule for the target edit_cache
-edit_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
-	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
-.PHONY : edit_cache
-
-# Special rule for the target edit_cache
-edit_cache/fast: edit_cache
-
-.PHONY : edit_cache/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -90,17 +79,6 @@ install/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
 	/usr/bin/cmake -P cmake_install.cmake
 .PHONY : install/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
 
 # Special rule for the target list_install_components
 list_install_components:
@@ -123,6 +101,39 @@ install/local/fast: preinstall/fast
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
 	/usr/bin/cmake -DCMAKE_INSTALL_LOCAL_ONLY=1 -P cmake_install.cmake
 .PHONY : install/local/fast
+
+# Special rule for the target test
+test:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running tests..."
+	/usr/bin/ctest --force-new-ctest-process $(ARGS)
+.PHONY : test
+
+# Special rule for the target test
+test/fast: test
+
+.PHONY : test/fast
+
+# Special rule for the target edit_cache
+edit_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "No interactive CMake dialog available..."
+	/usr/bin/cmake -E echo No\ interactive\ CMake\ dialog\ available.
+.PHONY : edit_cache
+
+# Special rule for the target edit_cache
+edit_cache/fast: edit_cache
+
+.PHONY : edit_cache/fast
+
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -171,6 +182,63 @@ thread_test/fast:
 	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/thread_test.dir/build.make netlib/base/tests/CMakeFiles/thread_test.dir/build
 .PHONY : thread_test/fast
 
+# Convenience name for target.
+netlib/base/tests/CMakeFiles/time_test.dir/rule:
+	cd /home/nwuking/netlib/built && $(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/time_test.dir/rule
+.PHONY : netlib/base/tests/CMakeFiles/time_test.dir/rule
+
+# Convenience name for target.
+time_test: netlib/base/tests/CMakeFiles/time_test.dir/rule
+
+.PHONY : time_test
+
+# fast build rule for target.
+time_test/fast:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/time_test.dir/build.make netlib/base/tests/CMakeFiles/time_test.dir/build
+.PHONY : time_test/fast
+
+# Convenience name for target.
+netlib/base/tests/CMakeFiles/mutex_test.dir/rule:
+	cd /home/nwuking/netlib/built && $(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+.PHONY : netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+
+# Convenience name for target.
+mutex_test: netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+
+.PHONY : mutex_test
+
+# fast build rule for target.
+mutex_test/fast:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/build
+.PHONY : mutex_test/fast
+
+mutex_test.o: mutex_test.cc.o
+
+.PHONY : mutex_test.o
+
+# target to build an object file
+mutex_test.cc.o:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/mutex_test.cc.o
+.PHONY : mutex_test.cc.o
+
+mutex_test.i: mutex_test.cc.i
+
+.PHONY : mutex_test.i
+
+# target to preprocess a source file
+mutex_test.cc.i:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/mutex_test.cc.i
+.PHONY : mutex_test.cc.i
+
+mutex_test.s: mutex_test.cc.s
+
+.PHONY : mutex_test.s
+
+# target to generate assembly for a file
+mutex_test.cc.s:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/mutex_test.cc.s
+.PHONY : mutex_test.cc.s
+
 thread_test.o: thread_test.cc.o
 
 .PHONY : thread_test.o
@@ -198,6 +266,33 @@ thread_test.cc.s:
 	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/thread_test.dir/build.make netlib/base/tests/CMakeFiles/thread_test.dir/thread_test.cc.s
 .PHONY : thread_test.cc.s
 
+time_test.o: time_test.cc.o
+
+.PHONY : time_test.o
+
+# target to build an object file
+time_test.cc.o:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/time_test.dir/build.make netlib/base/tests/CMakeFiles/time_test.dir/time_test.cc.o
+.PHONY : time_test.cc.o
+
+time_test.i: time_test.cc.i
+
+.PHONY : time_test.i
+
+# target to preprocess a source file
+time_test.cc.i:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/time_test.dir/build.make netlib/base/tests/CMakeFiles/time_test.dir/time_test.cc.i
+.PHONY : time_test.cc.i
+
+time_test.s: time_test.cc.s
+
+.PHONY : time_test.s
+
+# target to generate assembly for a file
+time_test.cc.s:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/time_test.dir/build.make netlib/base/tests/CMakeFiles/time_test.dir/time_test.cc.s
+.PHONY : time_test.cc.s
+
 # Help Target
 help:
 	@echo "The following are some of the valid targets for this Makefile:"
@@ -205,15 +300,24 @@ help:
 	@echo "... clean"
 	@echo "... depend"
 	@echo "... install/strip"
-	@echo "... edit_cache"
-	@echo "... thread_test"
 	@echo "... install"
-	@echo "... rebuild_cache"
 	@echo "... list_install_components"
+	@echo "... thread_test"
+	@echo "... time_test"
 	@echo "... install/local"
+	@echo "... test"
+	@echo "... mutex_test"
+	@echo "... edit_cache"
+	@echo "... rebuild_cache"
+	@echo "... mutex_test.o"
+	@echo "... mutex_test.i"
+	@echo "... mutex_test.s"
 	@echo "... thread_test.o"
 	@echo "... thread_test.i"
 	@echo "... thread_test.s"
+	@echo "... time_test.o"
+	@echo "... time_test.i"
+	@echo "... time_test.s"
 .PHONY : help
 
 

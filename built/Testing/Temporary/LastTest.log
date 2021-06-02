@@ -1,0 +1,21 @@
+Start testing: Jun 02 14:10 CST
+----------------------------------------------------------
+1/1 Testing: time_test
+1/1 Test: time_test
+Command: "/home/nwuking/netlib/built/netlib/base/tests/time_test"
+Directory: /home/nwuking/netlib/built/netlib/base/tests
+"time_test" start time: Jun 02 14:10 CST
+Output:
+----------------------------------------------------------
+1622614204.202922
+passByValue 1622614204.202922
+passByReference 1622614204.202922
+<end of output>
+Test time =   0.01 sec
+----------------------------------------------------------
+Test Passed.
+"time_test" end time: Jun 02 14:10 CST
+"time_test" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Jun 02 14:10 CST
