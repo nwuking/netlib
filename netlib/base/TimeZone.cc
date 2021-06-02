@@ -70,6 +70,14 @@ inline void fillHMS(int seconds, struct tm *t) {
     t->tm_hour = minutes / 60;
 }
 
+struct TimeZone::Data {
+    std::vector<transition> transitions;
+    std::vector<LocalTime> localtimes;
+    std::vector<std::string> name;
+    std::string abbrviation;
+};
+
+
 class File
 {
 public:
@@ -94,6 +102,7 @@ private:
     FILE *_fp;
 };
 
+/*
 bool readTimeZoneFile(const char *zonefile, struct TimeZone::Data *data) {
     //
     File f(zonefile);
@@ -102,6 +111,7 @@ bool readTimeZoneFile(const char *zonefile, struct TimeZone::Data *data) {
 
     }
 }
+*/
 
 const LocalTime* findLocalTime(const TimeZone::Data &data, transition sentry, Comp comp) {
     const LocalTime *local = NULL;
@@ -132,13 +142,6 @@ const LocalTime* findLocalTime(const TimeZone::Data &data, transition sentry, Co
 }
 
 using namespace netlib;
-
-struct TimeZone::Data {
-    std::vector<transition> transitions;
-    std::vector<LocalTime> localtimes;
-    std::vector<std::string> name;
-    std::string abbrviation;
-};
 
 /*
 TimeZone::TimeZone(const char *zonefile)

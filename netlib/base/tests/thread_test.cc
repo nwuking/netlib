@@ -5,21 +5,23 @@
 #include <unistd.h>
 #include <string>
 
+//using namespace netlib;
+
 void mysleep(int x) {
     timespec t = {x,0};
     nanosleep(&t, NULL);
 }
 
 void threadFunc1() {
-    printf("threadFunc1--tid=%d\n", CurrentThread::tid());
+    printf("threadFunc1--tid=%d\n", netlib::CurrentThread::tid());
 }
 
 void threadFunc2(int x) {
-    printf("threadFunc2--tid=%d, x=%d\n", CurrentThread::tid(), x);
+    printf("threadFunc2--tid=%d, x=%d\n", netlib::CurrentThread::tid(), x);
 }
 
 void threadFunc3() {
-    printf("threadFunc3--tid=%d\n", CurrentThread::tid());
+    printf("threadFunc3--tid=%d\n", netlib::CurrentThread::tid());
     mysleep(1);
 }
 
@@ -31,12 +33,12 @@ public:
     {}
 
     void memberFunc1() {
-        printf("memberFunc1-tid=%d, Foo::_x=%f\n", CurrentThread::tid(), _x);
+        printf("memberFunc1-tid=%d, Foo::_x=%f\n", netlib::CurrentThread::tid(), _x);
     } 
 
     void memberFunc2(const std::string &test) {
         printf("memberFunc2-tid=%d, Foo::_x=%f, test=%s\n", 
-                CurrentThread::tid(), _x, test.c_str());
+                netlib::CurrentThread::tid(), _x, test.c_str());
     }
 private:
     double _x;
@@ -45,7 +47,7 @@ private:
 using namespace netlib;
 
 int main() {
-    printf("pid=%d, tid=%d\n", ::getpid(), CurrentThread::tid());
+    printf("pid=%d, tid=%d\n", ::getpid(), netlib::CurrentThread::tid());
 
     netlib::Thread t1(threadFunc1);
     t1.start();

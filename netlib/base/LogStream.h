@@ -90,8 +90,8 @@ class LogStream : public NonCopyAble
 public:
     typedef netlib::FixedBuffer<netlib::cSmallBuffer> Buffer;
 
-    LogStream();
-    ~LogStream();
+    //LogStream();
+    //~LogStream();
 
     /// 重载<<符号
     self& operator<<(bool v);

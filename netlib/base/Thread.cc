@@ -90,6 +90,8 @@ void* startRoutine(void *arg) {
     return nullptr;
 }
 
+std::atomic<int> Thread::_numCreated(0);
+
 Thread::Thread(ThreadFunc tFunc, const std::string &name)
     : _start(false),
       _join(false),

@@ -31,7 +31,7 @@ public:
 
     explicit Date(const struct tm&);
 
-    ~Date();
+    ~Date() = default;
 
     void swap(Date &that) {
         std::swap(_julianDayNumber, that._julianDayNumber);
