@@ -1,2 +1,9 @@
 add_executable(thread_test thread_test.cc)
 target_link_libraries(thread_test netlib_base)
+
+add_executable(mutex_test mutex_test.cc)
+target_link_libraries(mutex_test netlib_base)
+
+add_executable(time_test time_test.cc)
+target_link_libraries(time_test netlib_base)
+add_test(NAME time_test COMMAND time_test)
