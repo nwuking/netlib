@@ -207,6 +207,19 @@ time_test/fast:
 .PHONY : time_test/fast
 
 #=============================================================================
+# Target rules for targets named timeZone_test
+
+# Build rule for target.
+timeZone_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 timeZone_test
+.PHONY : timeZone_test
+
+# fast build rule for target.
+timeZone_test/fast:
+	$(MAKE) -f netlib/base/tests/CMakeFiles/timeZone_test.dir/build.make netlib/base/tests/CMakeFiles/timeZone_test.dir/build
+.PHONY : timeZone_test/fast
+
+#=============================================================================
 # Target rules for targets named mutex_test
 
 # Build rule for target.
@@ -235,6 +248,7 @@ help:
 	@echo "... netlib_base"
 	@echo "... thread_test"
 	@echo "... time_test"
+	@echo "... timeZone_test"
 	@echo "... mutex_test"
 .PHONY : help
 

@@ -90,6 +90,17 @@ list_install_components/fast: list_install_components
 
 .PHONY : list_install_components/fast
 
+# Special rule for the target rebuild_cache
+rebuild_cache:
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
+	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
+.PHONY : rebuild_cache
+
+# Special rule for the target rebuild_cache
+rebuild_cache/fast: rebuild_cache
+
+.PHONY : rebuild_cache/fast
+
 # Special rule for the target install/local
 install/local: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing only the local directory..."
@@ -123,17 +134,6 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
-
-# Special rule for the target rebuild_cache
-rebuild_cache:
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Running CMake to regenerate build system..."
-	/usr/bin/cmake -S$(CMAKE_SOURCE_DIR) -B$(CMAKE_BINARY_DIR)
-.PHONY : rebuild_cache
-
-# Special rule for the target rebuild_cache
-rebuild_cache/fast: rebuild_cache
-
-.PHONY : rebuild_cache/fast
 
 # The main all target
 all: cmake_check_build_system
@@ -196,6 +196,21 @@ time_test: netlib/base/tests/CMakeFiles/time_test.dir/rule
 time_test/fast:
 	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/time_test.dir/build.make netlib/base/tests/CMakeFiles/time_test.dir/build
 .PHONY : time_test/fast
+
+# Convenience name for target.
+netlib/base/tests/CMakeFiles/timeZone_test.dir/rule:
+	cd /home/nwuking/netlib/built && $(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/timeZone_test.dir/rule
+.PHONY : netlib/base/tests/CMakeFiles/timeZone_test.dir/rule
+
+# Convenience name for target.
+timeZone_test: netlib/base/tests/CMakeFiles/timeZone_test.dir/rule
+
+.PHONY : timeZone_test
+
+# fast build rule for target.
+timeZone_test/fast:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/timeZone_test.dir/build.make netlib/base/tests/CMakeFiles/timeZone_test.dir/build
+.PHONY : timeZone_test/fast
 
 # Convenience name for target.
 netlib/base/tests/CMakeFiles/mutex_test.dir/rule:
@@ -266,6 +281,33 @@ thread_test.cc.s:
 	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/thread_test.dir/build.make netlib/base/tests/CMakeFiles/thread_test.dir/thread_test.cc.s
 .PHONY : thread_test.cc.s
 
+timeZone_test.o: timeZone_test.cc.o
+
+.PHONY : timeZone_test.o
+
+# target to build an object file
+timeZone_test.cc.o:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/timeZone_test.dir/build.make netlib/base/tests/CMakeFiles/timeZone_test.dir/timeZone_test.cc.o
+.PHONY : timeZone_test.cc.o
+
+timeZone_test.i: timeZone_test.cc.i
+
+.PHONY : timeZone_test.i
+
+# target to preprocess a source file
+timeZone_test.cc.i:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/timeZone_test.dir/build.make netlib/base/tests/CMakeFiles/timeZone_test.dir/timeZone_test.cc.i
+.PHONY : timeZone_test.cc.i
+
+timeZone_test.s: timeZone_test.cc.s
+
+.PHONY : timeZone_test.s
+
+# target to generate assembly for a file
+timeZone_test.cc.s:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/timeZone_test.dir/build.make netlib/base/tests/CMakeFiles/timeZone_test.dir/timeZone_test.cc.s
+.PHONY : timeZone_test.cc.s
+
 time_test.o: time_test.cc.o
 
 .PHONY : time_test.o
@@ -302,19 +344,23 @@ help:
 	@echo "... install/strip"
 	@echo "... install"
 	@echo "... list_install_components"
+	@echo "... rebuild_cache"
 	@echo "... thread_test"
 	@echo "... time_test"
+	@echo "... timeZone_test"
 	@echo "... install/local"
 	@echo "... test"
 	@echo "... mutex_test"
 	@echo "... edit_cache"
-	@echo "... rebuild_cache"
 	@echo "... mutex_test.o"
 	@echo "... mutex_test.i"
 	@echo "... mutex_test.s"
 	@echo "... thread_test.o"
 	@echo "... thread_test.i"
 	@echo "... thread_test.s"
+	@echo "... timeZone_test.o"
+	@echo "... timeZone_test.i"
+	@echo "... timeZone_test.s"
 	@echo "... time_test.o"
 	@echo "... time_test.i"
 	@echo "... time_test.s"
