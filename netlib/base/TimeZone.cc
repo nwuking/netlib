@@ -5,6 +5,8 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <stdexcept>
+#include <iostream>
 
 #include <stdio.h>
 #include <strings.h>
@@ -77,8 +79,8 @@ struct TimeZone::Data {
     std::string abbrviation;
 };
 
-
-class File
+#if 0
+class File : NonCopyAble
 {
 public:
     File(const char *zonefile)
@@ -96,22 +98,89 @@ public:
         return _fp;
     }
 
+    std::string readBytes(int n) {
+        char buf[n];
+        ssize_t nr = ::fread(buf, 1, n, _fp);
+        if(nr != n) {
+            throw std::logic_error("no enough data");
+        }
+        return std::string(buf, n);
+    }
 
+    int32_t readInt32() {
+        int32_t x = 0;
+        ssize_t nr = ::fread(&x, 1, sizeof(int32_t), _fp);
+        if(nr != sizeof(int32_t)) {
+            throw std::logic_error("bad int32_t data");
+        }
+        return be32toh(x);
+    }
+
+    uint8_t readUint8() {
+        uint8_t x = 0;
+        ssize_t nr = ::fread(&x, 1, sizeof(uint8_t), _fp);
+        if(nr != sizeof(uint8_t)) {
+            throw std::logic_error("bad uint8_t data");
+        }
+        return x;
+    }
 
 private:
     FILE *_fp;
 };
 
-/*
 bool readTimeZoneFile(const char *zonefile, struct TimeZone::Data *data) {
-    //
     File f(zonefile);
-
     if(f.vaild()) {
+        try {
+            std::string head = f.readBytes(4);
+            if(head != "TZif")
+                throw std::logic_error("bad head");
+            std::string version = f.readBytes(1);
+            f.readBytes(15);
+            int32_t isgmtcnt = f.readInt32();
+            int32_t isstdcnt = f.readInt32();
+            int32_t leapcnt = f.readInt32();
+            int32_t timecnt = f.readInt32();
+            int32_t typecnt = f.readInt32();
+            int32_t charcnt = f.readInt32();
+            std::vector<int32_t> trans;
+            std::vector<int> localtimes;
+            trans.reserve(timecnt);
+            for(int i = 0; i < timecnt; ++i) {
+                trans.push_back(f.readInt32());
+            }
+            for(int i = 0; i < timecnt; ++i) {
+                uint8_t local = f.readUint8();
+                localtimes.push_back(local);
+            }
+            for(int i = 0; i < typecnt; ++i) {
+                int32_t gmtoff = f.readInt32();
+                uint8_t isdist = f.readUint8();
+                uint8_t abbrind = f.readUint8();
 
+                data->localtimes.push_back(LocalTime(gmtoff, isdist, abbrind));
+            }
+            for(int i = 0; i < timecnt; ++i) {
+                int localIndx = localtimes[i];
+                time_t lotime = trans[i] + data->localtimes[localIndx].gmtOffset;
+                data->transitions.push_back(transition(trans[i], lotime, localIndx));
+            }
+
+            data->abbrviation = f.readBytes(charcnt);
+            for(int i = 0; i < leapcnt; ++i) {
+                //
+            }
+            (void)isgmtcnt;
+            (void)isstdcnt;
+        }
+        catch(std::logic_error &e) {
+            fprintf(stderr, "%s\n", e.what());
+        }
     }
+    return true;
 }
-*/
+#endif
 
 const LocalTime* findLocalTime(const TimeZone::Data &data, transition sentry, Comp comp) {
     const LocalTime *local = NULL;
@@ -143,12 +212,15 @@ const LocalTime* findLocalTime(const TimeZone::Data &data, transition sentry, Co
 
 using namespace netlib;
 
-/*
+#if 0
 TimeZone::TimeZone(const char *zonefile)
     : _data(new TimeZone::Data)
 {
+    if(!netlib::readTimeZoneFile(zonefile, _data.get())) {
+        _data.reset();
+    }
 }
-*/
+#endif
 
 TimeZone::TimeZone(int eastOfUtc, const char *tzname) 
     : _data(new TimeZone::Data)
@@ -208,8 +280,8 @@ struct tm TimeZone::toUtcTime(time_t secondsSinceEpoch, bool yday) {
     struct tm utc;
     ::bzero(&utc, sizeof utc);
     utc.tm_zone = "GMT";
-    int seconds = static_cast<int>(seconds % cSecondsPerDay);
-    int days = static_cast<int>(seconds / cSecondsPerDay);
+    int seconds = static_cast<int>(secondsSinceEpoch % cSecondsPerDay);
+    int days = static_cast<int>(secondsSinceEpoch / cSecondsPerDay);
 
     if(seconds < 0) {
         seconds += cSecondsPerDay;

@@ -1,6 +1,8 @@
 #ifndef TIMEZONE_H_
 #define TIMEZONE_H_
 
+#include "netlib/base/noncopyable.h"
+
 #include <memory>
 
 #include <time.h>
