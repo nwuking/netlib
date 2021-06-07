@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/exception_test.dir/exception_test.cc.o  -o exception_test ../libnetlib_base.a -lpthread 

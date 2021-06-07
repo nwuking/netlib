@@ -91,7 +91,7 @@ netlib/base/preinstall: netlib/base/tests/preinstall
 netlib/base/CMakeFiles/netlib_base.dir/all:
 	$(MAKE) -f netlib/base/CMakeFiles/netlib_base.dir/build.make netlib/base/CMakeFiles/netlib_base.dir/depend
 	$(MAKE) -f netlib/base/CMakeFiles/netlib_base.dir/build.make netlib/base/CMakeFiles/netlib_base.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=3,4,5,6,7,8,9,10,11,12,13,14,15,16 "Built target netlib_base"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=7,8,9,10,11,12,13,14,15,16,17,18,19,20 "Built target netlib_base"
 .PHONY : netlib/base/CMakeFiles/netlib_base.dir/all
 
 # Include target in all.
@@ -125,18 +125,22 @@ clean: netlib/base/CMakeFiles/netlib_base.dir/clean
 # Directory level rules for directory netlib/base/tests
 
 # Convenience name for "all" pass in the directory.
+netlib/base/tests/all: netlib/base/tests/CMakeFiles/mutex_test.dir/all
 netlib/base/tests/all: netlib/base/tests/CMakeFiles/thread_test.dir/all
 netlib/base/tests/all: netlib/base/tests/CMakeFiles/time_test.dir/all
+netlib/base/tests/all: netlib/base/tests/CMakeFiles/exception_test.dir/all
 netlib/base/tests/all: netlib/base/tests/CMakeFiles/timeZone_test.dir/all
-netlib/base/tests/all: netlib/base/tests/CMakeFiles/mutex_test.dir/all
+netlib/base/tests/all: netlib/base/tests/CMakeFiles/logger_test.dir/all
 
 .PHONY : netlib/base/tests/all
 
 # Convenience name for "clean" pass in the directory.
+netlib/base/tests/clean: netlib/base/tests/CMakeFiles/mutex_test.dir/clean
 netlib/base/tests/clean: netlib/base/tests/CMakeFiles/thread_test.dir/clean
 netlib/base/tests/clean: netlib/base/tests/CMakeFiles/time_test.dir/clean
+netlib/base/tests/clean: netlib/base/tests/CMakeFiles/exception_test.dir/clean
 netlib/base/tests/clean: netlib/base/tests/CMakeFiles/timeZone_test.dir/clean
-netlib/base/tests/clean: netlib/base/tests/CMakeFiles/mutex_test.dir/clean
+netlib/base/tests/clean: netlib/base/tests/CMakeFiles/logger_test.dir/clean
 
 .PHONY : netlib/base/tests/clean
 
@@ -146,13 +150,50 @@ netlib/base/tests/preinstall:
 .PHONY : netlib/base/tests/preinstall
 
 #=============================================================================
+# Target rules for target netlib/base/tests/CMakeFiles/mutex_test.dir
+
+# All Build rule for target.
+netlib/base/tests/CMakeFiles/mutex_test.dir/all: netlib/base/CMakeFiles/netlib_base.dir/all
+	$(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/depend
+	$(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=5,6 "Built target mutex_test"
+.PHONY : netlib/base/tests/CMakeFiles/mutex_test.dir/all
+
+# Include target in all.
+all: netlib/base/tests/CMakeFiles/mutex_test.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+netlib/base/tests/CMakeFiles/mutex_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nwuking/netlib/built/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/mutex_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nwuking/netlib/built/CMakeFiles 0
+.PHONY : netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+
+# Convenience name for target.
+mutex_test: netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+
+.PHONY : mutex_test
+
+# clean rule for target.
+netlib/base/tests/CMakeFiles/mutex_test.dir/clean:
+	$(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/clean
+.PHONY : netlib/base/tests/CMakeFiles/mutex_test.dir/clean
+
+# clean rule for target.
+clean: netlib/base/tests/CMakeFiles/mutex_test.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target netlib/base/tests/CMakeFiles/thread_test.dir
 
 # All Build rule for target.
 netlib/base/tests/CMakeFiles/thread_test.dir/all: netlib/base/CMakeFiles/netlib_base.dir/all
 	$(MAKE) -f netlib/base/tests/CMakeFiles/thread_test.dir/build.make netlib/base/tests/CMakeFiles/thread_test.dir/depend
 	$(MAKE) -f netlib/base/tests/CMakeFiles/thread_test.dir/build.make netlib/base/tests/CMakeFiles/thread_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=17,18 "Built target thread_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=21,22 "Built target thread_test"
 .PHONY : netlib/base/tests/CMakeFiles/thread_test.dir/all
 
 # Include target in all.
@@ -189,7 +230,7 @@ clean: netlib/base/tests/CMakeFiles/thread_test.dir/clean
 netlib/base/tests/CMakeFiles/time_test.dir/all: netlib/base/CMakeFiles/netlib_base.dir/all
 	$(MAKE) -f netlib/base/tests/CMakeFiles/time_test.dir/build.make netlib/base/tests/CMakeFiles/time_test.dir/depend
 	$(MAKE) -f netlib/base/tests/CMakeFiles/time_test.dir/build.make netlib/base/tests/CMakeFiles/time_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=21,22 "Built target time_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=25,26 "Built target time_test"
 .PHONY : netlib/base/tests/CMakeFiles/time_test.dir/all
 
 # Include target in all.
@@ -220,13 +261,50 @@ clean: netlib/base/tests/CMakeFiles/time_test.dir/clean
 .PHONY : clean
 
 #=============================================================================
+# Target rules for target netlib/base/tests/CMakeFiles/exception_test.dir
+
+# All Build rule for target.
+netlib/base/tests/CMakeFiles/exception_test.dir/all: netlib/base/CMakeFiles/netlib_base.dir/all
+	$(MAKE) -f netlib/base/tests/CMakeFiles/exception_test.dir/build.make netlib/base/tests/CMakeFiles/exception_test.dir/depend
+	$(MAKE) -f netlib/base/tests/CMakeFiles/exception_test.dir/build.make netlib/base/tests/CMakeFiles/exception_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=1,2 "Built target exception_test"
+.PHONY : netlib/base/tests/CMakeFiles/exception_test.dir/all
+
+# Include target in all.
+all: netlib/base/tests/CMakeFiles/exception_test.dir/all
+
+.PHONY : all
+
+# Build rule for subdir invocation for target.
+netlib/base/tests/CMakeFiles/exception_test.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nwuking/netlib/built/CMakeFiles 16
+	$(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/exception_test.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/nwuking/netlib/built/CMakeFiles 0
+.PHONY : netlib/base/tests/CMakeFiles/exception_test.dir/rule
+
+# Convenience name for target.
+exception_test: netlib/base/tests/CMakeFiles/exception_test.dir/rule
+
+.PHONY : exception_test
+
+# clean rule for target.
+netlib/base/tests/CMakeFiles/exception_test.dir/clean:
+	$(MAKE) -f netlib/base/tests/CMakeFiles/exception_test.dir/build.make netlib/base/tests/CMakeFiles/exception_test.dir/clean
+.PHONY : netlib/base/tests/CMakeFiles/exception_test.dir/clean
+
+# clean rule for target.
+clean: netlib/base/tests/CMakeFiles/exception_test.dir/clean
+
+.PHONY : clean
+
+#=============================================================================
 # Target rules for target netlib/base/tests/CMakeFiles/timeZone_test.dir
 
 # All Build rule for target.
 netlib/base/tests/CMakeFiles/timeZone_test.dir/all: netlib/base/CMakeFiles/netlib_base.dir/all
 	$(MAKE) -f netlib/base/tests/CMakeFiles/timeZone_test.dir/build.make netlib/base/tests/CMakeFiles/timeZone_test.dir/depend
 	$(MAKE) -f netlib/base/tests/CMakeFiles/timeZone_test.dir/build.make netlib/base/tests/CMakeFiles/timeZone_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=19,20 "Built target timeZone_test"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=23,24 "Built target timeZone_test"
 .PHONY : netlib/base/tests/CMakeFiles/timeZone_test.dir/all
 
 # Include target in all.
@@ -257,39 +335,39 @@ clean: netlib/base/tests/CMakeFiles/timeZone_test.dir/clean
 .PHONY : clean
 
 #=============================================================================
-# Target rules for target netlib/base/tests/CMakeFiles/mutex_test.dir
+# Target rules for target netlib/base/tests/CMakeFiles/logger_test.dir
 
 # All Build rule for target.
-netlib/base/tests/CMakeFiles/mutex_test.dir/all: netlib/base/CMakeFiles/netlib_base.dir/all
-	$(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/depend
-	$(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=1,2 "Built target mutex_test"
-.PHONY : netlib/base/tests/CMakeFiles/mutex_test.dir/all
+netlib/base/tests/CMakeFiles/logger_test.dir/all: netlib/base/CMakeFiles/netlib_base.dir/all
+	$(MAKE) -f netlib/base/tests/CMakeFiles/logger_test.dir/build.make netlib/base/tests/CMakeFiles/logger_test.dir/depend
+	$(MAKE) -f netlib/base/tests/CMakeFiles/logger_test.dir/build.make netlib/base/tests/CMakeFiles/logger_test.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/nwuking/netlib/built/CMakeFiles --progress-num=3,4 "Built target logger_test"
+.PHONY : netlib/base/tests/CMakeFiles/logger_test.dir/all
 
 # Include target in all.
-all: netlib/base/tests/CMakeFiles/mutex_test.dir/all
+all: netlib/base/tests/CMakeFiles/logger_test.dir/all
 
 .PHONY : all
 
 # Build rule for subdir invocation for target.
-netlib/base/tests/CMakeFiles/mutex_test.dir/rule: cmake_check_build_system
+netlib/base/tests/CMakeFiles/logger_test.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nwuking/netlib/built/CMakeFiles 16
-	$(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/mutex_test.dir/all
+	$(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/logger_test.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/nwuking/netlib/built/CMakeFiles 0
-.PHONY : netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+.PHONY : netlib/base/tests/CMakeFiles/logger_test.dir/rule
 
 # Convenience name for target.
-mutex_test: netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+logger_test: netlib/base/tests/CMakeFiles/logger_test.dir/rule
 
-.PHONY : mutex_test
-
-# clean rule for target.
-netlib/base/tests/CMakeFiles/mutex_test.dir/clean:
-	$(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/clean
-.PHONY : netlib/base/tests/CMakeFiles/mutex_test.dir/clean
+.PHONY : logger_test
 
 # clean rule for target.
-clean: netlib/base/tests/CMakeFiles/mutex_test.dir/clean
+netlib/base/tests/CMakeFiles/logger_test.dir/clean:
+	$(MAKE) -f netlib/base/tests/CMakeFiles/logger_test.dir/build.make netlib/base/tests/CMakeFiles/logger_test.dir/clean
+.PHONY : netlib/base/tests/CMakeFiles/logger_test.dir/clean
+
+# clean rule for target.
+clean: netlib/base/tests/CMakeFiles/logger_test.dir/clean
 
 .PHONY : clean
 

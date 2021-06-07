@@ -1,0 +1,30 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+..//netlib/base/CurrentThread.h
+string
+-
+
+..//netlib/base/Exception.h
+exception
+-
+string
+-
+
+/home/nwuking/netlib/netlib/base/tests/exception_test.cc
+netlib/base/Exception.h
+/home/nwuking/netlib/netlib/base/tests/netlib/base/Exception.h
+netlib/base/CurrentThread.h
+/home/nwuking/netlib/netlib/base/tests/netlib/base/CurrentThread.h
+functional
+-
+vector
+-
+iostream
+-
+

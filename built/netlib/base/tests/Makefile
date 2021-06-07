@@ -168,6 +168,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+netlib/base/tests/CMakeFiles/mutex_test.dir/rule:
+	cd /home/nwuking/netlib/built && $(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+.PHONY : netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+
+# Convenience name for target.
+mutex_test: netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+
+.PHONY : mutex_test
+
+# fast build rule for target.
+mutex_test/fast:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/build
+.PHONY : mutex_test/fast
+
+# Convenience name for target.
 netlib/base/tests/CMakeFiles/thread_test.dir/rule:
 	cd /home/nwuking/netlib/built && $(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/thread_test.dir/rule
 .PHONY : netlib/base/tests/CMakeFiles/thread_test.dir/rule
@@ -198,6 +213,21 @@ time_test/fast:
 .PHONY : time_test/fast
 
 # Convenience name for target.
+netlib/base/tests/CMakeFiles/exception_test.dir/rule:
+	cd /home/nwuking/netlib/built && $(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/exception_test.dir/rule
+.PHONY : netlib/base/tests/CMakeFiles/exception_test.dir/rule
+
+# Convenience name for target.
+exception_test: netlib/base/tests/CMakeFiles/exception_test.dir/rule
+
+.PHONY : exception_test
+
+# fast build rule for target.
+exception_test/fast:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/exception_test.dir/build.make netlib/base/tests/CMakeFiles/exception_test.dir/build
+.PHONY : exception_test/fast
+
+# Convenience name for target.
 netlib/base/tests/CMakeFiles/timeZone_test.dir/rule:
 	cd /home/nwuking/netlib/built && $(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/timeZone_test.dir/rule
 .PHONY : netlib/base/tests/CMakeFiles/timeZone_test.dir/rule
@@ -213,19 +243,73 @@ timeZone_test/fast:
 .PHONY : timeZone_test/fast
 
 # Convenience name for target.
-netlib/base/tests/CMakeFiles/mutex_test.dir/rule:
-	cd /home/nwuking/netlib/built && $(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/mutex_test.dir/rule
-.PHONY : netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+netlib/base/tests/CMakeFiles/logger_test.dir/rule:
+	cd /home/nwuking/netlib/built && $(MAKE) -f CMakeFiles/Makefile2 netlib/base/tests/CMakeFiles/logger_test.dir/rule
+.PHONY : netlib/base/tests/CMakeFiles/logger_test.dir/rule
 
 # Convenience name for target.
-mutex_test: netlib/base/tests/CMakeFiles/mutex_test.dir/rule
+logger_test: netlib/base/tests/CMakeFiles/logger_test.dir/rule
 
-.PHONY : mutex_test
+.PHONY : logger_test
 
 # fast build rule for target.
-mutex_test/fast:
-	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/build
-.PHONY : mutex_test/fast
+logger_test/fast:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/logger_test.dir/build.make netlib/base/tests/CMakeFiles/logger_test.dir/build
+.PHONY : logger_test/fast
+
+exception_test.o: exception_test.cc.o
+
+.PHONY : exception_test.o
+
+# target to build an object file
+exception_test.cc.o:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/exception_test.dir/build.make netlib/base/tests/CMakeFiles/exception_test.dir/exception_test.cc.o
+.PHONY : exception_test.cc.o
+
+exception_test.i: exception_test.cc.i
+
+.PHONY : exception_test.i
+
+# target to preprocess a source file
+exception_test.cc.i:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/exception_test.dir/build.make netlib/base/tests/CMakeFiles/exception_test.dir/exception_test.cc.i
+.PHONY : exception_test.cc.i
+
+exception_test.s: exception_test.cc.s
+
+.PHONY : exception_test.s
+
+# target to generate assembly for a file
+exception_test.cc.s:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/exception_test.dir/build.make netlib/base/tests/CMakeFiles/exception_test.dir/exception_test.cc.s
+.PHONY : exception_test.cc.s
+
+logger_test.o: logger_test.cc.o
+
+.PHONY : logger_test.o
+
+# target to build an object file
+logger_test.cc.o:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/logger_test.dir/build.make netlib/base/tests/CMakeFiles/logger_test.dir/logger_test.cc.o
+.PHONY : logger_test.cc.o
+
+logger_test.i: logger_test.cc.i
+
+.PHONY : logger_test.i
+
+# target to preprocess a source file
+logger_test.cc.i:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/logger_test.dir/build.make netlib/base/tests/CMakeFiles/logger_test.dir/logger_test.cc.i
+.PHONY : logger_test.cc.i
+
+logger_test.s: logger_test.cc.s
+
+.PHONY : logger_test.s
+
+# target to generate assembly for a file
+logger_test.cc.s:
+	cd /home/nwuking/netlib/built && $(MAKE) -f netlib/base/tests/CMakeFiles/logger_test.dir/build.make netlib/base/tests/CMakeFiles/logger_test.dir/logger_test.cc.s
+.PHONY : logger_test.cc.s
 
 mutex_test.o: mutex_test.cc.o
 
@@ -345,13 +429,21 @@ help:
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
-	@echo "... thread_test"
-	@echo "... time_test"
-	@echo "... timeZone_test"
 	@echo "... install/local"
 	@echo "... test"
-	@echo "... mutex_test"
 	@echo "... edit_cache"
+	@echo "... mutex_test"
+	@echo "... thread_test"
+	@echo "... time_test"
+	@echo "... exception_test"
+	@echo "... timeZone_test"
+	@echo "... logger_test"
+	@echo "... exception_test.o"
+	@echo "... exception_test.i"
+	@echo "... exception_test.s"
+	@echo "... logger_test.o"
+	@echo "... logger_test.i"
+	@echo "... logger_test.s"
 	@echo "... mutex_test.o"
 	@echo "... mutex_test.i"
 	@echo "... mutex_test.s"

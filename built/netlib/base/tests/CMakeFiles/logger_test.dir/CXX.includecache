@@ -42,22 +42,6 @@ netlib/base/noncopyable.h
 string
 -
 
-..//netlib/base/FileUtil.h
-netlib/base/noncopyable.h
-../netlib/base/netlib/base/noncopyable.h
-string
--
-stdio.h
--
-
-..//netlib/base/LogFile.h
-netlib/base/noncopyable.h
-../netlib/base/netlib/base/noncopyable.h
-string
--
-memory
--
-
 ..//netlib/base/LogStream.h
 netlib/base/noncopyable.h
 ../netlib/base/netlib/base/noncopyable.h
@@ -68,6 +52,14 @@ string.h
 string
 -
 
+..//netlib/base/Logging.h
+netlib/base/LogStream.h
+../netlib/base/netlib/base/LogStream.h
+netlib/base/Time.h
+../netlib/base/netlib/base/Time.h
+string.h
+-
+
 ..//netlib/base/Mutex.h
 pthread.h
 -
@@ -75,12 +67,6 @@ netlib/base/CurrentThread.h
 ../netlib/base/netlib/base/CurrentThread.h
 netlib/base/noncopyable.h
 ../netlib/base/netlib/base/noncopyable.h
-
-..//netlib/base/ProcessInfo.h
-sys/types.h
--
-string
--
 
 ..//netlib/base/Thread.h
 netlib/base/CountDownLatch.h
@@ -104,29 +90,19 @@ string
 
 ..//netlib/base/noncopyable.h
 
-/home/nwuking/netlib/netlib/base/AsyncLogging.cc
+/home/nwuking/netlib/netlib/base/tests/logger_test.cc
 netlib/base/AsyncLogging.h
-/home/nwuking/netlib/netlib/base/netlib/base/AsyncLogging.h
-netlib/base/LogFile.h
-/home/nwuking/netlib/netlib/base/netlib/base/LogFile.h
+/home/nwuking/netlib/netlib/base/tests/netlib/base/AsyncLogging.h
+netlib/base/Logging.h
+/home/nwuking/netlib/netlib/base/tests/netlib/base/Logging.h
 netlib/base/Time.h
-/home/nwuking/netlib/netlib/base/netlib/base/Time.h
-assert.h
+/home/nwuking/netlib/netlib/base/tests/netlib/base/Time.h
+string
 -
-stdio.h
+iostream
 -
-
-/home/nwuking/netlib/netlib/base/LogFile.cc
-netlib/base/LogFile.h
-/home/nwuking/netlib/netlib/base/netlib/base/LogFile.h
-netlib/base/ProcessInfo.h
-/home/nwuking/netlib/netlib/base/netlib/base/ProcessInfo.h
-netlib/base/FileUtil.h
-/home/nwuking/netlib/netlib/base/netlib/base/FileUtil.h
-assert.h
+unistd.h
 -
-time.h
--
-stdio.h
+sys/resource.h
 -
 

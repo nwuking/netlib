@@ -181,6 +181,19 @@ netlib_base/fast:
 .PHONY : netlib_base/fast
 
 #=============================================================================
+# Target rules for targets named mutex_test
+
+# Build rule for target.
+mutex_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 mutex_test
+.PHONY : mutex_test
+
+# fast build rule for target.
+mutex_test/fast:
+	$(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/build
+.PHONY : mutex_test/fast
+
+#=============================================================================
 # Target rules for targets named thread_test
 
 # Build rule for target.
@@ -207,6 +220,19 @@ time_test/fast:
 .PHONY : time_test/fast
 
 #=============================================================================
+# Target rules for targets named exception_test
+
+# Build rule for target.
+exception_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 exception_test
+.PHONY : exception_test
+
+# fast build rule for target.
+exception_test/fast:
+	$(MAKE) -f netlib/base/tests/CMakeFiles/exception_test.dir/build.make netlib/base/tests/CMakeFiles/exception_test.dir/build
+.PHONY : exception_test/fast
+
+#=============================================================================
 # Target rules for targets named timeZone_test
 
 # Build rule for target.
@@ -220,17 +246,17 @@ timeZone_test/fast:
 .PHONY : timeZone_test/fast
 
 #=============================================================================
-# Target rules for targets named mutex_test
+# Target rules for targets named logger_test
 
 # Build rule for target.
-mutex_test: cmake_check_build_system
-	$(MAKE) -f CMakeFiles/Makefile2 mutex_test
-.PHONY : mutex_test
+logger_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 logger_test
+.PHONY : logger_test
 
 # fast build rule for target.
-mutex_test/fast:
-	$(MAKE) -f netlib/base/tests/CMakeFiles/mutex_test.dir/build.make netlib/base/tests/CMakeFiles/mutex_test.dir/build
-.PHONY : mutex_test/fast
+logger_test/fast:
+	$(MAKE) -f netlib/base/tests/CMakeFiles/logger_test.dir/build.make netlib/base/tests/CMakeFiles/logger_test.dir/build
+.PHONY : logger_test/fast
 
 # Help Target
 help:
@@ -246,10 +272,12 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... install"
 	@echo "... netlib_base"
+	@echo "... mutex_test"
 	@echo "... thread_test"
 	@echo "... time_test"
+	@echo "... exception_test"
 	@echo "... timeZone_test"
-	@echo "... mutex_test"
+	@echo "... logger_test"
 .PHONY : help
 
 
