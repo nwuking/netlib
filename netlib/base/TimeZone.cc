@@ -12,6 +12,7 @@
 #include <strings.h>
 #include <string.h>
 #include <assert.h>
+#include <endian.h>
 
 namespace netlib
 {
@@ -67,7 +68,7 @@ const int cSecondsPerDay = 24 * 60 * 60;
 
 inline void fillHMS(int seconds, struct tm *t) {
     t->tm_sec = seconds % 60;
-    int minutes = seconds / 60;
+    unsigned minutes = seconds / 60;
     t->tm_min = minutes % 60;
     t->tm_hour = minutes / 60;
 }
@@ -79,7 +80,7 @@ struct TimeZone::Data {
     std::string abbrviation;
 };
 
-#if 0
+#if 1
 class File : NonCopyAble
 {
 public:
@@ -194,7 +195,7 @@ const LocalTime* findLocalTime(const TimeZone::Data &data, transition sentry, Co
                                                                           sentry,
                                                                           comp);
         if(transI != data.transitions.end()) {
-            if(!comp(sentry, *transI)) {
+            if(!comp.equal(sentry, *transI)) {
                 assert(transI != data.transitions.begin());
                 --transI;
             }
@@ -212,7 +213,7 @@ const LocalTime* findLocalTime(const TimeZone::Data &data, transition sentry, Co
 
 using namespace netlib;
 
-#if 0
+#if 1
 TimeZone::TimeZone(const char *zonefile)
     : _data(new TimeZone::Data)
 {

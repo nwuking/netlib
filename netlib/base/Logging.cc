@@ -1,10 +1,12 @@
 #include "netlib/base/Logging.h"
 #include "netlib/base/TimeZone.h"
 #include "netlib/base/CurrentThread.h"
+#include "netlib/base/Time.h"
 
 #include <assert.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 namespace netlib
 {
@@ -25,12 +27,13 @@ Logger::LogLevel g_logLevel = initLogLevel();
 
 const char* LogLevelName[Logger::NUM_LOG_LEVELS] =
 {
-    "TRACE",
-    "DEBUG",
-    "INFO",
-    "WARN",
-    "ERROR",
-    "FATAL",
+    /// 为了对齐好看，方便，  添加空格字符：6个字符
+    "TRACE ",
+    "DEBUG ",
+    "INFO  ",
+    "WARN  ",
+    "ERROR ",
+    "FATAL ",
 };
 
 class T
@@ -115,12 +118,12 @@ void Logger::Impl::formatTime() {
     }
 
     if(netlib::g_logTimeZone.vaild()) {
-        Fmt us(".%06d", mincroSeconds);
+        Fmt us(".%06d ", mincroSeconds);
         assert(us.length() == 8);
         _stream << T(t_time, 17) << T(us.data(), 8);
     }
     else {
-        Fmt us("%.06dZ", mincroSeconds);
+        Fmt us(".%06dZ ", mincroSeconds);
         assert(us.length() == 9);
         _stream << T(t_time, 17) << T(us.data(), 9);
     }

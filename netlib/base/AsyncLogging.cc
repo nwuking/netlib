@@ -103,6 +103,8 @@ void AsyncLogging::threadFunc() {
       char buf[256];
       ::snprintf(buf, sizeof buf, "Drop log message at %s, %zd large buffers\n",
                 Time::now().toFormattedString(), buffersToWrite.size()-2);
+
+      output.append(buf, static_cast<int>(::strlen(buf)));
       
       buffersToWrite.erase(buffersToWrite.begin()+2, buffersToWrite.end());
     }

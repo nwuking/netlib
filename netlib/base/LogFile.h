@@ -11,7 +11,7 @@ namespace netlib
 
 class AppendFile;
 
-class LogFile : public NonCopyAble
+class LogFile : NonCopyAble
 {
 public:
     LogFile(const std::string &basename, off_t rollSize, 

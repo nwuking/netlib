@@ -23,6 +23,8 @@ LogFile::LogFile(const std::string &basename, off_t rollSize,
     rollFile();
 }
 
+LogFile::~LogFile() = default;
+
 void LogFile::append(const char *msg, int len) {
     _file->append(msg, len);
 

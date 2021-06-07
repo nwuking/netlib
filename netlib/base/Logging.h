@@ -46,7 +46,7 @@ public:
         explicit SourceFile(const char *filename)
             : _data(filename)
         {
-            const char *pos = ::strrchr(_data, '/');
+            const char *pos = ::strrchr(filename, '/');
             if(pos) {
                 _data = pos + 1;
             }

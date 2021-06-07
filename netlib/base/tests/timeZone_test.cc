@@ -101,11 +101,11 @@ void testUtc() {
         }
     }
 }
-#if 0
-void testHongKong() {
-    netlib::TimeZone tz("/usr/share/zoneinfo/HongKong");
+#if 1
+void testBeijing() {
+    netlib::TimeZone tz("/usr/share/zoneinfo/Asia/Beijing");
     testCase tests[] = {
-        {"2021-06-04 00:00:00", "2021-06-04 08:00:00+0800(HKT)", false},
+        {"2021-06-04 00:00:00", "2021-06-04 08:00:00+0800(CST)", false},
     };
 
     for(const auto &c : tests) {
@@ -119,6 +119,6 @@ int main() {
     #if 0
     testUtc();
     #endif
-    //testHongKong();
+    testBeijing();
     return 0;
 }
