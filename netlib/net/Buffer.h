@@ -7,6 +7,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <string>
 
 #include <sys/types.h>
 #include <assert.h>
@@ -29,6 +30,10 @@ public:
         std::swap(_writerIndex, that._writerIndex);
     }
 
+    std::string toString() const {
+        return std::string(peek(), static_cast<int>(readAbleBytes()));
+    }
+
     size_t readAbleBytes() const {
         return _writerIndex - _readerIndex;
     }
@@ -47,6 +52,10 @@ public:
             makeSpace(len);
         }
         assert(writeAbleBytes() >= len);
+    }
+
+    void append(const std::string &str) {
+        append(str.c_str(), str.size());
     }
 
     void append(const char *data, size_t len) {
@@ -82,9 +91,64 @@ public:
         }
     }
 
+    void retrieveUntil(const char *end) {
+        assert(peek() <= end);
+        assert(end <= beginWrite());
+        retrieve(end - peek());
+    }
+
+    void retrieveInt64() {
+        retrieve(sizeof(int64_t));
+    }
+
+    void retrieveInt32() {
+        retrieve(sizeof(int32_t));
+    }
+
+    void retrieveInt16() {
+        retrieve(sizeof(int16_t));
+    }
+
+    void retrieveInt8() {
+        retrieve(sizeof(int8_t));
+    }
+
     void retrieveAll() {
         _readerIndex = cCheapPrepend;
         _writerIndex = cCheapPrepend;
+    }
+
+    std::string retrieveAllAsString() {
+        return retrieveAsString(readAbleBytes());
+    }
+
+    std::string retrieveAsString(size_t len) {
+        assert(len <= readAbleBytes());
+        std::string ret(peek(), len);
+        retrieve(len);
+        return ret;
+    }
+
+    void prependInt8(int8_t x) {
+        prepend(&x, sizeof(int8_t));
+    }
+
+    void prepend(const void *data, size_t len) {
+        assert(len <= prependAbleBytes());
+        _readerIndex -= len;
+        const char *d = static_cast<const char*>(data);
+        std::copy(d, d+len, begin()+_readerIndex);
+    }
+
+    void shrink(size_t reserve) {
+        Buffer other;
+        other.ensureWriteAbleBytes(readAbleBytes() + reserve);
+        other.append(toString());
+        swap(other);
+    }
+
+    size_t internalCapcity() const {
+        return _buffer.capacity();
     }
 
     ssize_t readFd(int fd, int *savedErrno);

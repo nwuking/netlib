@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/thread_test.dir/thread_test.o  -o thread_test -lnetlib 
