@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/timeZone_test.dir/timeZone_test.cc.o  -o ../../../bin/timeZone_test ../../../lib/libnetlib_base.a -lpthread 

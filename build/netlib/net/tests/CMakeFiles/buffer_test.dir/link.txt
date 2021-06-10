@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/buffer_test.dir/Buffer_test.cc.o  -o ../../../bin/buffer_test ../../../lib/libnetlib_net.a -lboost_unit_test_framework ../../../lib/libnetlib_base.a -lpthread 

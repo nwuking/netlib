@@ -1,0 +1,1 @@
+/usr/bin/c++    -rdynamic CMakeFiles/logger_test.dir/logger_test.cc.o  -o ../../../bin/logger_test ../../../lib/libnetlib_base.a -lpthread 
