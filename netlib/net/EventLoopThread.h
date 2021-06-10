@@ -8,6 +8,7 @@
 #include "netlib/base/Thread.h"
 #include "netlib/base/Mutex.h"
 #include "netlib/base/Condition.h"
+#include "netlib/net/EventLoop.h"
 
 namespace netlib
 {
@@ -21,8 +22,8 @@ public:
 
     EventLoopThread(const ThreadInitCallBack &cb = ThreadInitCallBack(),
                     const std::string &name = std::string());
-    ~EventLoopThread();
-
+    ~EventLoopThread() ;
+    
     EventLoop* startLoop();
 
 private:

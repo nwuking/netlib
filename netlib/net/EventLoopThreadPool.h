@@ -24,7 +24,7 @@ public:
     typedef std::function<void(EventLoop*)> ThreadInitCallBack;
 
     EventLoopThreadPool(EventLoop *baseLoop, const std::string &name);
-    ~EventLoopThreadPool() = default;
+    ~EventLoopThreadPool();
 
     void setNumThreads(int nums = 1) {
         /// 设置线程池的线程数

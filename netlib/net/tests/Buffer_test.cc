@@ -110,5 +110,58 @@ BOOST_AUTO_TEST_CASE(testBufferPrepend)
     BOOST_CHECK_EQUAL(buf.writeAbleBytes(), netlib::Buffer::cInitialSize - 200);
     BOOST_CHECK_EQUAL(buf.prependAbleBytes(), netlib::Buffer::cCheapPrepend);
 
-    
+    int x = 0;
+    buf.prepend(&x, sizeof x);
+    BOOST_CHECK_EQUAL(buf.readAbleBytes(), 204);
+    BOOST_CHECK_EQUAL(buf.writeAbleBytes(), netlib::Buffer::cInitialSize - 200);
+    BOOST_CHECK_EQUAL(buf.prependAbleBytes(), netlib::Buffer::cCheapPrepend - 4);
+}
+
+BOOST_AUTO_TEST_CASE(testBufferReadInt)
+{
+    netlib::Buffer buf;
+    buf.append("HTTP");
+
+    BOOST_CHECK_EQUAL(buf.readAbleBytes(), 4);
+    BOOST_CHECK_EQUAL(buf.peekInt8(), 'H');
+
+    int top16 = buf.peekInt16();
+    BOOST_CHECK_EQUAL(top16, 'H'*256+'T');
+    BOOST_CHECK_EQUAL(buf.peekInt32(), top16*65535+'T'*256+'P');
+
+    BOOST_CHECK_EQUAL(buf.readInt8(), 'H');
+    BOOST_CHECK_EQUAL(buf.readInt16(), 'T'*256+'T');
+    BOOST_CHECK_EQUAL(buf.readInt8(), 'P');
+    BOOST_CHECK_EQUAL(buf.readAbleBytes(), 0);
+    BOOST_CHECK_EQUAL(buf.writeAbleBytes(), netlib::Buffer::cInitialSize);
+
+    buf.appendInt8(-1);
+    buf.appendInt16(-2);
+    buf.appendInt32(-3);
+    BOOST_CHECK_EQUAL(buf.readAbleBytes(), 7);
+    BOOST_CHECK_EQUAL(buf.readInt8(), -1);
+    BOOST_CHECK_EQUAL(buf.readInt16(), -2);
+    BOOST_CHECK_EQUAL(buf.readInt32(), -3);
+}
+
+BOOST_AUTO_TEST_CASE(testBufferFindEol) 
+{
+    netlib::Buffer buf;
+    buf.append(std::string(100000, 'x'));
+    const char *null = NULL;
+    BOOST_CHECK_EQUAL(buf.findEOL(), null);
+    BOOST_CHECK_EQUAL(buf.findEOL(buf.peek()+90000), null);
+}
+
+void output(netlib::Buffer &&buf, const void *inner) {
+    netlib::Buffer newBuf(std::move(buf));
+    BOOST_CHECK_EQUAL(inner, newBuf.peek());
+}
+
+BOOST_AUTO_TEST_CASE(testBufferMove)
+{
+    netlib::Buffer buf;
+    buf.append("netlib", 6);
+    const void *inner = buf.peek();
+    output(std::move(buf), inner);
 }

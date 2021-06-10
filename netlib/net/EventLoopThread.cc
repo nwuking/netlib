@@ -16,6 +16,7 @@ EventLoopThread::EventLoopThread(const ThreadInitCallBack &cb,
 {
 }
 
+
 EventLoopThread::~EventLoopThread() {
     _exiting = true;
     if(_loop != nullptr) {
@@ -23,6 +24,7 @@ EventLoopThread::~EventLoopThread() {
         _thread.join();
     }
 }
+
 
 EventLoop* EventLoopThread::startLoop() {
     assert(!_thread.started());

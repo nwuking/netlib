@@ -11,6 +11,9 @@
 
 #include <sys/types.h>
 #include <assert.h>
+#include <endian.h>
+#include <stdint.h>
+#include <string.h>
 
 namespace netlib
 {
@@ -54,6 +57,18 @@ public:
         assert(writeAbleBytes() >= len);
     }
 
+    const char* findEOL() const {
+        const void *eol = ::memchr(peek(), '\n', readAbleBytes());
+        return static_cast<const char*>(eol);
+    }
+
+    const char* findEOL(const char *start) const {
+        assert(peek() <= start);
+        assert(start <= beginWrite());
+        const void *eol = ::memchr(start, '\n', beginWrite() - start);
+        return static_cast<const char*>(eol);
+    }
+
     void append(const std::string &str) {
         append(str.c_str(), str.size());
     }
@@ -68,7 +83,54 @@ public:
         append(static_cast<const char*>(data), len);
     }
 
+    void appendInt64(int64_t x) {
+        int64_t be64 = ::htobe64(x);
+        append(&be64, sizeof be64);
+    }
+
+    void appendInt32(int32_t x) {
+        int32_t be32 = ::htobe32(x);
+        append(&be32, sizeof be32);
+    }
+
+    void appendInt16(int16_t x) {
+        int16_t be16 = ::htobe16(x);
+        append(&be16, sizeof be16);
+    }
+
+    void appendInt8(int8_t x) {
+        append(&x, sizeof x);
+    }
+
+    int64_t readInt64() {
+        int64_t ret = peekInt64();
+        retrieveInt64();
+        return ret;
+    }
+
+    int64_t readInt32() {
+        int32_t ret = peekInt32();
+        retrieveInt32();
+        return ret;
+    }
+
+    int16_t readInt16() {
+        int16_t ret = peekInt16();
+        retrieveInt16();
+        return ret;
+    }
+
+    int8_t readInt8() {
+        int8_t ret = peekInt8();
+        retrieveInt8();
+        return ret;
+    }
+
     char* beginWrite() {
+        return begin() + _writerIndex;
+    }
+
+    const char* beginWrite() const {
         return begin() + _writerIndex;
     }
 
@@ -77,8 +139,40 @@ public:
         _writerIndex += len;
     }
 
+    void unWrite(size_t len) {
+        assert(len <= readAbleBytes());
+        _writerIndex -= len;
+    }
+
     const char* peek() const {
         return begin() + _readerIndex;
+    }
+
+    int64_t peekInt64() const {
+        assert(readAbleBytes() >= sizeof(int64_t));
+        int64_t be64 = 0;
+        ::memcpy(&be64, peek(), sizeof be64);
+        return ::be64toh(be64);
+    }
+
+    int32_t peekInt32() const {
+        assert(readAbleBytes() >= sizeof(int32_t));
+        int32_t be32 = 0;
+        ::memcpy(&be32, peek(), sizeof be32);
+        return ::be32toh(be32);
+    }
+
+    int16_t peekInt16() const {
+        assert(readAbleBytes() >= sizeof(int16_t));
+        int16_t be16 = 0;
+        ::memcpy(&be16, peek(), sizeof be16);
+        return ::be16toh(be16);
+    }
+
+    int8_t peekInt8() const {
+        assert(readAbleBytes() >= sizeof(int8_t));
+        int8_t x = *peek();
+        return x;
     }
 
     void retrieve(size_t n) {
@@ -127,6 +221,21 @@ public:
         std::string ret(peek(), len);
         retrieve(len);
         return ret;
+    }
+
+    void prependInt64(int64_t x) {
+        int64_t be64 = ::htobe64(x);
+        prepend(&be64, sizeof be64);
+    }
+
+    void prependInt32(int32_t x) {
+        int32_t be32 = ::htobe32(x);
+        prepend(&be32, sizeof be32);
+    }
+
+    void prependInt16(int16_t x) {
+        int16_t be16 = ::htobe16(x);
+        prepend(&be16, sizeof be16);
     }
 
     void prependInt8(int8_t x) {

@@ -18,6 +18,9 @@ EventLoopThreadPool::EventLoopThreadPool(EventLoop *baseLoop, const std::string 
     /// threadPool可以传回一个_baseLoop，即主线程处理一切事务
 }
 
+EventLoopThreadPool::~EventLoopThreadPool() {
+}
+
 void EventLoopThreadPool::start(const ThreadInitCallBack &cb) {
     /// 初始化线程池、启用线程池
     /// param：cb->用于线程的初始化函数
