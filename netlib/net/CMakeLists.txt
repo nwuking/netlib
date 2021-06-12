@@ -19,6 +19,8 @@ set(net_SRCS
 add_library(netlib_net ${net_SRCS})
 target_link_libraries(netlib_net netlib_base)
 
+message(STATUS "PRE=${CMAKE_INSTALL_PREFIX}")
+
 install(TARGETS netlib_net DESTINATION lib)
 
 set(HEADERS 

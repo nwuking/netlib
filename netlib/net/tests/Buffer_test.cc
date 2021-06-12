@@ -127,7 +127,7 @@ BOOST_AUTO_TEST_CASE(testBufferReadInt)
 
     int top16 = buf.peekInt16();
     BOOST_CHECK_EQUAL(top16, 'H'*256+'T');
-    BOOST_CHECK_EQUAL(buf.peekInt32(), top16*65535+'T'*256+'P');
+    BOOST_CHECK_EQUAL(buf.peekInt32(), top16*65536+'T'*256+'P');
 
     BOOST_CHECK_EQUAL(buf.readInt8(), 'H');
     BOOST_CHECK_EQUAL(buf.readInt16(), 'T'*256+'T');

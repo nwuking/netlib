@@ -20,8 +20,8 @@ struct timespec howMuchTimeFromNow(Time when) {
         microSeconds = 100;
     }
     struct timespec ts;
-    ts.tv_nsec = static_cast<time_t>(microSeconds / Time::cMicroSecondsPerSecond);
-    ts.tv_sec = static_cast<long>(microSeconds%Time::cMicroSecondsPerSecond *1000);
+    ts.tv_sec = static_cast<time_t>(microSeconds / Time::cMicroSecondsPerSecond);
+    ts.tv_nsec = static_cast<long>(microSeconds%Time::cMicroSecondsPerSecond *1000);
     return ts;
 }
 

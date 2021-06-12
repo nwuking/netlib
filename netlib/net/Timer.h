@@ -17,7 +17,7 @@ public:
     typedef std::function<void()> TimerCallBack;
 
     Timer(TimerCallBack cb, Time when, double interval);
-    ~Timer();
+    //~Timer();
 
     int64_t sequence() const {
         return _sequence;

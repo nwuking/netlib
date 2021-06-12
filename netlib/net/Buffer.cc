@@ -6,6 +6,8 @@
 
 using namespace netlib;
 
+const size_t Buffer::cInitialSize;
+const size_t Buffer::cCheapPrepend;
 
 Buffer::Buffer(size_t initialSize)
     : _buffer(cCheapPrepend + cInitialSize),

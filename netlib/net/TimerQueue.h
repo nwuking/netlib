@@ -19,7 +19,7 @@ class TimerQueue : NonCopyAble
 public:
     typedef Timer::TimerCallBack TimerCallBack;
 
-    TimerQueue(EventLoop *loop);
+    explicit TimerQueue(EventLoop *loop);
     ~TimerQueue();
 
     TimerId addTimer(TimerCallBack cb, Time when, double interval);

@@ -16,7 +16,7 @@ namespace
 
 __thread EventLoop *t_loopInThisThread = 0;             /// 记录当前线程的EventLoop;
 
-const int cEpollTimeOutMs = 100000;
+const int cEpollTimeOutMs = 1000;
 
 int createEventFd() {
   int fd = ::eventfd(0, EFD_NONBLOCK | EFD_CLOEXEC);
