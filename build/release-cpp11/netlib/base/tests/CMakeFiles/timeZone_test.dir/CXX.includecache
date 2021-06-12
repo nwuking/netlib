@@ -1,0 +1,28 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../..//netlib/base/TimeZone.h
+netlib/base/noncopyable.h
+../../netlib/base/netlib/base/noncopyable.h
+memory
+-
+time.h
+-
+
+../..//netlib/base/noncopyable.h
+
+/home/nwuking/netlib/netlib/base/tests/timeZone_test.cc
+netlib/base/TimeZone.h
+/home/nwuking/netlib/netlib/base/tests/netlib/base/TimeZone.h
+iostream
+-
+string.h
+-
+time.h
+-
+

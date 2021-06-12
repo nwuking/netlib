@@ -1,0 +1,1 @@
+/usr/bin/c++  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG  -rdynamic CMakeFiles/logger_test.dir/logger_test.cc.o  -o ../../../bin/logger_test ../../../lib/libnetlib_base.a -lpthread 

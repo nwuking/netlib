@@ -1,0 +1,187 @@
+[
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/AsyncLogging.cc.o -c /home/nwuking/netlib/netlib/base/AsyncLogging.cc",
+  "file": "/home/nwuking/netlib/netlib/base/AsyncLogging.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/CountDownLatch.cc.o -c /home/nwuking/netlib/netlib/base/CountDownLatch.cc",
+  "file": "/home/nwuking/netlib/netlib/base/CountDownLatch.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/CurrentThread.cc.o -c /home/nwuking/netlib/netlib/base/CurrentThread.cc",
+  "file": "/home/nwuking/netlib/netlib/base/CurrentThread.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/Date.cc.o -c /home/nwuking/netlib/netlib/base/Date.cc",
+  "file": "/home/nwuking/netlib/netlib/base/Date.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/Exception.cc.o -c /home/nwuking/netlib/netlib/base/Exception.cc",
+  "file": "/home/nwuking/netlib/netlib/base/Exception.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/FileUtil.cc.o -c /home/nwuking/netlib/netlib/base/FileUtil.cc",
+  "file": "/home/nwuking/netlib/netlib/base/FileUtil.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/LogFile.cc.o -c /home/nwuking/netlib/netlib/base/LogFile.cc",
+  "file": "/home/nwuking/netlib/netlib/base/LogFile.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/Logging.cc.o -c /home/nwuking/netlib/netlib/base/Logging.cc",
+  "file": "/home/nwuking/netlib/netlib/base/Logging.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/LogStream.cc.o -c /home/nwuking/netlib/netlib/base/LogStream.cc",
+  "file": "/home/nwuking/netlib/netlib/base/LogStream.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/ProcessInfo.cc.o -c /home/nwuking/netlib/netlib/base/ProcessInfo.cc",
+  "file": "/home/nwuking/netlib/netlib/base/ProcessInfo.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/Thread.cc.o -c /home/nwuking/netlib/netlib/base/Thread.cc",
+  "file": "/home/nwuking/netlib/netlib/base/Thread.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/Time.cc.o -c /home/nwuking/netlib/netlib/base/Time.cc",
+  "file": "/home/nwuking/netlib/netlib/base/Time.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_base.dir/TimeZone.cc.o -c /home/nwuking/netlib/netlib/base/TimeZone.cc",
+  "file": "/home/nwuking/netlib/netlib/base/TimeZone.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/mutex_test.dir/mutex_test.cc.o -c /home/nwuking/netlib/netlib/base/tests/mutex_test.cc",
+  "file": "/home/nwuking/netlib/netlib/base/tests/mutex_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/thread_test.dir/thread_test.cc.o -c /home/nwuking/netlib/netlib/base/tests/thread_test.cc",
+  "file": "/home/nwuking/netlib/netlib/base/tests/thread_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/time_test.dir/time_test.cc.o -c /home/nwuking/netlib/netlib/base/tests/time_test.cc",
+  "file": "/home/nwuking/netlib/netlib/base/tests/time_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/exception_test.dir/exception_test.cc.o -c /home/nwuking/netlib/netlib/base/tests/exception_test.cc",
+  "file": "/home/nwuking/netlib/netlib/base/tests/exception_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/timeZone_test.dir/timeZone_test.cc.o -c /home/nwuking/netlib/netlib/base/tests/timeZone_test.cc",
+  "file": "/home/nwuking/netlib/netlib/base/tests/timeZone_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/base/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/logger_test.dir/logger_test.cc.o -c /home/nwuking/netlib/netlib/base/tests/logger_test.cc",
+  "file": "/home/nwuking/netlib/netlib/base/tests/logger_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/Acceptor.cc.o -c /home/nwuking/netlib/netlib/net/Acceptor.cc",
+  "file": "/home/nwuking/netlib/netlib/net/Acceptor.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/Buffer.cc.o -c /home/nwuking/netlib/netlib/net/Buffer.cc",
+  "file": "/home/nwuking/netlib/netlib/net/Buffer.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/Chnnel.cc.o -c /home/nwuking/netlib/netlib/net/Chnnel.cc",
+  "file": "/home/nwuking/netlib/netlib/net/Chnnel.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/Connector.cc.o -c /home/nwuking/netlib/netlib/net/Connector.cc",
+  "file": "/home/nwuking/netlib/netlib/net/Connector.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/Epoller.cc.o -c /home/nwuking/netlib/netlib/net/Epoller.cc",
+  "file": "/home/nwuking/netlib/netlib/net/Epoller.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/EventLoop.cc.o -c /home/nwuking/netlib/netlib/net/EventLoop.cc",
+  "file": "/home/nwuking/netlib/netlib/net/EventLoop.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/EventLoopThread.cc.o -c /home/nwuking/netlib/netlib/net/EventLoopThread.cc",
+  "file": "/home/nwuking/netlib/netlib/net/EventLoopThread.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/EventLoopThreadPool.cc.o -c /home/nwuking/netlib/netlib/net/EventLoopThreadPool.cc",
+  "file": "/home/nwuking/netlib/netlib/net/EventLoopThreadPool.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/SockAddr.cc.o -c /home/nwuking/netlib/netlib/net/SockAddr.cc",
+  "file": "/home/nwuking/netlib/netlib/net/SockAddr.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/Socket.cc.o -c /home/nwuking/netlib/netlib/net/Socket.cc",
+  "file": "/home/nwuking/netlib/netlib/net/Socket.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/SockFunc.cc.o -c /home/nwuking/netlib/netlib/net/SockFunc.cc",
+  "file": "/home/nwuking/netlib/netlib/net/SockFunc.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/TcpClient.cc.o -c /home/nwuking/netlib/netlib/net/TcpClient.cc",
+  "file": "/home/nwuking/netlib/netlib/net/TcpClient.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/TcpConnection.cc.o -c /home/nwuking/netlib/netlib/net/TcpConnection.cc",
+  "file": "/home/nwuking/netlib/netlib/net/TcpConnection.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/TcpServer.cc.o -c /home/nwuking/netlib/netlib/net/TcpServer.cc",
+  "file": "/home/nwuking/netlib/netlib/net/TcpServer.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/Timer.cc.o -c /home/nwuking/netlib/netlib/net/Timer.cc",
+  "file": "/home/nwuking/netlib/netlib/net/Timer.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/netlib_net.dir/TimerQueue.cc.o -c /home/nwuking/netlib/netlib/net/TimerQueue.cc",
+  "file": "/home/nwuking/netlib/netlib/net/TimerQueue.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/eventloop_test.dir/EventLoop_test.cc.o -c /home/nwuking/netlib/netlib/net/tests/EventLoop_test.cc",
+  "file": "/home/nwuking/netlib/netlib/net/tests/EventLoop_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/buffer_test.dir/Buffer_test.cc.o -c /home/nwuking/netlib/netlib/net/tests/Buffer_test.cc",
+  "file": "/home/nwuking/netlib/netlib/net/tests/Buffer_test.cc"
+}
+]

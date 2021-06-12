@@ -1,1 +1,0 @@
-/usr/bin/c++    -rdynamic CMakeFiles/time_test.dir/time_test.cc.o  -o ../../../bin/time_test ../../../lib/libnetlib_base.a -lpthread 

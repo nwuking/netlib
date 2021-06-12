@@ -1,0 +1,32 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../..//netlib/net/Buffer.h
+vector
+-
+algorithm
+-
+string
+-
+sys/types.h
+-
+assert.h
+-
+endian.h
+-
+stdint.h
+-
+string.h
+-
+
+/home/nwuking/netlib/netlib/net/tests/Buffer_test.cc
+netlib/net/Buffer.h
+/home/nwuking/netlib/netlib/net/tests/netlib/net/Buffer.h
+boost/test/unit_test.hpp
+-
+
