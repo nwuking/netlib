@@ -181,7 +181,27 @@
 },
 {
   "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/eventloopthreadpool_test.dir/EventLoopThreadPool_test.cc.o -c /home/nwuking/netlib/netlib/net/tests/EventLoopThreadPool_test.cc",
+  "file": "/home/nwuking/netlib/netlib/net/tests/EventLoopThreadPool_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/timerqueue_test.dir/TimerQueue_test.cc.o -c /home/nwuking/netlib/netlib/net/tests/TimerQueue_test.cc",
+  "file": "/home/nwuking/netlib/netlib/net/tests/TimerQueue_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net/tests",
   "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/buffer_test.dir/Buffer_test.cc.o -c /home/nwuking/netlib/netlib/net/tests/Buffer_test.cc",
   "file": "/home/nwuking/netlib/netlib/net/tests/Buffer_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/eventloopthread_test.dir/EventLoopThread_test.cc.o -c /home/nwuking/netlib/netlib/net/tests/EventLoopThread_test.cc",
+  "file": "/home/nwuking/netlib/netlib/net/tests/EventLoopThread_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/sockaddr_test.dir/SockAddr_test.cc.o -c /home/nwuking/netlib/netlib/net/tests/SockAddr_test.cc",
+  "file": "/home/nwuking/netlib/netlib/net/tests/SockAddr_test.cc"
 }
 ]

@@ -61,5 +61,9 @@ set(CMAKE_DEPEND_INFO_FILES
   "netlib/base/tests/CMakeFiles/logger_test.dir/DependInfo.cmake"
   "netlib/net/CMakeFiles/netlib_net.dir/DependInfo.cmake"
   "netlib/net/tests/CMakeFiles/eventloop_test.dir/DependInfo.cmake"
+  "netlib/net/tests/CMakeFiles/eventloopthreadpool_test.dir/DependInfo.cmake"
+  "netlib/net/tests/CMakeFiles/timerqueue_test.dir/DependInfo.cmake"
   "netlib/net/tests/CMakeFiles/buffer_test.dir/DependInfo.cmake"
+  "netlib/net/tests/CMakeFiles/eventloopthread_test.dir/DependInfo.cmake"
+  "netlib/net/tests/CMakeFiles/sockaddr_test.dir/DependInfo.cmake"
   )

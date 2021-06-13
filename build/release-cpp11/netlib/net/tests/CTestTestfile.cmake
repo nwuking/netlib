@@ -5,3 +5,4 @@
 # This file includes the relevant testing commands required for 
 # testing this directory and lists subdirectories to be tested as well.
 add_test(buffer_test "/home/nwuking/netlib/build/release-cpp11/bin/buffer_test")
+add_test(sockaddr_test "/home/nwuking/netlib/build/release-cpp11/bin/sockaddr_test")

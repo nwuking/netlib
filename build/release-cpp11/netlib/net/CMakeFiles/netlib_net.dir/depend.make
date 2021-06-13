@@ -103,6 +103,10 @@ netlib/net/CMakeFiles/netlib_net.dir/EventLoopThreadPool.cc.o: ../../netlib/net/
 netlib/net/CMakeFiles/netlib_net.dir/EventLoopThreadPool.cc.o: ../../netlib/net/TimerId.h
 netlib/net/CMakeFiles/netlib_net.dir/EventLoopThreadPool.cc.o: ../../netlib/net/EventLoopThreadPool.cc
 
+netlib/net/CMakeFiles/netlib_net.dir/SockAddr.cc.o: ../../netlib/base/LogStream.h
+netlib/net/CMakeFiles/netlib_net.dir/SockAddr.cc.o: ../../netlib/base/Logging.h
+netlib/net/CMakeFiles/netlib_net.dir/SockAddr.cc.o: ../../netlib/base/Time.h
+netlib/net/CMakeFiles/netlib_net.dir/SockAddr.cc.o: ../../netlib/base/noncopyable.h
 netlib/net/CMakeFiles/netlib_net.dir/SockAddr.cc.o: ../../netlib/net/SockAddr.h
 netlib/net/CMakeFiles/netlib_net.dir/SockAddr.cc.o: ../../netlib/net/SockFunc.h
 netlib/net/CMakeFiles/netlib_net.dir/SockAddr.cc.o: ../../netlib/net/SockAddr.cc

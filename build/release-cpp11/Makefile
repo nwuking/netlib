@@ -285,6 +285,32 @@ eventloop_test/fast:
 .PHONY : eventloop_test/fast
 
 #=============================================================================
+# Target rules for targets named eventloopthreadpool_test
+
+# Build rule for target.
+eventloopthreadpool_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 eventloopthreadpool_test
+.PHONY : eventloopthreadpool_test
+
+# fast build rule for target.
+eventloopthreadpool_test/fast:
+	$(MAKE) -f netlib/net/tests/CMakeFiles/eventloopthreadpool_test.dir/build.make netlib/net/tests/CMakeFiles/eventloopthreadpool_test.dir/build
+.PHONY : eventloopthreadpool_test/fast
+
+#=============================================================================
+# Target rules for targets named timerqueue_test
+
+# Build rule for target.
+timerqueue_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 timerqueue_test
+.PHONY : timerqueue_test
+
+# fast build rule for target.
+timerqueue_test/fast:
+	$(MAKE) -f netlib/net/tests/CMakeFiles/timerqueue_test.dir/build.make netlib/net/tests/CMakeFiles/timerqueue_test.dir/build
+.PHONY : timerqueue_test/fast
+
+#=============================================================================
 # Target rules for targets named buffer_test
 
 # Build rule for target.
@@ -296,6 +322,32 @@ buffer_test: cmake_check_build_system
 buffer_test/fast:
 	$(MAKE) -f netlib/net/tests/CMakeFiles/buffer_test.dir/build.make netlib/net/tests/CMakeFiles/buffer_test.dir/build
 .PHONY : buffer_test/fast
+
+#=============================================================================
+# Target rules for targets named eventloopthread_test
+
+# Build rule for target.
+eventloopthread_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 eventloopthread_test
+.PHONY : eventloopthread_test
+
+# fast build rule for target.
+eventloopthread_test/fast:
+	$(MAKE) -f netlib/net/tests/CMakeFiles/eventloopthread_test.dir/build.make netlib/net/tests/CMakeFiles/eventloopthread_test.dir/build
+.PHONY : eventloopthread_test/fast
+
+#=============================================================================
+# Target rules for targets named sockaddr_test
+
+# Build rule for target.
+sockaddr_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 sockaddr_test
+.PHONY : sockaddr_test
+
+# fast build rule for target.
+sockaddr_test/fast:
+	$(MAKE) -f netlib/net/tests/CMakeFiles/sockaddr_test.dir/build.make netlib/net/tests/CMakeFiles/sockaddr_test.dir/build
+.PHONY : sockaddr_test/fast
 
 # Help Target
 help:
@@ -319,7 +371,11 @@ help:
 	@echo "... logger_test"
 	@echo "... netlib_net"
 	@echo "... eventloop_test"
+	@echo "... eventloopthreadpool_test"
+	@echo "... timerqueue_test"
 	@echo "... buffer_test"
+	@echo "... eventloopthread_test"
+	@echo "... sockaddr_test"
 .PHONY : help
 
 
