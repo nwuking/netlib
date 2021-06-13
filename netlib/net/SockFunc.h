@@ -10,8 +10,9 @@
 #include <error.h>
 #include <sys/uio.h>
 #include <sys/types.h>
+#include <arpa/inet.h>
 
-struct in_addr;
+//struct in_addr;
 
 namespace netlib
 {

@@ -26,7 +26,7 @@ public:
     EventLoopThreadPool(EventLoop *baseLoop, const std::string &name);
     ~EventLoopThreadPool();
 
-    void setNumThreads(int nums = 1) {
+    void setNumThreads(int nums) {
         /// 设置线程池的线程数
         _numThreads = nums;
     }
@@ -34,6 +34,8 @@ public:
     void start(const ThreadInitCallBack &cb = ThreadInitCallBack());
 
     EventLoop* getNextLoop();
+
+    EventLoop* getLoopForHash(size_t hashCode);
 
     std::vector<EventLoop*> getAllLoops();
 

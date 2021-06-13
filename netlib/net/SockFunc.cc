@@ -11,6 +11,7 @@
 #include <sys/stat.h>
 #include <assert.h>
 
+
 using namespace netlib;
 
 
@@ -27,25 +28,16 @@ uint16_t netlib::networkToHost16(uint16_t port) {
     return ::ntohs(port);
 }
 
-void hostToNetwork32(struct in_addr *addr) {
-    struct in_addr res;
-    int n = ::inet_aton((const char*)addr, &res);
-    if(n) {
-        ::memcpy(addr, &res, sizeof res);
-    }
-    else {
-        /// n == 0, addr 无效
-    }
+void netlib::hostToNetwork32(struct in_addr *addr) {
+    in_addr_t t = addr->s_addr;
+    addr->s_addr = static_cast<in_addr_t>(::htonl(t));
 }
 
-void hostToNetwork16(uint16_t *port, uint16_t por) {
+void netlib::hostToNetwork16(uint16_t *port, uint16_t por) {
     *port = ::htons(por);
-    if(!port) {
-        ///  failed
-    }
 }
 
-void fromIp(struct in_addr *addr, const char *ip) {
+void netlib::fromIp(struct in_addr *addr, const char *ip) {
     int n = ::inet_aton(ip, addr);
     if(n == 0) {
         /// failed
@@ -144,7 +136,7 @@ int netlib::getSocketError(int fd) {
 }
 
 void netlib::toIpPort(char *buf, size_t size, const struct sockaddr_in *addr) {
-    netlib::toIp(buf, sizeof buf, addr);
+    toIp(buf, size, addr);
     size_t end = ::strlen(buf);
     uint16_t port = netlib::networkToHost16(addr->sin_port);
     assert(size > end);
@@ -153,7 +145,7 @@ void netlib::toIpPort(char *buf, size_t size, const struct sockaddr_in *addr) {
 
 void netlib::toIp(char *buf, size_t size, const struct sockaddr_in *addr) {
     if(addr->sin_family == AF_INET) {
-        assert(size > INET_ADDRSTRLEN);
+        assert(size >= INET_ADDRSTRLEN);
         ::inet_ntop(AF_INET, &addr->sin_addr, buf, static_cast<socklen_t>(size));
     }
 }

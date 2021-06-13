@@ -3,6 +3,7 @@
 #include "netlib/net/EventLoopThread.h"
 
 #include <assert.h>
+#include <stdio.h>
 
 using namespace netlib;
 
@@ -57,6 +58,17 @@ EventLoop* EventLoopThreadPool::getNextLoop() {
         if(_next >= static_cast<int>(_loops.size())) {
             _next = 0;
         }
+    }
+    return loop;
+}
+
+EventLoop* EventLoopThreadPool::getLoopForHash(size_t hashCode) {
+    _baseLoop->assertInLoopThread();
+    assert(_started);
+
+    EventLoop *loop = _baseLoop;
+    if(!_loops.empty()) {
+        loop = _loops[hashCode%_loops.size()];
     }
     return loop;
 }

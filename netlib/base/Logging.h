@@ -112,7 +112,7 @@ inline Logger::LogLevel Logger::logLevel() {
 #define LOG_DEBUG if(netlib::Logger::logLevel() <= netlib::Logger::DEBUG) \
     netlib::Logger(__FILE__, __LINE__, netlib::Logger::DEBUG, __func__).stream()
 
-#define LOG_INFO if(netlib::Logger::logLevel() << netlib::Logger::INFO) \
+#define LOG_INFO if(netlib::Logger::logLevel() <= netlib::Logger::INFO) \
     netlib::Logger(__FILE__, __LINE__).stream()
 
 #define LOG_WARN netlib::Logger(__FILE__, __LINE__, netlib::Logger::WARN).stream()

@@ -54,7 +54,7 @@ EventLoop::EventLoop()
   /// _wakeFd->用于唤醒当前的loop
   if(t_loopInThisThread) {
     /// 当前的thread已经有一个EventLoop
-    LOG_FATAL << "Anothre EventLoop " << t_loopInThisThread
+    LOG_FATAL << "Another EventLoop " << t_loopInThisThread
               << " exitsts in this thread " << _tid;
   }
   else {

@@ -13,7 +13,7 @@
 namespace netlib
 {
 
-class EventLoop;
+//class EventLoop;
 
 class EventLoopThread : NonCopyAble
 {

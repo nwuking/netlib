@@ -32,8 +32,8 @@ private:
     typedef std::set<ActiveTimer> ActiveTimerSet;
 
     void handleRead();
-    std::vector<Entry> getExpired(Time &now);
-    void reset(const std::vector<Entry> &expired, Time &now);
+    std::vector<Entry> getExpired(Time now);
+    void reset(const std::vector<Entry> &expired, Time now);
 
     bool insert(Timer *timer);
     void addTimerInLoop(Timer *timer);

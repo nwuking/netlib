@@ -1,7 +1,10 @@
 #include "netlib/net/SockAddr.h"
 #include "netlib/net/SockFunc.h"
+#include "netlib/base/Logging.h"
 
+#include <assert.h>
 #include <string.h>
+#include <netdb.h>
 
 using namespace netlib;
 
@@ -25,7 +28,41 @@ SockAddr::SockAddr(std::string ip, uint16_t port) {
 }
 
 std::string SockAddr::toIpPort() const {
-    char buf[64] = "";
+    char buf[64]="";
     netlib::toIpPort(buf, sizeof buf, getSockAddr());
     return buf;
+}
+
+std::string SockAddr::toIp() const {
+    char buf[64]="";
+    netlib::toIp(buf, sizeof buf, getSockAddr());
+    return buf;
+}
+
+uint16_t SockAddr::tpPort() const {
+    return netlib::networkToHost16(portNetEndian());
+}
+
+static __thread char t_resolveBuf[64*1024];
+
+bool SockAddr::resolve(std::string hostname, SockAddr *addr) {
+    assert(addr != nullptr);
+    struct hostent hent;
+    struct hostent *he = NULL;
+    int herron = 0;
+    ::bzero(&hent, sizeof hent);
+
+    int ret = ::gethostbyname_r(hostname.c_str(), &hent, t_resolveBuf,
+                                sizeof t_resolveBuf, &he, &herron);
+    if(ret == 0 && he != nullptr) {
+        assert(he->h_addrtype == AF_INET && he->h_length == sizeof(uint32_t));
+        addr->_addr.sin_addr = *reinterpret_cast<struct in_addr*>(he->h_addr);
+        return true;
+    }
+    else {
+        if(ret) {
+            LOG_SYSERR << "SockAddr::resolve";
+        }
+        return false;
+    }
 }

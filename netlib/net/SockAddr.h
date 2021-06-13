@@ -2,6 +2,7 @@
 #define SOCKADDR_H_
 
 #include <netinet/in.h>
+#include <stdint.h>
 
 #include <string>
 
@@ -25,8 +26,8 @@ namespace netlib
 class SockAddr
 {
 public:
-    SockAddr() = default;
-    explicit SockAddr(uint16_t port, bool loopback = false);                 /// 给定一个port
+    //SockAddr() = default;
+    explicit SockAddr(uint16_t port = 0, bool loopback = false);                 /// 给定一个port
     SockAddr(std::string ip, uint16_t port);                                 /// 给定ip and port
     SockAddr(const struct sockaddr_in &addr) 
       : _addr(addr)
@@ -47,7 +48,15 @@ public:
         _addr = addr;
     }
 
+    uint16_t portNetEndian() const {
+        return _addr.sin_port;
+    }
+
     std::string toIpPort() const;
+    std::string toIp() const;
+    uint16_t tpPort() const;
+
+    static bool resolve(std::string hostname, SockAddr *addr);
 
 private:
     struct sockaddr_in _addr;

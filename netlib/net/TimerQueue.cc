@@ -8,6 +8,7 @@
 #include <assert.h>
 #include <algorithm>
 #include <string.h>
+#include <stdint.h>
 
 namespace netlib
 {
@@ -146,7 +147,7 @@ void TimerQueue::handleRead() {
     reset(expired, now);
 }
 
-std::vector<TimerQueue::Entry> TimerQueue::getExpired(Time &now) {
+std::vector<TimerQueue::Entry> TimerQueue::getExpired(Time now) {
     assert(_timers.size() == _activeTimers.size());
 
     std::vector<Entry> expired;
@@ -167,7 +168,7 @@ std::vector<TimerQueue::Entry> TimerQueue::getExpired(Time &now) {
     return expired;
 }
 
-void TimerQueue::reset(const std::vector<Entry> &expired, Time &now) {
+void TimerQueue::reset(const std::vector<Entry> &expired, Time now) {
     Time nextExpired;
     for(const Entry &it : expired) {
         ActiveTimer timer(it.second, it.second->sequence());
