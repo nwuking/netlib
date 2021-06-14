@@ -18,7 +18,7 @@ class Acceptor : NonCopyAble
 public:
     typedef std::function<void(int fd, SockAddr&)> NewConnectionCallBack;
 
-    Acceptor(EventLoop *loop, SockAddr &listenAddr, bool reuseport);
+    Acceptor(EventLoop *loop, const SockAddr &listenAddr, bool reuseport);
     ~Acceptor();
 
     void listen();

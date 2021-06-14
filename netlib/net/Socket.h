@@ -1,17 +1,21 @@
 #ifndef SOCKET_H_
 #define SOCKET_H_
 
+#include "netlib/base/noncopyable.h"
+
 /*
  *  封装套接字
  *  bind()/listen()/accept()/
  */
+
+struct tcp_info;
 
 namespace netlib
 {
 
 class SockAddr;
 
-class Socket
+class Socket :NonCopyAble
 {
 public:
     explicit Socket(int fd) : _sockFd(fd) {}
@@ -20,6 +24,9 @@ public:
     int getSocketFd() const {
         return _sockFd;
     }
+
+    bool getTcpInfo(struct tcp_info*) const;
+    bool getTcpInfoString(char *buf, size_t len) const;
 
     void bindSockAddr(const SockAddr &localAddr);
     void listen();

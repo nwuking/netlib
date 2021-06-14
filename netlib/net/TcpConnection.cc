@@ -51,6 +51,32 @@ void TcpConnection::shutdown() {
     }
 }
 
+bool TcpConnection::getTcpInfo(struct tcp_info *tcpi) const {
+    return _socket->getTcpInfo(tcpi);
+}
+
+std::string TcpConnection::getTcpInfoString() const {
+    char buf[1024];
+    buf[0] = '\0';
+    _socket->getTcpInfoString(buf, sizeof buf);
+    return buf;
+}
+
+void TcpConnection::send(const void *message, int len) {
+    send(std::string(static_cast<const char*>(message), len));
+}
+
+void TcpConnection::send(const std::string &message) {
+    if(_state == cConnected) {
+        if(_loop->isInLoopThread()) {
+            sendInLoop(message);
+        }
+        else {
+            ///////
+        }
+    }
+}
+
 void TcpConnection::forceClose() {
     if(_state == cConnected || _state == cDisconnecting) {
         setState(cDisconnecting);

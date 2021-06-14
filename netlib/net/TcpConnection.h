@@ -13,9 +13,12 @@
 
 #include <memory>
 #include <functional>
+#include <string>
 
 namespace netlib
 {
+
+struct tcp_info;
 
 class EventLoop;
 class Chnnel;
@@ -38,6 +41,13 @@ public:
     void conncetDestoryed();
     void connectEstablished();
     void shutdown();
+
+    bool getTcpInfo(struct tcp_info*) const;
+    std::string getTcpInfoString() const;
+
+    void send(const void *meaasge, int len);
+    void send(const std::string &message);
+    void send(Buffer *message);
 
     void forceClose();
 
@@ -92,6 +102,9 @@ private:
     void handleWrite();
     void handleError();
     void handleClose();
+
+    void sendInLoop(const std::string &message);
+    void sendInLoop(const void *message, int len);
 
     void shutdownInLoop();
     void forceCloseInLoop();

@@ -9,7 +9,7 @@
 using namespace netlib;
 using namespace std::placeholders;
 
-TcpServer::TcpServer(EventLoop *loop, SockAddr &listenAddr, 
+TcpServer::TcpServer(EventLoop *loop, const SockAddr &listenAddr, 
                     const std::string &name, Option option)
     : _loop(loop),
       _ipPort(listenAddr.toIpPort()),

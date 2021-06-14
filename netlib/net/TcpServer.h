@@ -35,7 +35,7 @@ public:
         cReusePort,
     };
 
-    TcpServer(EventLoop *loop, SockAddr &listenAddr, const std::string &name,
+    TcpServer(EventLoop *loop, const SockAddr &listenAddr, const std::string &name,
                 Option option = cNoReusePort);
     ~TcpServer();
 

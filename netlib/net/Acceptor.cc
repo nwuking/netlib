@@ -11,7 +11,7 @@
 using namespace netlib;
 
 
-Acceptor::Acceptor(EventLoop *loop, SockAddr &listenAddr, bool reuseport) 
+Acceptor::Acceptor(EventLoop *loop, const SockAddr &listenAddr, bool reuseport) 
     : _ownLoop(loop),
       _acceptSocket(netlib::createSocketFd(listenAddr.getFamily())),
       _acceptChnnel(loop, _acceptSocket.getSocketFd()),
