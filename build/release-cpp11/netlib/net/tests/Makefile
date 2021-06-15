@@ -56,18 +56,6 @@ CMAKE_BINARY_DIR = /home/nwuking/netlib/build/release-cpp11
 #=============================================================================
 # Targets provided globally by CMake.
 
-# Special rule for the target install/strip
-install/strip: preinstall
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip
-
-# Special rule for the target install/strip
-install/strip/fast: preinstall/fast
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
-	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
-.PHONY : install/strip/fast
-
 # Special rule for the target install
 install: preinstall
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Install the project..."
@@ -111,6 +99,18 @@ edit_cache:
 edit_cache/fast: edit_cache
 
 .PHONY : edit_cache/fast
+
+# Special rule for the target install/strip
+install/strip: preinstall
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip
+
+# Special rule for the target install/strip
+install/strip/fast: preinstall/fast
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --cyan "Installing the project stripped..."
+	/usr/bin/cmake -DCMAKE_INSTALL_DO_STRIP=1 -P cmake_install.cmake
+.PHONY : install/strip/fast
 
 # Special rule for the target install/local
 install/local: preinstall
@@ -168,6 +168,21 @@ depend:
 .PHONY : depend
 
 # Convenience name for target.
+netlib/net/tests/CMakeFiles/echoclient_test.dir/rule:
+	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f CMakeFiles/Makefile2 netlib/net/tests/CMakeFiles/echoclient_test.dir/rule
+.PHONY : netlib/net/tests/CMakeFiles/echoclient_test.dir/rule
+
+# Convenience name for target.
+echoclient_test: netlib/net/tests/CMakeFiles/echoclient_test.dir/rule
+
+.PHONY : echoclient_test
+
+# fast build rule for target.
+echoclient_test/fast:
+	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f netlib/net/tests/CMakeFiles/echoclient_test.dir/build.make netlib/net/tests/CMakeFiles/echoclient_test.dir/build
+.PHONY : echoclient_test/fast
+
+# Convenience name for target.
 netlib/net/tests/CMakeFiles/eventloop_test.dir/rule:
 	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f CMakeFiles/Makefile2 netlib/net/tests/CMakeFiles/eventloop_test.dir/rule
 .PHONY : netlib/net/tests/CMakeFiles/eventloop_test.dir/rule
@@ -181,6 +196,21 @@ eventloop_test: netlib/net/tests/CMakeFiles/eventloop_test.dir/rule
 eventloop_test/fast:
 	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f netlib/net/tests/CMakeFiles/eventloop_test.dir/build.make netlib/net/tests/CMakeFiles/eventloop_test.dir/build
 .PHONY : eventloop_test/fast
+
+# Convenience name for target.
+netlib/net/tests/CMakeFiles/echoserver_test.dir/rule:
+	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f CMakeFiles/Makefile2 netlib/net/tests/CMakeFiles/echoserver_test.dir/rule
+.PHONY : netlib/net/tests/CMakeFiles/echoserver_test.dir/rule
+
+# Convenience name for target.
+echoserver_test: netlib/net/tests/CMakeFiles/echoserver_test.dir/rule
+
+.PHONY : echoserver_test
+
+# fast build rule for target.
+echoserver_test/fast:
+	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f netlib/net/tests/CMakeFiles/echoserver_test.dir/build.make netlib/net/tests/CMakeFiles/echoserver_test.dir/build
+.PHONY : echoserver_test/fast
 
 # Convenience name for target.
 netlib/net/tests/CMakeFiles/eventloopthreadpool_test.dir/rule:
@@ -283,6 +313,60 @@ Buffer_test.s: Buffer_test.cc.s
 Buffer_test.cc.s:
 	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f netlib/net/tests/CMakeFiles/buffer_test.dir/build.make netlib/net/tests/CMakeFiles/buffer_test.dir/Buffer_test.cc.s
 .PHONY : Buffer_test.cc.s
+
+EchoClient_test.o: EchoClient_test.cc.o
+
+.PHONY : EchoClient_test.o
+
+# target to build an object file
+EchoClient_test.cc.o:
+	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f netlib/net/tests/CMakeFiles/echoclient_test.dir/build.make netlib/net/tests/CMakeFiles/echoclient_test.dir/EchoClient_test.cc.o
+.PHONY : EchoClient_test.cc.o
+
+EchoClient_test.i: EchoClient_test.cc.i
+
+.PHONY : EchoClient_test.i
+
+# target to preprocess a source file
+EchoClient_test.cc.i:
+	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f netlib/net/tests/CMakeFiles/echoclient_test.dir/build.make netlib/net/tests/CMakeFiles/echoclient_test.dir/EchoClient_test.cc.i
+.PHONY : EchoClient_test.cc.i
+
+EchoClient_test.s: EchoClient_test.cc.s
+
+.PHONY : EchoClient_test.s
+
+# target to generate assembly for a file
+EchoClient_test.cc.s:
+	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f netlib/net/tests/CMakeFiles/echoclient_test.dir/build.make netlib/net/tests/CMakeFiles/echoclient_test.dir/EchoClient_test.cc.s
+.PHONY : EchoClient_test.cc.s
+
+EchoServer_test.o: EchoServer_test.cc.o
+
+.PHONY : EchoServer_test.o
+
+# target to build an object file
+EchoServer_test.cc.o:
+	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f netlib/net/tests/CMakeFiles/echoserver_test.dir/build.make netlib/net/tests/CMakeFiles/echoserver_test.dir/EchoServer_test.cc.o
+.PHONY : EchoServer_test.cc.o
+
+EchoServer_test.i: EchoServer_test.cc.i
+
+.PHONY : EchoServer_test.i
+
+# target to preprocess a source file
+EchoServer_test.cc.i:
+	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f netlib/net/tests/CMakeFiles/echoserver_test.dir/build.make netlib/net/tests/CMakeFiles/echoserver_test.dir/EchoServer_test.cc.i
+.PHONY : EchoServer_test.cc.i
+
+EchoServer_test.s: EchoServer_test.cc.s
+
+.PHONY : EchoServer_test.s
+
+# target to generate assembly for a file
+EchoServer_test.cc.s:
+	cd /home/nwuking/netlib/build/release-cpp11 && $(MAKE) -f netlib/net/tests/CMakeFiles/echoserver_test.dir/build.make netlib/net/tests/CMakeFiles/echoserver_test.dir/EchoServer_test.cc.s
+.PHONY : EchoServer_test.cc.s
 
 EventLoopThreadPool_test.o: EventLoopThreadPool_test.cc.o
 
@@ -425,12 +509,14 @@ help:
 	@echo "... all (the default if no target is provided)"
 	@echo "... clean"
 	@echo "... depend"
-	@echo "... install/strip"
 	@echo "... install"
 	@echo "... list_install_components"
 	@echo "... rebuild_cache"
 	@echo "... edit_cache"
+	@echo "... install/strip"
+	@echo "... echoclient_test"
 	@echo "... eventloop_test"
+	@echo "... echoserver_test"
 	@echo "... eventloopthreadpool_test"
 	@echo "... install/local"
 	@echo "... test"
@@ -441,6 +527,12 @@ help:
 	@echo "... Buffer_test.o"
 	@echo "... Buffer_test.i"
 	@echo "... Buffer_test.s"
+	@echo "... EchoClient_test.o"
+	@echo "... EchoClient_test.i"
+	@echo "... EchoClient_test.s"
+	@echo "... EchoServer_test.o"
+	@echo "... EchoServer_test.i"
+	@echo "... EchoServer_test.s"
 	@echo "... EventLoopThreadPool_test.o"
 	@echo "... EventLoopThreadPool_test.i"
 	@echo "... EventLoopThreadPool_test.s"

@@ -15,10 +15,12 @@
 #include <functional>
 #include <string>
 
+struct tcp_info;
+
 namespace netlib
 {
 
-struct tcp_info;
+//struct tcp_info;
 
 class EventLoop;
 class Chnnel;
@@ -29,10 +31,11 @@ class TcpConnection : NonCopyAble,
 {
 public:
     typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
-    typedef std::function<void(const TcpConnectionPtr&, Buffer*)> MessageCallBack;
+    typedef std::function<void(const TcpConnectionPtr&, Buffer*, Time)> MessageCallBack;
     typedef std::function<void(const TcpConnectionPtr&)> WriteCompleteCallBack;
     typedef std::function<void(const TcpConnectionPtr&)> CloseCallBack;
     typedef std::function<void(const TcpConnectionPtr&)> ConnectionCallBack;
+    typedef std::function<void(const TcpConnectionPtr&, size_t)> HightWaterMarkCallBack;
 
     TcpConnection(EventLoop *loop, int sockfd, const SockAddr &peerAddr,
                   const SockAddr &localAddr, const std::string &name);
@@ -67,6 +70,11 @@ public:
         _connectionCallBack = cb;
     }
 
+    void setHightWaterMarkCallBack(const HightWaterMarkCallBack &cb, size_t hightWaterMark) {
+        _hightWaterMarkCallBack = cb;
+        _hightWaterMark = hightWaterMark;
+    }
+
     EventLoop* getLoop() const {
         return _loop;
     }
@@ -97,14 +105,14 @@ private:
     /// client与server连接的状态标志
     enum StateE { cDisconnected, cConnecting,  cConnected, cDisconnecting};
 
-    //void handleRead(Time recviveTime);
-    void handleRead();
+    void handleRead(Time recviveTime);
+    //void handleRead();
     void handleWrite();
     void handleError();
     void handleClose();
 
     void sendInLoop(const std::string &message);
-    void sendInLoop(const void *message, int len);
+    void sendInLoop(const void *message, size_t len);
 
     void shutdownInLoop();
     void forceCloseInLoop();
@@ -129,6 +137,9 @@ private:
     WriteCompleteCallBack _writeCompleteCallBack;
     CloseCallBack _closeCallBack;
     ConnectionCallBack _connectionCallBack;
+
+    size_t _hightWaterMark;
+    HightWaterMarkCallBack _hightWaterMarkCallBack;
 
     StateE _state;
 };

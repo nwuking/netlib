@@ -176,8 +176,18 @@
 },
 {
   "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/echoclient_test.dir/EchoClient_test.cc.o -c /home/nwuking/netlib/netlib/net/tests/EchoClient_test.cc",
+  "file": "/home/nwuking/netlib/netlib/net/tests/EchoClient_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net/tests",
   "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/eventloop_test.dir/EventLoop_test.cc.o -c /home/nwuking/netlib/netlib/net/tests/EventLoop_test.cc",
   "file": "/home/nwuking/netlib/netlib/net/tests/EventLoop_test.cc"
+},
+{
+  "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net/tests",
+  "command": "/usr/bin/c++   -I/home/nwuking/netlib  -g -Wall -std=c++11 -rdynamic -O3 -DNDEBUG   -o CMakeFiles/echoserver_test.dir/EchoServer_test.cc.o -c /home/nwuking/netlib/netlib/net/tests/EchoServer_test.cc",
+  "file": "/home/nwuking/netlib/netlib/net/tests/EchoServer_test.cc"
 },
 {
   "directory": "/home/nwuking/netlib/build/release-cpp11/netlib/net/tests",

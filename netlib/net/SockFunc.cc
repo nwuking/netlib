@@ -15,7 +15,7 @@
 using namespace netlib;
 
 
-void setNoBlockAndCloseOnExec(int fd) {
+static void setNoBlockAndCloseOnExec(int fd) {
     /// 将描述符设置为非阻塞和close on exec
     int flags = ::fcntl(fd, F_GETFL, 0);
     flags |= O_NONBLOCK;
@@ -77,7 +77,7 @@ int netlib::accept(int fd, struct sockaddr_in *addr) {
     return newFd;
 }
 
-int createSocketFd(sa_family_t family) {
+int netlib::createSocketFd(sa_family_t family) {
     int n = ::socket(family, SOCK_STREAM | SOCK_NONBLOCK | SOCK_CLOEXEC, IPPROTO_TCP);
     if(n < 0) {
         /// error

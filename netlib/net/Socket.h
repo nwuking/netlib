@@ -2,6 +2,7 @@
 #define SOCKET_H_
 
 #include "netlib/base/noncopyable.h"
+#include <stdlib.h>
 
 /*
  *  封装套接字
@@ -25,7 +26,7 @@ public:
         return _sockFd;
     }
 
-    bool getTcpInfo(struct tcp_info*) const;
+    bool getTcpInfo(struct tcp_info* tcpi) const;
     bool getTcpInfoString(char *buf, size_t len) const;
 
     void bindSockAddr(const SockAddr &localAddr);
@@ -44,7 +45,7 @@ public:
     //void setTcpNoDelay(bool on);
 
 private:
-    int _sockFd;
+    const int _sockFd;
 };
 
 }

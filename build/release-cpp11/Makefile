@@ -272,6 +272,19 @@ netlib_net/fast:
 .PHONY : netlib_net/fast
 
 #=============================================================================
+# Target rules for targets named echoclient_test
+
+# Build rule for target.
+echoclient_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 echoclient_test
+.PHONY : echoclient_test
+
+# fast build rule for target.
+echoclient_test/fast:
+	$(MAKE) -f netlib/net/tests/CMakeFiles/echoclient_test.dir/build.make netlib/net/tests/CMakeFiles/echoclient_test.dir/build
+.PHONY : echoclient_test/fast
+
+#=============================================================================
 # Target rules for targets named eventloop_test
 
 # Build rule for target.
@@ -283,6 +296,19 @@ eventloop_test: cmake_check_build_system
 eventloop_test/fast:
 	$(MAKE) -f netlib/net/tests/CMakeFiles/eventloop_test.dir/build.make netlib/net/tests/CMakeFiles/eventloop_test.dir/build
 .PHONY : eventloop_test/fast
+
+#=============================================================================
+# Target rules for targets named echoserver_test
+
+# Build rule for target.
+echoserver_test: cmake_check_build_system
+	$(MAKE) -f CMakeFiles/Makefile2 echoserver_test
+.PHONY : echoserver_test
+
+# fast build rule for target.
+echoserver_test/fast:
+	$(MAKE) -f netlib/net/tests/CMakeFiles/echoserver_test.dir/build.make netlib/net/tests/CMakeFiles/echoserver_test.dir/build
+.PHONY : echoserver_test/fast
 
 #=============================================================================
 # Target rules for targets named eventloopthreadpool_test
@@ -370,7 +396,9 @@ help:
 	@echo "... timeZone_test"
 	@echo "... logger_test"
 	@echo "... netlib_net"
+	@echo "... echoclient_test"
 	@echo "... eventloop_test"
+	@echo "... echoserver_test"
 	@echo "... eventloopthreadpool_test"
 	@echo "... timerqueue_test"
 	@echo "... buffer_test"

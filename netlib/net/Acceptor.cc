@@ -13,7 +13,7 @@ using namespace netlib;
 
 Acceptor::Acceptor(EventLoop *loop, const SockAddr &listenAddr, bool reuseport) 
     : _ownLoop(loop),
-      _acceptSocket(netlib::createSocketFd(listenAddr.getFamily())),
+      _acceptSocket(netlib::createNoblockingOrDie(listenAddr.getFamily())),
       _acceptChnnel(loop, _acceptSocket.getSocketFd()),
       _listening(false),
       _idleFd(::open("/dev/null", O_RDONLY | O_CLOEXEC))

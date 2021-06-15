@@ -21,4 +21,10 @@ add_executable(sockaddr_test SockAddr_test.cc)
 target_link_libraries(sockaddr_test netlib_net -lboost_unit_test_framework)
 add_test(NAME sockaddr_test COMMAND sockaddr_test)
 
+add_executable(echoserver_test EchoServer_test.cc)
+target_link_libraries(echoserver_test netlib_net)
+
+add_executable(echoclient_test EchoClient_test.cc)
+target_link_libraries(echoclient_test netlib_net)
+
 #endif()

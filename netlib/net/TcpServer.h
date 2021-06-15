@@ -23,7 +23,7 @@ class EventLoopThreadPool;
 class TcpServer : NonCopyAble
 {
 public:
-    typedef std::function<void(const TcpConnectionPtr&, Buffer*)> MessageCallBack;
+    typedef std::function<void(const TcpConnectionPtr&, Buffer*, Time)> MessageCallBack;
     typedef std::function<void(const TcpConnectionPtr&)> WriteCompleteCallBack;
     typedef std::function<void(const TcpConnectionPtr&)> CloseCallBack;
     typedef std::function<void(const TcpConnectionPtr&)> ConnectionCallBack;

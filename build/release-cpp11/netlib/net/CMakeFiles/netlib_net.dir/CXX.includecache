@@ -32,14 +32,6 @@ string
 
 ../..//netlib/base/noncopyable.h
 
-../..//netlib/net/SockAddr.h
-netinet/in.h
--
-stdint.h
--
-string
--
-
 ../..//netlib/net/SockFunc.h
 string
 -
@@ -52,22 +44,6 @@ sys/uio.h
 sys/types.h
 -
 arpa/inet.h
--
-
-/home/nwuking/netlib/netlib/net/SockAddr.cc
-netlib/net/SockAddr.h
-/home/nwuking/netlib/netlib/net/netlib/net/SockAddr.h
-netlib/net/SockFunc.h
-/home/nwuking/netlib/netlib/net/netlib/net/SockFunc.h
-netlib/base/Logging.h
-/home/nwuking/netlib/netlib/net/netlib/base/Logging.h
-assert.h
--
-string.h
--
-netdb.h
--
-iostream
 -
 
 /home/nwuking/netlib/netlib/net/SockFunc.cc
@@ -92,7 +68,5 @@ fcntl.h
 sys/stat.h
 -
 assert.h
--
-iostream
 -
 

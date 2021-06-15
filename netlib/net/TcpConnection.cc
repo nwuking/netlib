@@ -5,6 +5,8 @@
 #include "netlib/net/Socket.h"
 #include "netlib/base/Logging.h"
 
+#include <errno.h>
+#include <netinet/tcp.h>
 
 using namespace netlib;
 using namespace std::placeholders;
@@ -22,10 +24,11 @@ TcpConnection::TcpConnection(EventLoop *loop,
       _chnnel(new Chnnel(loop, sockfd)),
       _inputBuffer(),
       _outputBuffer(),
+      _hightWaterMark(64*1024*1024),
       _state(cConnecting)
 {
     /// 注册_chnnel
-    _chnnel->setReadCallBack(std::bind(&TcpConnection::handleRead, this));
+    _chnnel->setReadCallBack(std::bind(&TcpConnection::handleRead, this, std::placeholders::_1));
     _chnnel->setWriteCallBack(std::bind(&TcpConnection::handleWrite, this));
     _chnnel->setErrorCallBack(std::bind(&TcpConnection::handleError, this));
     _chnnel->setCloseCallBack(std::bind(&TcpConnection::handleClose, this));
@@ -72,7 +75,73 @@ void TcpConnection::send(const std::string &message) {
             sendInLoop(message);
         }
         else {
-            ///////
+            void (TcpConnection::*fp)(const std::string &message) = &TcpConnection::sendInLoop;
+            _loop->runInLoop(std::bind(fp, this, message));
+        }
+    }
+}
+
+void TcpConnection::send(Buffer *message) {
+    if(_state == cConnected) {
+        if(_loop->isInLoopThread()) {
+            sendInLoop(message->peek(), message->readAbleBytes());
+            message->retrieveAll();
+        }
+        else {
+            void (TcpConnection::*fp)(const std::string &message) = &TcpConnection::sendInLoop;
+            _loop->runInLoop(std::bind(fp, this, message->retrieveAllAsString()));
+        }
+    }
+}
+
+void TcpConnection::sendInLoop(const std::string &message) {
+    sendInLoop(message.c_str(), message.size());
+}
+
+void TcpConnection::sendInLoop(const void *message, size_t size) {
+    _loop->assertInLoopThread();
+    ssize_t nwrote = 0;
+    size_t remaining = size;
+    bool faulterron = false;
+
+    if(_state == cDisconnected) {
+        LOG_WARN << "disconnected give up writing";
+        return;
+    }
+    if(!_chnnel->isWriting() && _outputBuffer.readAbleBytes() == 0) {
+        /// if no thing in output queue, try writing directly
+        nwrote = netlib::write(_chnnel->getFd(), message, size);
+        if(nwrote >= 0) {
+            remaining = size - nwrote;
+            if(remaining == 0 && _writeCompleteCallBack) {
+                _loop->queueInLoop(std::bind(_writeCompleteCallBack,
+                                    shared_from_this()));
+            }
+        }
+        else {
+            // nwrote < 0
+            nwrote = 0;
+            if(errno != EWOULDBLOCK) {
+                LOG_SYSERR << "TcpConnection::sendInLoop";
+                if(errno == EPIPE || errno == ECONNRESET) {
+                    faulterron = true;
+                }
+            }
+        }
+    }
+
+    assert(remaining <= size);
+    if(!remaining && remaining > 0) {
+        size_t oldLen = _outputBuffer.readAbleBytes();
+        if(oldLen + remaining >= _hightWaterMark
+            && oldLen < _hightWaterMark && _hightWaterMarkCallBack) 
+        {
+            _loop->queueInLoop(std::bind(_hightWaterMarkCallBack,
+                                    shared_from_this(), oldLen+remaining));        
+        }
+        _outputBuffer.append(static_cast<const char*>(message)+nwrote, remaining);
+        if(!_chnnel->isWriting()) {
+            _chnnel->enableWriting();
         }
     }
 }
@@ -127,7 +196,7 @@ void TcpConnection::shutdownInLoop() {
     }
 }
 
-void TcpConnection::handleRead() {
+void TcpConnection::handleRead(Time recviveTime) {
     /// 有client数据到来的时候
     /// 调用此函数读取
     _loop->assertInLoopThread();
@@ -142,7 +211,7 @@ void TcpConnection::handleRead() {
         /// 且不会使智能指针的引用计数增加
         /// 使用shared_from_this(),需要继承enabled_shared_from_this类
         /// 或者自己造一个轮子
-        _messageCallBack(shared_from_this(), &_inputBuffer);
+        _messageCallBack(shared_from_this(), &_inputBuffer, recviveTime);
     }
     else if(n == 0) {
         handleClose();

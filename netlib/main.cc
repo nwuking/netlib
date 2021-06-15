@@ -15,23 +15,18 @@ BOOST_AUTO_TEST_CASE(testk)
 #include <stdio.h>
 #include <time.h>
 #include <sys/time.h>
+#include <functional>
+
+void dp(int i) {
+    ;
+}
+
+void dp(char i) {
+    ;
+}
 
 int main()
 {
-    struct timespec tp1;
-    struct timespec tp2;
-    struct timespec tp3;
-
-    clock_gettime(CLOCK_MONOTONIC, &tp1);
-    clock_gettime(CLOCK_REALTIME, &tp2);
-    clock_gettime(CLOCK_PROCESS_CPUTIME_ID, &tp3);
-
-    struct timeval tv;
-    gettimeofday(&tv, NULL);
-
-    std::cout << "tp1: " << tp1.tv_sec << " : " << tp1.tv_nsec << "\n";
-    std::cout << "tp2: " << tp2.tv_sec << " : " << tp2.tv_nsec << "\n";
-    std::cout << "tp3: " << tp3.tv_sec << " : " << tp3.tv_nsec << "\n";
-
-    std::cout << "\ntv: " << tv.tv_sec << " : " << tv.tv_usec << "\n";
+    int i = 9;
+    auto f = std::bind(dp, i);
 }
