@@ -8,6 +8,8 @@
 
 int numThreads = 0;
 
+int count = 0;
+
 class EchoServer
 {
 public:
@@ -35,6 +37,7 @@ private:
         LOG_INFO << con->getTcpInfoString();
 
         con->send("Hello\n");
+        std::cout << "Con" << count++ << "\n";
     }
 
     void onMessage(const netlib::TcpConnectionPtr &con, netlib::Buffer *buf, netlib::Time time) {
@@ -49,6 +52,7 @@ private:
             _loop->quit();
         }
         con->send(msg);
+        std::cout << "Mes" << count++ << "\n";
     }
 
     netlib::EventLoop *_loop;
@@ -62,9 +66,9 @@ int main(int argc, char **argv)
     if(argc > 1) {
         numThreads = ::atoi(argv[1]);
     }
-    bool ipv6 = argc > 2;
+    //bool ipv6 = argc > 2;
     netlib::EventLoop loop;
-    netlib::SockAddr addr(2000, false);
+    netlib::SockAddr addr(5000, false);
     EchoServer server(&loop, addr);
 
     server.start();

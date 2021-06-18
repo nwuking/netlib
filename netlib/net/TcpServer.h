@@ -47,8 +47,16 @@ public:
         return _ipPort;
     }
 
+    const std::string& name() const {
+        return _name;
+    }
+
     EventLoop* getLoop() const {
         return _loop;
+    }
+
+    std::shared_ptr<EventLoopThreadPool> threadPool() {
+        return _threadPool;
     }
 
     void setMessageCallBack(const MessageCallBack &cb) {

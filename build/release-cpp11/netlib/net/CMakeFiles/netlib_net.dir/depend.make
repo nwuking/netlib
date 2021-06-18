@@ -134,6 +134,7 @@ netlib/net/CMakeFiles/netlib_net.dir/TcpClient.cc.o: ../../netlib/base/Mutex.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpClient.cc.o: ../../netlib/base/Time.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpClient.cc.o: ../../netlib/base/noncopyable.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpClient.cc.o: ../../netlib/net/Buffer.h
+netlib/net/CMakeFiles/netlib_net.dir/TcpClient.cc.o: ../../netlib/net/CallBack.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpClient.cc.o: ../../netlib/net/Connector.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpClient.cc.o: ../../netlib/net/EventLoop.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpClient.cc.o: ../../netlib/net/SockAddr.h
@@ -149,8 +150,10 @@ netlib/net/CMakeFiles/netlib_net.dir/TcpConnection.cc.o: ../../netlib/base/LogSt
 netlib/net/CMakeFiles/netlib_net.dir/TcpConnection.cc.o: ../../netlib/base/Logging.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpConnection.cc.o: ../../netlib/base/Mutex.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpConnection.cc.o: ../../netlib/base/Time.h
+netlib/net/CMakeFiles/netlib_net.dir/TcpConnection.cc.o: ../../netlib/base/WeakCallBack.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpConnection.cc.o: ../../netlib/base/noncopyable.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpConnection.cc.o: ../../netlib/net/Buffer.h
+netlib/net/CMakeFiles/netlib_net.dir/TcpConnection.cc.o: ../../netlib/net/CallBack.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpConnection.cc.o: ../../netlib/net/Chnnel.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpConnection.cc.o: ../../netlib/net/EventLoop.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpConnection.cc.o: ../../netlib/net/SockAddr.h
@@ -169,6 +172,7 @@ netlib/net/CMakeFiles/netlib_net.dir/TcpServer.cc.o: ../../netlib/base/Time.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpServer.cc.o: ../../netlib/base/noncopyable.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpServer.cc.o: ../../netlib/net/Acceptor.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpServer.cc.o: ../../netlib/net/Buffer.h
+netlib/net/CMakeFiles/netlib_net.dir/TcpServer.cc.o: ../../netlib/net/CallBack.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpServer.cc.o: ../../netlib/net/Chnnel.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpServer.cc.o: ../../netlib/net/EventLoop.h
 netlib/net/CMakeFiles/netlib_net.dir/TcpServer.cc.o: ../../netlib/net/EventLoopThreadPool.h

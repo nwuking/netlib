@@ -4,9 +4,20 @@
 #include "netlib/net/SockFunc.h"
 #include "netlib/net/Socket.h"
 #include "netlib/base/Logging.h"
+#include "netlib/base/WeakCallBack.h"
 
 #include <errno.h>
 #include <netinet/tcp.h>
+
+void netlib::defaultConnectionCallBack(const TcpConnectionPtr &con) {
+  LOG_TRACE << con->localAddress().toIpPort() << " -> "
+            << con->peerAddress().toIpPort() << " is "
+            << (con->connected() ? "UP" : "DOWN");
+}
+
+void netlib::defaultMessageCallBack(const TcpConnectionPtr &con, Buffer *buf, Time time) {
+  buf->retrieveAll();
+}
 
 using namespace netlib;
 using namespace std::placeholders;
@@ -25,10 +36,12 @@ TcpConnection::TcpConnection(EventLoop *loop,
       _inputBuffer(),
       _outputBuffer(),
       _hightWaterMark(64*1024*1024),
-      _state(cConnecting)
-{
+      _state(cConnecting),
+      _reading(true)
+{   
+    /// sockfd为accept()返回的描述符
     /// 注册_chnnel
-    _chnnel->setReadCallBack(std::bind(&TcpConnection::handleRead, this, std::placeholders::_1));
+    _chnnel->setReadCallBack(std::bind(&TcpConnection::handleRead, this, _1));
     _chnnel->setWriteCallBack(std::bind(&TcpConnection::handleWrite, this));
     _chnnel->setErrorCallBack(std::bind(&TcpConnection::handleError, this));
     _chnnel->setCloseCallBack(std::bind(&TcpConnection::handleClose, this));
@@ -75,6 +88,7 @@ void TcpConnection::send(const std::string &message) {
             sendInLoop(message);
         }
         else {
+            /// 使用函数指针，是因为std::bind()无法bind重载函数
             void (TcpConnection::*fp)(const std::string &message) = &TcpConnection::sendInLoop;
             _loop->runInLoop(std::bind(fp, this, message));
         }
@@ -131,7 +145,7 @@ void TcpConnection::sendInLoop(const void *message, size_t size) {
     }
 
     assert(remaining <= size);
-    if(!remaining && remaining > 0) {
+    if(!faulterron && remaining > 0) {
         size_t oldLen = _outputBuffer.readAbleBytes();
         if(oldLen + remaining >= _hightWaterMark
             && oldLen < _hightWaterMark && _hightWaterMarkCallBack) 
@@ -153,10 +167,48 @@ void TcpConnection::forceClose() {
     }
 }
 
+void TcpConnection::forceCloseWithDelay(double seconds) {
+    if(_state == cConnected || _state == cDisconnecting) {
+        setState(cDisconnecting);
+        _loop->runAfter(seconds, 
+                makeWeakCallBack(shared_from_this(), &TcpConnection::forceClose));
+    }
+}
+
 void TcpConnection::forceCloseInLoop() {
     _loop->assertInLoopThread();
     if(_state == cConnected || _state == cDisconnecting) {
         handleClose();
+    }
+}
+
+void TcpConnection::setTcpNoDelay(bool on) {
+    _socket->setTcpNoDelay(on);
+}
+
+void TcpConnection::startRead() {
+    _loop->runInLoop(std::bind(&TcpConnection::startReadInLoop, this));
+}
+
+void TcpConnection::startReadInLoop() {
+    _loop->assertInLoopThread();
+
+    if(!_reading || !_chnnel->isReading()) {
+        _chnnel->enableReading();
+        _reading = true;
+    }
+}
+
+void TcpConnection::stopRead() {
+    _loop->runInLoop(std::bind(&TcpConnection::stopReadInLoop, this));
+}
+
+void TcpConnection::stopReadInLoop() {
+    _loop->assertInLoopThread();
+
+    if(_reading || _chnnel->isReading()) {
+        _chnnel->disableReading();
+        _reading = false;
     }
 }
 
@@ -230,7 +282,8 @@ void TcpConnection::handleWrite() {
     _loop->assertInLoopThread();
     if(_chnnel->isWriting()) {
         /// 写数据，有数据要发送给client端
-        ssize_t n = netlib::write(_chnnel->getFd(), _outputBuffer.peek(), _outputBuffer.readAbleBytes());
+        ssize_t n = netlib::write(_chnnel->getFd(), _outputBuffer.peek(),
+                                   _outputBuffer.readAbleBytes());
 
         if(n > 0) {
             _outputBuffer.retrieve(n);

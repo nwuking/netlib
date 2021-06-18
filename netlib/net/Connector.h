@@ -19,7 +19,7 @@ class Connector : NonCopyAble,
 public:
     typedef std::function<void(int fd)> NewConnectionCallBack;
 
-    Connector(EventLoop *loop, const SockAddr &addr);
+    Connector(EventLoop *loop, const SockAddr &serveraddr);
     ~Connector();
 
     void start();

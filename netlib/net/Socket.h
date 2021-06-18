@@ -42,7 +42,7 @@ public:
     
     void setReusePort(bool on);
 
-    //void setTcpNoDelay(bool on);
+    void setTcpNoDelay(bool on);
 
 private:
     const int _sockFd;

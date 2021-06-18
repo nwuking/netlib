@@ -9,9 +9,11 @@
 
 using namespace netlib;
 
-Connector::Connector(EventLoop *loop, const SockAddr &addr)
+const int Connector::cMaxRetryDelayMs;
+
+Connector::Connector(EventLoop *loop, const SockAddr &serveraddr)
     : _loop(loop),
-      _addr(addr),
+      _addr(serveraddr),
       _connect(false),
       _state(cDisconnected),
       _retryDelayMs(cInitRetryDelayMs)
@@ -44,7 +46,7 @@ void Connector::stop() {
 
 void Connector::stopInLoop() {
     _loop->assertInLoopThread();
-    if(_state == cConnecting) {
+    if(_state == cConnecting){
         setState(cDisconnected);
         int fd = removeAndResetChnnel();
         retry(fd);

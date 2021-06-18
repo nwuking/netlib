@@ -58,6 +58,7 @@ if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_
     "/home/nwuking/netlib/netlib/base/Thread.h"
     "/home/nwuking/netlib/netlib/base/Time.h"
     "/home/nwuking/netlib/netlib/base/TimeZone.h"
+    "/home/nwuking/netlib/netlib/base/WeakCallBack.h"
     "/home/nwuking/netlib/netlib/base/noncopyable.h"
     )
 endif()

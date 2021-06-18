@@ -2,11 +2,14 @@
 #include "netlib/net/SockFunc.h"
 #include "netlib/net/SockAddr.h"
 #include "netlib/base/Logging.h"
+#include "netlib/net/EventLoop.h"
 
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
 #include <assert.h>
+#include <errno.h>
+#include <unistd.h>
 
 using namespace netlib;
 
@@ -19,6 +22,7 @@ Acceptor::Acceptor(EventLoop *loop, const SockAddr &listenAddr, bool reuseport)
       _idleFd(::open("/dev/null", O_RDONLY | O_CLOEXEC))
 {
     assert(_idleFd > 0);
+    /// 在bind之前设置
     _acceptSocket.setReuseAddr(true);
     _acceptSocket.setReusePort(reuseport);
     _acceptSocket.bindSockAddr(listenAddr);
@@ -42,6 +46,7 @@ void Acceptor::listen() {
 void Acceptor::handleRead() {
     /// 该函数与监听套接字挂钩
     /// 当有client到来，该函数被调用
+    _ownLoop->assertInLoopThread();
     SockAddr peerAddr;
     int connFd = _acceptSocket.accept(&peerAddr);
     if(connFd >= 0) {
@@ -61,7 +66,7 @@ void Acceptor::handleRead() {
         if(errno == EMFILE) {
             /// 已经到达了每个进程所能打开的文件描述符的限制
             ::close(_idleFd);
-            _idleFd = ::accept(_acceptSocket.getSocketFd(), nullptr, nullptr);
+            _idleFd = ::accept(_acceptSocket.getSocketFd(), NULL, NULL);
             ::close(_idleFd);
             _idleFd = ::open("/dev/null", O_RDONLY | O_CLOEXEC);
         }

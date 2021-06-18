@@ -11,6 +11,7 @@ netlib/net/tests/CMakeFiles/echoclient_test.dir/EchoClient_test.cc.o: ../../netl
 netlib/net/tests/CMakeFiles/echoclient_test.dir/EchoClient_test.cc.o: ../../netlib/base/Time.h
 netlib/net/tests/CMakeFiles/echoclient_test.dir/EchoClient_test.cc.o: ../../netlib/base/noncopyable.h
 netlib/net/tests/CMakeFiles/echoclient_test.dir/EchoClient_test.cc.o: ../../netlib/net/Buffer.h
+netlib/net/tests/CMakeFiles/echoclient_test.dir/EchoClient_test.cc.o: ../../netlib/net/CallBack.h
 netlib/net/tests/CMakeFiles/echoclient_test.dir/EchoClient_test.cc.o: ../../netlib/net/EventLoop.h
 netlib/net/tests/CMakeFiles/echoclient_test.dir/EchoClient_test.cc.o: ../../netlib/net/SockAddr.h
 netlib/net/tests/CMakeFiles/echoclient_test.dir/EchoClient_test.cc.o: ../../netlib/net/TcpClient.h

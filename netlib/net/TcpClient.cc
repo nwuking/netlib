@@ -20,20 +20,24 @@ void removeConnection(EventLoop *loop, const TcpConnectionPtr &conn) {
 
 }
 
+
 using namespace netlib;
+using namespace std::placeholders;
 
 TcpClient::TcpClient(EventLoop *loop,
-                     const SockAddr &addr,
+                     const SockAddr &serveraddr,
                      const std::string &name)
     : _loop(loop),
       _name(name),
-      _connector(new Connector(loop, addr)),
+      _connector(new Connector(loop, serveraddr)),
       _connect(true),
       _retry(false),
-      _nextConnId(1)
+      _nextConnId(1),
+      _connectionCallBack(defaultConnectionCallBack),
+      _messageCallBack(defaultMessageCallBack)
 {
     _connector->setNewConnectionCallBack(std::bind(
-                &TcpClient::NewConnection, this, std::placeholders::_1));
+                &TcpClient::NewConnection, this, _1));
 
     LOG_INFO << "TcpClient::TcpClient()[" << _name << "] -connector" << _connector.get();
 }
@@ -51,7 +55,7 @@ TcpClient::~TcpClient() {
 
     if(conn) {
         assert(_loop == conn->getLoop());
-        CloseCallBack cb = std::bind(&yyj::removeConnection, _loop, std::placeholders::_1);
+        CloseCallBack cb = std::bind(&yyj::removeConnection, _loop, _1);
         _loop->runInLoop(std::bind(&TcpConnection::setCloseCallBack, conn, cb));
 
         if(unique) {
@@ -104,7 +108,7 @@ void TcpClient::NewConnection(int fd) {
     conn->setConnectionCallBack(_connectionCallBack);
     conn->setWriteCompleteCallBack(_writeCompleteCallBack);
     conn->setMessageCallBack(_messageCallBack);
-    conn->setCloseCallBack(std::bind(&TcpClient::removeConnection, this, std::placeholders::_1));
+    conn->setCloseCallBack(std::bind(&TcpClient::removeConnection, this, _1));
     {
         MutexLock lock(_mutex);
         _connection = conn;

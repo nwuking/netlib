@@ -143,9 +143,8 @@ void Socket::setReusePort(bool on) {
     }
 }
 
-/*
+
 void Socket::setTcpNoDelay(bool on) {
     int val = on ? 1 : 0;
     ::setsockopt(_sockFd, IPPROTO_TCP, TCP_NODELAY, &val, static_cast<socklen_t>(sizeof val));
 }
-*/

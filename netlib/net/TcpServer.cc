@@ -5,6 +5,7 @@
 #include "netlib/net/SockFunc.h"
 #include "netlib/base/Logging.h"
 
+#include <stdio.h>
 
 using namespace netlib;
 using namespace std::placeholders;
@@ -16,6 +17,8 @@ TcpServer::TcpServer(EventLoop *loop, const SockAddr &listenAddr,
       _listenAddr(listenAddr),
       _acceptor(new Acceptor(loop, listenAddr, option == cReusePort)),
       _threadPool(new EventLoopThreadPool(loop, name)),
+      _connectionCallBack(defaultConnectionCallBack),
+      _messageCallBack(defaultMessageCallBack),
       _name(name),
       _nextConnId(1),
       _started(false)
@@ -62,8 +65,9 @@ void TcpServer::newConnection(int fd, const SockAddr &peerAddr) {
 
   _loop->assertInLoopThread();
   EventLoop *threadLoop = _threadPool->getNextLoop();
-
-  std::string conName = _name + std::to_string(_nextConnId);
+  char buf[64];
+  snprintf(buf, sizeof buf, "-%s#%d", _ipPort.c_str(), _nextConnId);
+  std::string conName = _name + buf;
   ++_nextConnId;
 
   LOG_INFO << "TcpServer::newConnection [" << _name

@@ -9,24 +9,22 @@ BOOST_AUTO_TEST_CASE(testk)
 }
 */
 
-#include <string>
 #include <iostream>
-#include <string.h>
+
+#include <pthread.h>
+#include <deque>
+
 #include <stdio.h>
-#include <time.h>
-#include <sys/time.h>
-#include <functional>
+#include <stdlib.h>
 
-void dp(int i) {
-    ;
-}
 
-void dp(char i) {
-    ;
-}
-
-int main()
+class Queue
 {
-    int i = 9;
-    auto f = std::bind(dp, i);
-}
+public:
+    Queue();
+
+private:
+    phtread_mutex_t _mutex;
+    pthread_cond_t _cond;
+
+};

@@ -10,6 +10,7 @@
 #include "netlib/base/Time.h"
 #include "netlib/net/Buffer.h"
 #include "netlib/base/noncopyable.h"
+#include "netlib/net/CallBack.h"
 
 #include <memory>
 #include <functional>
@@ -30,13 +31,6 @@ class TcpConnection : NonCopyAble,
                       public std::enable_shared_from_this<TcpConnection>
 {
 public:
-    typedef std::shared_ptr<TcpConnection> TcpConnectionPtr;
-    typedef std::function<void(const TcpConnectionPtr&, Buffer*, Time)> MessageCallBack;
-    typedef std::function<void(const TcpConnectionPtr&)> WriteCompleteCallBack;
-    typedef std::function<void(const TcpConnectionPtr&)> CloseCallBack;
-    typedef std::function<void(const TcpConnectionPtr&)> ConnectionCallBack;
-    typedef std::function<void(const TcpConnectionPtr&, size_t)> HightWaterMarkCallBack;
-
     TcpConnection(EventLoop *loop, int sockfd, const SockAddr &peerAddr,
                   const SockAddr &localAddr, const std::string &name);
     ~TcpConnection();
@@ -53,6 +47,14 @@ public:
     void send(Buffer *message);
 
     void forceClose();
+    void forceCloseWithDelay(double seconds);
+    void setTcpNoDelay(bool on);
+
+    void startRead();
+    void stopRead();
+    bool isReading() const {
+        return _reading;
+    }
 
     void setMessageCallBack(const MessageCallBack &cb) {
         _messageCallBack = cb;
@@ -99,7 +101,13 @@ public:
         return _state == cDisconnected;
     }
 
-    
+    Buffer* inputBuffer() {
+        return &_inputBuffer;
+    }
+
+    Buffer* outputBuffer() {
+        return &_outputBuffer;
+    }
 
 private:
     /// client与server连接的状态标志
@@ -123,6 +131,9 @@ private:
 
     const char* stateToString() const;
 
+    void startReadInLoop();
+    void stopReadInLoop();
+
     EventLoop *_loop;
     const SockAddr _peerAddr;
     const SockAddr _localAddr;
@@ -142,9 +153,11 @@ private:
     HightWaterMarkCallBack _hightWaterMarkCallBack;
 
     StateE _state;
+
+    bool _reading;
 };
 
-typedef TcpConnection::TcpConnectionPtr TcpConnectionPtr;
+//typedef TcpConnection::TcpConnectionPtr TcpConnectionPtr;
 
 }
 

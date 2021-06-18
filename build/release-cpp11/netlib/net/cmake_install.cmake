@@ -44,6 +44,7 @@ endif()
 if("x${CMAKE_INSTALL_COMPONENT}x" STREQUAL "xUnspecifiedx" OR NOT CMAKE_INSTALL_COMPONENT)
   file(INSTALL DESTINATION "${CMAKE_INSTALL_PREFIX}/include/netlib/net" TYPE FILE FILES
     "/home/nwuking/netlib/netlib/net/Buffer.h"
+    "/home/nwuking/netlib/netlib/net/CallBack.h"
     "/home/nwuking/netlib/netlib/net/Chnnel.h"
     "/home/nwuking/netlib/netlib/net/EventLoop.h"
     "/home/nwuking/netlib/netlib/net/EventLoopThread.h"

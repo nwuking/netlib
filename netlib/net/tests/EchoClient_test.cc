@@ -75,7 +75,7 @@ int main(int argc, char **argv)
     LOG_INFO << "pid: " << getpid() << " tid: " << netlib::CurrentThread::tid();
     if(argc > 1) {
         netlib::EventLoop loop;
-        netlib::SockAddr addr(argv[1], 2000);
+        netlib::SockAddr addr(argv[1], 5000);
 
         int n = 1;
         if(argc > 2) {

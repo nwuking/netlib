@@ -13,12 +13,12 @@ typedef std::shared_ptr<Connector> ConnectorPtr;
 class TcpClient : NonCopyAble
 {
 public:
-    typedef TcpConnection::MessageCallBack MessageCallBack;
-    typedef TcpConnection::WriteCompleteCallBack WriteCompleteCallBack;
-    typedef TcpConnection::ConnectionCallBack ConnectionCallBack;
-    typedef TcpConnection::CloseCallBack CloseCallBack;
+    //typedef TcpConnection::MessageCallBack MessageCallBack;
+    //typedef TcpConnection::WriteCompleteCallBack WriteCompleteCallBack;
+    //typedef TcpConnection::ConnectionCallBack ConnectionCallBack;
+    //typedef TcpConnection::CloseCallBack CloseCallBack;
 
-    TcpClient(EventLoop *loop, const SockAddr &addr, const std::string &name);
+    TcpClient(EventLoop *loop, const SockAddr &serveraddr, const std::string &name);
     ~TcpClient();
 
     void connect();

@@ -25,6 +25,7 @@ install(TARGETS netlib_net DESTINATION lib)
 
 set(HEADERS 
     Buffer.h 
+    CallBack.h 
     Chnnel.h 
     EventLoop.h 
     EventLoopThread.h 
